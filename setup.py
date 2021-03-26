@@ -23,7 +23,7 @@ def parse_dependency(filepath):
     return [
         dependency
         for dependency in open(filepath).read().splitlines()
-        if "==" in dependency
+        if "==" in dependency or ">=" in dependency
     ]
 
 

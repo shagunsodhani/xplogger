@@ -1,11 +1,11 @@
 import numpy as np
 
-from xplogger import logbook
+import xplogger.logbook
 from xplogger.types import ConfigType
 
 
 def make_logbook_config(logger_dir: str) -> ConfigType:
-    return logbook.make_config(
+    return xplogger.logbook.make_config(
         logger_dir=logger_dir,
         wandb_config=None,
         tensorboard_config=None,
@@ -13,8 +13,8 @@ def make_logbook_config(logger_dir: str) -> ConfigType:
     )
 
 
-def make_logbook(logger_dir: str) -> logbook.LogBook:
-    logbook = logbook.LogBook(config=make_logbook_config(logger_dir))
+def make_logbook(logger_dir: str) -> xplogger.logbook.LogBook:
+    logbook = xplogger.logbook.LogBook(config=make_logbook_config(logger_dir))
     return logbook
 
 

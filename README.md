@@ -35,8 +35,8 @@ If you want to use only the filesystem logger, use `pip install .` or `pip insta
 * Make a `logbook_config`:
 
     ```
-    from xplogger import logbook
-    logbook_config = logbook.make_config(
+    import xplogger.logbook
+    logbook_config = xplogger.logbook.make_config(
         logger_dir = <path to write logs>,
         wandb_config = <wandb config or None>,
         tensorboard_config = <tensorboard config or None>,
