@@ -49,7 +49,7 @@ Use
 
    ::
 
-       logbook = logbook.LogBook(config = logbook_config)
+       logbook = xplogger.logbook.LogBook(config = logbook_config)
 
 -  Use the ``logbook`` instance:
 
