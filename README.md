@@ -48,7 +48,7 @@ If you want to use only the filesystem logger, use `pip install .` or `pip insta
 * Make a `LogBook` instance:
 
     ```
-    logbook = logbook.LogBook(config = logbook_config)
+    logbook = xplogger.logbook.LogBook(config = logbook_config)
     ```
 
 * Use the `logbook` instance:
