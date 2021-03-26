@@ -1,0 +1,34 @@
+# Python CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-python/ for more details
+#
+version: 2.1
+jobs:
+  test_linux:
+    parameters:
+      py_version:
+        type: string
+    docker:
+      - image: circleci/python:<< parameters.py_version >>
+    steps:
+      - checkout
+      - run:
+          name: "Preparing environment"
+          command: |
+            sudo apt-get install -y expect
+            sudo pip install nox
+      - run:
+          name: "Testing xplogger"
+          command: |
+              export NOX_PYTHON_VERSIONS=<< parameters.py_version >>
+              pip install nox
+              python3 -m nox
+
+workflows:
+  version: 2.0
+  build:
+    jobs:
+      - test_linux:
+          matrix:
+            parameters:
+              py_version: ["3.6", "3.7", "3.8", "3.9"]
