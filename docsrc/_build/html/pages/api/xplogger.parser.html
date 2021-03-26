@@ -1,0 +1,429 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>xplogger.parser package &mdash; xplogger 0.7 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="xplogger.parser.experiment package" href="xplogger.parser.experiment.html" />
+    <link rel="prev" title="xplogger.logger package" href="xplogger.logger.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> xplogger
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Why xplogger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#use">Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#note">Note</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#dev-setup">Dev Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#acknowledgements">Acknowledgements</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">xplogger</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="xplogger.html">xplogger package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="xplogger.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="xplogger.logger.html">xplogger.logger package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">xplogger.parser package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#module-xplogger.logbook">xplogger.logbook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#module-xplogger.metrics">xplogger.metrics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#module-xplogger.types">xplogger.types module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#module-xplogger.utils">xplogger.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#module-xplogger">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">xplogger</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">xplogger</a> &raquo;</li>
+        
+          <li><a href="xplogger.html">xplogger package</a> &raquo;</li>
+        
+      <li>xplogger.parser package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/pages/api/xplogger.parser.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="xplogger-parser-package">
+<h1>xplogger.parser package<a class="headerlink" href="#xplogger-parser-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="xplogger.parser.experiment.html">xplogger.parser.experiment package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="xplogger.parser.experiment.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xplogger.parser.experiment.html#xplogger-parser-experiment-experiment-module">xplogger.parser.experiment.experiment module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xplogger.parser.experiment.html#xplogger-parser-experiment-parser-module">xplogger.parser.experiment.parser module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xplogger.parser.experiment.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-xplogger.parser.base">
+<span id="xplogger-parser-base-module"></span><h2>xplogger.parser.base module<a class="headerlink" href="#module-xplogger.parser.base" title="Permalink to this headline">¶</a></h2>
+<p>Base class that all parsers extend.</p>
+<dl class="py class">
+<dt id="xplogger.parser.base.Parser">
+<em class="property">class </em><code class="sig-prename descclassname">xplogger.parser.base.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">parse_line: Callable[[str], Optional[Dict[str, Any]]] = &lt;function parse_json&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/parser/base.html#Parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.parser.base.Parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Base class that all parsers extend.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-xplogger.parser.config">
+<span id="xplogger-parser-config-module"></span><h2>xplogger.parser.config module<a class="headerlink" href="#module-xplogger.parser.config" title="Permalink to this headline">¶</a></h2>
+<p>Implementation of Parser to parse config from logs.</p>
+<dl class="py class">
+<dt id="xplogger.parser.config.Parser">
+<em class="property">class </em><code class="sig-prename descclassname">xplogger.parser.config.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">parse_line: Callable[[str], Optional[Dict[str, Any]]] = &lt;function parse_json_and_match_value&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/parser/config.html#Parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.parser.config.Parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#xplogger.parser.log.Parser" title="xplogger.parser.log.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">xplogger.parser.log.Parser</span></code></a></p>
+<p>Class to parse config from the logs.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="xplogger.parser.config.parse_json_and_match_value">
+<code class="sig-prename descclassname">xplogger.parser.config.</code><code class="sig-name descname">parse_json_and_match_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">line</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../_modules/xplogger/parser/config.html#parse_json_and_match_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.parser.config.parse_json_and_match_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a line as JSON log and check if it a valid config log.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-xplogger.parser.log">
+<span id="xplogger-parser-log-module"></span><h2>xplogger.parser.log module<a class="headerlink" href="#module-xplogger.parser.log" title="Permalink to this headline">¶</a></h2>
+<p>Implementation of Parser to parse the logs.</p>
+<dl class="py class">
+<dt id="xplogger.parser.log.Parser">
+<em class="property">class </em><code class="sig-prename descclassname">xplogger.parser.log.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">parse_line: Callable[[str], Optional[Dict[str, Any]]] = &lt;function parse_json&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/parser/log.html#Parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.parser.log.Parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#xplogger.parser.base.Parser" title="xplogger.parser.base.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">xplogger.parser.base.Parser</span></code></a></p>
+<p>Class to parse the log files.</p>
+<dl class="py method">
+<dt id="xplogger.parser.log.Parser.parse">
+<code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filepath_pattern</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../_modules/xplogger/parser/log.html#Parser.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.parser.log.Parser.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a log file, parse its contents and return <cite>logs</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filepath_pattern</strong> (<em>str</em>) – filepath pattern to glob</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Iterator over the logs</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Iterator[LogType]</p>
+</dd>
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><p><em>Iterator[LogType]</em> – Iterator over the logs</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.parser.log.Parser.parse_first_log">
+<code class="sig-name descname">parse_first_log</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filepath_pattern</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../_modules/xplogger/parser/log.html#Parser.parse_first_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.parser.log.Parser.parse_first_log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the first log from a file.</p>
+<p>The method will return after finding the first log. Unlike <cite>parse()</cite>
+method, it will not iterate over the entire log file (thus
+saving memory and time).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filepath_pattern</strong> (<em>str</em>) – filepath pattern to glob</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>First instance of a log</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>LogType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.parser.log.Parser.parse_last_log">
+<code class="sig-name descname">parse_last_log</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filepath_pattern</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../_modules/xplogger/parser/log.html#Parser.parse_last_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.parser.log.Parser.parse_last_log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the last log from a file.</p>
+<p>Like <cite>parse()</cite> method, it will iterate over the entire log file
+but will not keep all the logs in memory (thus saving memory).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filepath_pattern</strong> (<em>str</em>) – filepath pattern to glob</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Last instance of a log</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>LogType</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="xplogger.parser.log.parse_json_and_match_value">
+<code class="sig-prename descclassname">xplogger.parser.log.</code><code class="sig-name descname">parse_json_and_match_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">line</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../_modules/xplogger/parser/log.html#parse_json_and_match_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.parser.log.parse_json_and_match_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a line as JSON log and check if it a valid log.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="xplogger-parser-metric-module">
+<h2>xplogger.parser.metric module<a class="headerlink" href="#xplogger-parser-metric-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-xplogger.parser.utils">
+<span id="xplogger-parser-utils-module"></span><h2>xplogger.parser.utils module<a class="headerlink" href="#module-xplogger.parser.utils" title="Permalink to this headline">¶</a></h2>
+<p>Utility functions for the parser module.</p>
+<dl class="py function">
+<dt id="xplogger.parser.utils.compare_logs">
+<code class="sig-prename descclassname">xplogger.parser.utils.</code><code class="sig-name descname">compare_logs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">first_log</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">second_log</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">verbose</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">, </span>List<span class="p">[</span>str<span class="p">]</span><span class="p">, </span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../_modules/xplogger/parser/utils.html#compare_logs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.parser.utils.compare_logs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare two logs.</p>
+<p>Return list of keys that are either missing or have different valus
+in the two logs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>first_log</strong> (<em>LogType</em>) – First Log</p></li>
+<li><p><strong>second_log</strong> (<em>LogType</em>) – Second Log</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em>) – Defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Tuple of [</dt><dd><p>list of keys with different values,
+list of keys with values missing in first log,
+list of keys with values missing in the second log,]</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[List[str], List[str], List[str]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="xplogger.parser.utils.flatten_log">
+<code class="sig-prename descclassname">xplogger.parser.utils.</code><code class="sig-name descname">flatten_log</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">d</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">parent_key</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">sep</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'#'</span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><a class="reference internal" href="../../_modules/xplogger/parser/utils.html#flatten_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.parser.utils.flatten_log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flatten a log using a separator.</p>
+<p>Taken from <a class="reference external" href="https://stackoverflow.com/a/6027615/1353861">https://stackoverflow.com/a/6027615/1353861</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>d</strong> (<em>LogType</em>) – [description]</p></li>
+<li><p><strong>parent_key</strong> (<em>str</em><em>, </em><em>optional</em>) – [description]. Defaults to “”.</p></li>
+<li><p><strong>sep</strong> (<em>str</em><em>, </em><em>optional</em>) – [description]. Defaults to “#”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>[description]</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>LogType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="xplogger.parser.utils.parse_json">
+<code class="sig-prename descclassname">xplogger.parser.utils.</code><code class="sig-name descname">parse_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">line</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../_modules/xplogger/parser/utils.html#parse_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.parser.utils.parse_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a line as JSON string.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-xplogger.parser">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-xplogger.parser" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="xplogger.parser.experiment.html" class="btn btn-neutral float-right" title="xplogger.parser.experiment package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="xplogger.logger.html" class="btn btn-neutral float-left" title="xplogger.logger package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Shagun Sodhani
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
