@@ -53,7 +53,7 @@ class Logger(BaseLogger):
         if "step" in metric:
             step = metric.pop("step")
         if self.key_prefix:
-            prefix = {metric.pop(self.key_prefix)}
+            prefix = metric.pop(self.key_prefix)
             metric = {f"{prefix}_{key}": value for key, value in metric.items()}
         if step:
             wandb.log(metric, step)
