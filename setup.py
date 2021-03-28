@@ -23,14 +23,13 @@ def parse_dependency(filepath):
     return [
         dependency
         for dependency in open(filepath).read().splitlines()
-        if "==" in dependency or ">=" in dependency
+        if not any(dependency.strip().startswith(_char) for _char in ["#", "-"])
     ]
 
 
 base_requirements = parse_dependency("requirements/filesystem.txt")
 all_requirements = base_requirements + parse_dependency("requirements/all.txt")
 dev_requirements = all_requirements + parse_dependency("requirements/dev.txt")
-
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
