@@ -4,22 +4,11 @@ import json
 import logging
 import os
 from functools import partial
-from typing import Any, Optional
-
-import numpy as np
+from typing import Optional
 
 from xplogger.logger.base import Logger as BaseLogger
 from xplogger.types import ConfigType, LogType
-from xplogger.utils import make_dir
-
-
-def to_json_serializable(val: Any) -> Any:
-    """Serialize values as json."""
-    if isinstance(val, np.floating):
-        return float(val)
-    if isinstance(val, np.integer):
-        return int(val)
-    return val
+from xplogger.utils import make_dir, to_json_serializable
 
 
 def _serialize_log_to_json(log: LogType) -> str:

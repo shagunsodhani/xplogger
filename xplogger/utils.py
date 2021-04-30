@@ -2,6 +2,8 @@
 import pathlib
 from typing import Any, Dict, List, Tuple
 
+import numpy as np
+
 
 def flatten_dict(
     d: Dict[str, Any], parent_key: str = "", sep: str = "#"
@@ -42,3 +44,14 @@ def make_dir(path: str) -> None:
 def compare_keys_in_dict(dict1: Dict[Any, Any], dict2: Dict[Any, Any]) -> bool:
     """Check that the two dicts have the same set of keys."""
     return set(dict1.keys()) == set(dict2.keys())
+
+
+def to_json_serializable(val: Any) -> Any:
+    """Serialize values as json."""
+    if isinstance(val, np.floating):
+        return float(val)
+    if isinstance(val, np.integer):
+        return int(val)
+    if isinstance(val, np.ndarray):
+        return val.tolist()
+    return val
