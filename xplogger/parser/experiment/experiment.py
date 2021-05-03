@@ -230,3 +230,6 @@ class ExperimentSequence(UserList):  # type: ignore
             metrics=aggregate_metrics(*[exp.metrics for exp in self.data]),
             info=aggregate_infos(*[exp.info for exp in self.data]),
         )
+
+
+ExperimentList = ExperimentSequence
