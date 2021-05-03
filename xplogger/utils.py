@@ -1,6 +1,6 @@
 """Utility Methods."""
 import pathlib
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Set, Tuple
 
 import numpy as np
 
@@ -55,3 +55,10 @@ def to_json_serializable(val: Any) -> Any:
     if isinstance(val, np.ndarray):
         return val.tolist()
     return val
+
+
+def get_elem_from_set(_set: Set[Any]) -> Any:
+    """Get an element from a set"""
+    for elem in _set:
+        break
+    return elem
