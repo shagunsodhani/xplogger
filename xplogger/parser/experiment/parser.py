@@ -64,7 +64,7 @@ class Parser(base_parser.Parser):
         # check if filepath_pattern is a directory
         if os.path.isdir(filepath_pattern):
             filepath_pattern = Path(filepath_pattern)
-            # convert the filepath_patter to a Path object.
+            # convert the filepath_pattern to a Path object.
         if isinstance(filepath_pattern, Path):
             if filepath_pattern.is_dir():
                 # iterate over all the files in the directory.
