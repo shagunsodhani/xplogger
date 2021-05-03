@@ -58,7 +58,7 @@ def to_json_serializable(val: Any) -> Any:
 
 
 def get_elem_from_set(_set: Set[Any]) -> Any:
-    """Get an element from a set"""
-    for elem in _set:
+    """Get an element from a set."""
+    for _elem in _set:
         break
-    return elem
+    return _elem

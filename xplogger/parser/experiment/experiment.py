@@ -252,7 +252,6 @@ class ExperimentSequence(UserList):  # type: ignore
                 The second group/config contains the params which vary across the experiments.
                 It maps these params to the set of values they take.
         """
-
         param_value_dict: Dict[str, Set[Any]] = {}
         for experiment in self.data:
             config = experiment.config
