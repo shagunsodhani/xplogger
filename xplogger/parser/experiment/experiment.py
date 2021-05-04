@@ -8,7 +8,8 @@ from typing import Any, Callable, Dict, Iterable, List, Optional, Set, Tuple
 
 import pandas as pd
 
-from xplogger import utils
+from xplogger import utils as xplogger_utils
+from xplogger.parser import utils as parser_utils
 from xplogger.types import ConfigType
 
 ExperimentMetricType = Dict[str, pd.DataFrame]
@@ -54,14 +55,14 @@ class Experiment:
         * metrics are stored in [`feather` format](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_feather.html).
         * info is stored in the gzip format.
         """
-        utils.make_dir(dir_path)
+        xplogger_utils.make_dir(dir_path)
         path_to_save = f"{dir_path}/config.jsonl"
         with open(path_to_save, "w") as f:
             for config in self.configs:
                 f.write(json.dumps(config) + "\n")
 
         metric_dir = f"{dir_path}/metric"
-        utils.make_dir(metric_dir)
+        xplogger_utils.make_dir(metric_dir)
         for key in self.metrics:
             path_to_save = f"{metric_dir}/{key}"
             if self.metrics[key].empty:
@@ -79,11 +80,11 @@ class Experiment:
             return NotImplemented
         return (
             self.configs == other.configs
-            and utils.compare_keys_in_dict(self.metrics, other.metrics)
+            and xplogger_utils.compare_keys_in_dict(self.metrics, other.metrics)
             and all(
                 self.metrics[key].equals(other.metrics[key]) for key in self.metrics
             )
-            and utils.compare_keys_in_dict(self.info, other.info)
+            and xplogger_utils.compare_keys_in_dict(self.info, other.info)
             and all(self.info[key] == other.info[key] for key in self.info)
         )
 
@@ -252,34 +253,10 @@ class ExperimentSequence(UserList):  # type: ignore
                 The second group/config contains the params which vary across the experiments.
                 It maps these params to the set of values they take.
         """
-        param_value_dict: Dict[str, Set[Any]] = {}
-        for experiment in self.data:
-            config = experiment.config
-            for param, value in config.items():
-                if param not in param_value_dict:
-                    param_value_dict[param] = set()
-                value_to_add = value
-                if isinstance(value, (list, tuple)):
-                    value_to_add = "_".join(map(str, value))
-                param_value_dict[param].add(value_to_add)
-
-        param_value_counter: Dict[str, int] = {}
-        for param, values in param_value_dict.items():
-            param_value_counter[param] = len(values)
-
-        fixed_params: ConfigType = {}
-        variable_params: Dict[str, Set[Any]] = {}
-        for param, counter in param_value_counter.items():
-            if param not in params_to_exclude:
-                if counter == 1:
-                    fixed_params[param] = utils.get_elem_from_set(
-                        param_value_dict[param]
-                    )
-                    # Note that this is a singleton set.
-                else:
-                    variable_params[param] = param_value_dict[param]
-
-        return fixed_params, variable_params
+        return parser_utils.get_param_groups(
+            configs=(experiment.config for experiment in self.data),
+            params_to_exclude=params_to_exclude,
+        )
 
 
 ExperimentList = ExperimentSequence

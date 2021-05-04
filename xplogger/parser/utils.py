@@ -1,8 +1,9 @@
 """Utility functions for the parser module."""
 import json
-from typing import Any, List, Optional, Tuple
+from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
 
-from xplogger.types import LogType
+from xplogger import utils
+from xplogger.types import ConfigType, LogType
 
 
 def flatten_log(d: LogType, parent_key: str = "", sep: str = "#") -> LogType:
@@ -84,3 +85,53 @@ def parse_json(line: str) -> Optional[LogType]:
     except json.JSONDecodeError:
         log = None
     return log
+
+
+def get_param_groups(
+    configs: Iterable[ConfigType], params_to_exclude: Iterable[str]
+) -> Tuple[ConfigType, Dict[str, Set[Any]]]:
+    """Return two groups of params, one which is fixed across the experiments and one which varies.
+
+    This function is useful when understanding the effect of different parameters on the model's
+    performance. One could plot the performance of the different experiments, as a function of the
+    parameters that vary.
+
+    Args:
+        configs (Iterable[ConfigType]): Collection of configs, to extract params from.
+        params_to_exclude (Iterable[str]): These parameters are not returned in either group.
+            This is useful for ignoring parameters like `time when the experiment was started`
+            since these parameters should not affect the performance. In absence of this argument,
+            all such parameters will likely be returned with the group of varying parameters.
+
+    Returns:
+        Tuple[ConfigType, Dict[str, Set[Any]]]: The first group/config contains the params which are fixed across the experiments.
+            It maps these params to their `default` values, hence it should be a subset of any config.
+            The second group/config contains the params which vary across the experiments.
+            It maps these params to the set of values they take.
+
+    """
+    param_value_dict: Dict[str, Set[Any]] = {}
+    for config in configs:
+        for param, value in config.items():
+            if param not in param_value_dict:
+                param_value_dict[param] = set()
+            value_to_add = value
+            if isinstance(value, (list, tuple)):
+                value_to_add = "_".join(map(str, value))
+            param_value_dict[param].add(value_to_add)
+
+    param_value_counter: Dict[str, int] = {}
+    for param, values in param_value_dict.items():
+        param_value_counter[param] = len(values)
+
+    fixed_params: ConfigType = {}
+    variable_params: Dict[str, Set[Any]] = {}
+    for param, counter in param_value_counter.items():
+        if param not in params_to_exclude:
+            if counter == 1:
+                fixed_params[param] = utils.get_elem_from_set(param_value_dict[param])
+                # Note that this is a singleton set.
+            else:
+                variable_params[param] = param_value_dict[param]
+
+    return fixed_params, variable_params
