@@ -227,9 +227,9 @@ class ExperimentSequence(UserList):  # type: ignore
             Experiment: Aggregated Experiment.
         """
         return Experiment(
-            configs=aggregate_configs(*[exp.config for exp in self.data]),
-            metrics=aggregate_metrics(*[exp.metrics for exp in self.data]),
-            info=aggregate_infos(*[exp.info for exp in self.data]),
+            configs=aggregate_configs([exp.configs for exp in self.data]),
+            metrics=aggregate_metrics([exp.metrics for exp in self.data]),
+            info=aggregate_infos([exp.info for exp in self.data]),
         )
 
     def get_param_groups(
