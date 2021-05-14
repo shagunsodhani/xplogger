@@ -10,24 +10,22 @@ import pandas as pd
 
 from xplogger import utils as xplogger_utils
 from xplogger.parser import utils as parser_utils
+from xplogger.parser.experiment import utils as experiment_utils
 from xplogger.types import ConfigType
-
-ExperimentMetricType = Dict[str, pd.DataFrame]
-ExperimentInfoType = Dict[Any, Any]
 
 
 class Experiment:
     def __init__(
         self,
         configs: List[ConfigType],
-        metrics: ExperimentMetricType,
-        info: Optional[ExperimentInfoType] = None,
+        metrics: experiment_utils.ExperimentMetricType,
+        info: Optional[experiment_utils.ExperimentInfoType] = None,
     ):
         """Class to hold the experiment data.
 
         Args:
             configs (List[ConfigType]): Configs used for the experiment
-            metrics (ExperimentMetricType): Dictionary mapping strings
+            metrics (experiment_utils.ExperimentMetricType): Dictionary mapping strings
                 to dataframes. Keys could be "train", "validation", "test"
                 and corresponding dataframes would have the data for these
                 modes.
@@ -113,52 +111,6 @@ def deserialize(dir_path: str) -> Experiment:
     return Experiment(configs=configs, metrics=metrics, info=info)
 
 
-def return_first_config(config_lists: List[List[ConfigType]]) -> List[ConfigType]:
-    """Return the first config list, from a list of list of configs, else return empty list.
-
-    Args:
-        config_lists (List[List[ConfigType]])
-
-    Returns:
-        List[ConfigType]
-    """
-    for config_list in config_lists:
-        if len(config_list) > 0:
-            return config_list
-    return []
-
-
-def concat_metrics(metric_list: List[ExperimentMetricType]) -> ExperimentMetricType:
-    """Concatenate the metrics.
-
-    Args:
-        metric_list (List[ExperimentMetricType])
-
-    Returns:
-        ExperimentMetricType
-    """
-    concatenated_metrics = {}
-    metric_keys = metric_list[0].keys()
-    for key in metric_keys:
-        concatenated_metrics[key] = pd.concat([metric[key] for metric in metric_list])
-    return concatenated_metrics
-
-
-def return_first_infos(info_list: List[ExperimentInfoType]) -> ExperimentInfoType:
-    """Return the first info, from a list of infos. Otherwise return empty info.
-
-    Args:
-        info_list (List[ExperimentInfoType])
-
-    Returns:
-        ExperimentInfoType
-    """
-    for info in info_list:
-        if info is not None:
-            return info
-    return {}
-
-
 class ExperimentSequence(UserList):  # type: ignore
     def __init__(self, experiments: List[Experiment]):
         """List-like interface to a collection of Experiments."""
@@ -205,23 +157,25 @@ class ExperimentSequence(UserList):  # type: ignore
         self,
         aggregate_configs: Callable[
             [List[List[ConfigType]]], List[ConfigType]
-        ] = return_first_config,
+        ] = experiment_utils.return_first_config,
         aggregate_metrics: Callable[
-            [List[ExperimentMetricType]], ExperimentMetricType
-        ] = concat_metrics,
+            [List[experiment_utils.ExperimentMetricType]],
+            experiment_utils.ExperimentMetricType,
+        ] = experiment_utils.concat_metrics,
         aggregate_infos: Callable[
-            [List[ExperimentInfoType]], ExperimentInfoType
-        ] = return_first_infos,
+            [List[experiment_utils.ExperimentInfoType]],
+            experiment_utils.ExperimentInfoType,
+        ] = experiment_utils.return_first_infos,
     ) -> Experiment:
         """Aggregate a sequence of experiments into a single experiment.
 
         Args:
             aggregate_configs (Callable[ [List[List[ConfigType]]], List[ConfigType] ], optional):
-                Function to aggregate the configs. Defaults to return_first_config.
-            aggregate_metrics (Callable[ [List[ExperimentMetricType]], ExperimentMetricType ], optional):
-                Function to aggregate the metrics. Defaults to concat_metrics.
-            aggregate_infos (Callable[ [List[ExperimentInfoType]], ExperimentInfoType ], optional):
-                Function to aggregate the information. Defaults to return_first_infos.
+                Function to aggregate the configs. Defaults to experiment_utils.return_first_config.
+            aggregate_metrics (Callable[ [List[experiment_utils.ExperimentMetricType]], ExperimentMetricType ], optional):
+                Function to aggregate the metrics. Defaults to experiment_utils.concat_metrics.
+            aggregate_infos (Callable[ [List[experiment_utils.ExperimentInfoType]], ExperimentInfoType ], optional):
+                Function to aggregate the information. Defaults to experiment_utils.return_first_infos.
 
         Returns:
             Experiment: Aggregated Experiment.
