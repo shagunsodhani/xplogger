@@ -2,6 +2,7 @@
 
 from typing import Any, Dict, List
 
+import numpy as np
 import pandas as pd
 
 from xplogger.types import ConfigType
@@ -39,6 +40,88 @@ def concat_metrics(metric_list: List[ExperimentMetricType]) -> ExperimentMetricT
     for key in metric_keys:
         concatenated_metrics[key] = pd.concat([metric[key] for metric in metric_list])
     return concatenated_metrics
+
+
+def _compute_sum_or_mean_of_metrics_for_one_mode(
+    metric_list: List[ExperimentMetricType], mode: str, return_mean: bool = True
+) -> pd.DataFrame:
+    metric_to_return: Dict[str, List[Any]] = {}
+    min_len = np.iinfo(np.int32).max
+    for metric in metric_list:
+        df = metric[mode]
+        for key in df.keys():
+            if df.dtypes[key] == float or df.dtypes[key] == int:
+                if key not in metric_to_return:
+                    metric_to_return[key] = []
+                metric_to_return[key].append(df[key].to_numpy())
+                min_len = min(min_len, len(metric_to_return[key][-1]))
+            else:
+                if key not in metric_to_return:
+                    metric_to_return[key] = df[key].to_numpy()
+                    min_len = min(min_len, len(metric_to_return[key]))
+
+    np_metric_to_return: Dict[str, np.ndarray] = {}
+    for metric_name in metric_to_return:
+        if isinstance(metric_to_return[metric_name][0], np.ndarray):
+            np_metric_to_return[metric_name] = np.array(
+                [x[:min_len] for x in metric_to_return[metric_name]]
+            )
+            if return_mean:
+                np_metric_to_return[metric_name] = np_metric_to_return[
+                    metric_name
+                ].mean(axis=0)
+            else:
+                np_metric_to_return[metric_name] = np_metric_to_return[metric_name].sum(
+                    axis=0
+                )
+        else:
+            np_metric_to_return[metric_name] = metric_to_return[metric_name][:min_len]
+    return pd.DataFrame.from_dict(np_metric_to_return)
+
+
+def _compute_sum_or_mean_of_metrics(
+    metric_list: List[ExperimentMetricType], return_mean: bool
+) -> ExperimentMetricType:
+    """Add the metrics.
+
+    Args:
+        metric_list (List[ExperimentMetricType])
+
+    Returns:
+        ExperimentMetricType
+    """
+
+    concatenated_metrics = {}
+    metric_keys = metric_list[0].keys()
+    for mode in metric_keys:
+        concatenated_metrics[mode] = _compute_sum_or_mean_of_metrics_for_one_mode(
+            metric_list=metric_list, mode=mode, return_mean=return_mean
+        )
+    return concatenated_metrics
+
+
+def mean_metrics(metric_list: List[ExperimentMetricType]) -> ExperimentMetricType:
+    """Compute the mean of the metrics.
+
+    Args:
+        metric_list (List[ExperimentMetricType])
+
+    Returns:
+        ExperimentMetricType
+    """
+    return _compute_sum_or_mean_of_metrics(metric_list=metric_list, return_mean=True)
+
+
+def sum_metrics(metric_list: List[ExperimentMetricType]) -> ExperimentMetricType:
+    """Compute the sum of the metrics.
+
+    Args:
+        metric_list (List[ExperimentMetricType])
+
+    Returns:
+        ExperimentMetricType
+    """
+    return _compute_sum_or_mean_of_metrics(metric_list=metric_list, return_mean=False)
 
 
 def return_first_infos(info_list: List[ExperimentInfoType]) -> ExperimentInfoType:
