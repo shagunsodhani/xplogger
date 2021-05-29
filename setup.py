@@ -23,14 +23,13 @@ def parse_dependency(filepath):
     return [
         dependency
         for dependency in open(filepath).read().splitlines()
-        if "==" in dependency or ">=" in dependency
+        if not any(dependency.strip().startswith(_char) for _char in ["#", "-"])
     ]
 
 
 base_requirements = parse_dependency("requirements/filesystem.txt")
 all_requirements = base_requirements + parse_dependency("requirements/all.txt")
 dev_requirements = all_requirements + parse_dependency("requirements/dev.txt")
-
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
@@ -49,14 +48,13 @@ setuptools.setup(
         exclude=["*.tests", "*.tests.*", "tests.*", "tests", "docs", "docsrc"]
     ),
     classifiers=[
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.6",
+    python_requires=">=3.7",
     extras_require={
         # Install development dependencies with
         # pip install -e .[dev]

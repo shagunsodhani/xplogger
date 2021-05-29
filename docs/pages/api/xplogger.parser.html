@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>xplogger.parser package &mdash; xplogger 0.7 documentation</title>
+  <title>xplogger.parser package &mdash; xplogger 0.8 documentation</title>
   
 
   
@@ -16,7 +16,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -50,7 +53,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> xplogger
+            <a href="../../index.html" class="icon icon-home"> xplogger
           
 
           
@@ -149,6 +152,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -164,7 +169,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../../_sources/pages/api/xplogger.parser.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -186,9 +191,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="xplogger.parser.experiment.html">xplogger.parser.experiment package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="xplogger.parser.experiment.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="xplogger.parser.experiment.html#xplogger-parser-experiment-experiment-module">xplogger.parser.experiment.experiment module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="xplogger.parser.experiment.html#xplogger-parser-experiment-parser-module">xplogger.parser.experiment.parser module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="xplogger.parser.experiment.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xplogger.parser.experiment.html#module-xplogger.parser.experiment.experiment">xplogger.parser.experiment.experiment module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xplogger.parser.experiment.html#module-xplogger.parser.experiment.parser">xplogger.parser.experiment.parser module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xplogger.parser.experiment.html#module-xplogger.parser.experiment.utils">xplogger.parser.experiment.utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xplogger.parser.experiment.html#module-xplogger.parser.experiment">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -202,7 +208,7 @@
 <p>Base class that all parsers extend.</p>
 <dl class="py class">
 <dt id="xplogger.parser.base.Parser">
-<em class="property">class </em><code class="sig-prename descclassname">xplogger.parser.base.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">parse_line: Callable[[str], Optional[Dict[str, Any]]] = &lt;function parse_json&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/parser/base.html#Parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.parser.base.Parser" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.parser.base.</span></code><code class="sig-name descname"><span class="pre">Parser</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">parse_line:</span> <span class="pre">Callable[[str],</span> <span class="pre">Optional[Dict[str,</span> <span class="pre">Any]]]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">parse_json&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/parser/base.html#Parser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.base.Parser" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
 <p>Base class that all parsers extend.</p>
 </dd></dl>
@@ -213,14 +219,14 @@
 <p>Implementation of Parser to parse config from logs.</p>
 <dl class="py class">
 <dt id="xplogger.parser.config.Parser">
-<em class="property">class </em><code class="sig-prename descclassname">xplogger.parser.config.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">parse_line: Callable[[str], Optional[Dict[str, Any]]] = &lt;function parse_json_and_match_value&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/parser/config.html#Parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.parser.config.Parser" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.parser.config.</span></code><code class="sig-name descname"><span class="pre">Parser</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">parse_line:</span> <span class="pre">Callable[[str],</span> <span class="pre">Optional[Dict[str,</span> <span class="pre">Any]]]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">parse_json_and_match_value&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/parser/config.html#Parser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.config.Parser" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#xplogger.parser.log.Parser" title="xplogger.parser.log.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">xplogger.parser.log.Parser</span></code></a></p>
 <p>Class to parse config from the logs.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt id="xplogger.parser.config.parse_json_and_match_value">
-<code class="sig-prename descclassname">xplogger.parser.config.</code><code class="sig-name descname">parse_json_and_match_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">line</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../_modules/xplogger/parser/config.html#parse_json_and_match_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.parser.config.parse_json_and_match_value" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">xplogger.parser.config.</span></code><code class="sig-name descname"><span class="pre">parse_json_and_match_value</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/config.html#parse_json_and_match_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.config.parse_json_and_match_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse a line as JSON log and check if it a valid config log.</p>
 </dd></dl>
 
@@ -230,12 +236,12 @@
 <p>Implementation of Parser to parse the logs.</p>
 <dl class="py class">
 <dt id="xplogger.parser.log.Parser">
-<em class="property">class </em><code class="sig-prename descclassname">xplogger.parser.log.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">parse_line: Callable[[str], Optional[Dict[str, Any]]] = &lt;function parse_json&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/parser/log.html#Parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.parser.log.Parser" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.parser.log.</span></code><code class="sig-name descname"><span class="pre">Parser</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">parse_line:</span> <span class="pre">Callable[[str],</span> <span class="pre">Optional[Dict[str,</span> <span class="pre">Any]]]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">parse_json&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/parser/log.html#Parser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.log.Parser" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#xplogger.parser.base.Parser" title="xplogger.parser.base.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">xplogger.parser.base.Parser</span></code></a></p>
 <p>Class to parse the log files.</p>
 <dl class="py method">
 <dt id="xplogger.parser.log.Parser.parse">
-<code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filepath_pattern</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../_modules/xplogger/parser/log.html#Parser.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.parser.log.Parser.parse" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">parse</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath_pattern</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/log.html#Parser.parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.log.Parser.parse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open a log file, parse its contents and return <cite>logs</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -255,7 +261,7 @@
 
 <dl class="py method">
 <dt id="xplogger.parser.log.Parser.parse_first_log">
-<code class="sig-name descname">parse_first_log</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filepath_pattern</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../_modules/xplogger/parser/log.html#Parser.parse_first_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.parser.log.Parser.parse_first_log" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">parse_first_log</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath_pattern</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/log.html#Parser.parse_first_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.log.Parser.parse_first_log" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the first log from a file.</p>
 <p>The method will return after finding the first log. Unlike <cite>parse()</cite>
 method, it will not iterate over the entire log file (thus
@@ -275,7 +281,7 @@ saving memory and time).</p>
 
 <dl class="py method">
 <dt id="xplogger.parser.log.Parser.parse_last_log">
-<code class="sig-name descname">parse_last_log</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filepath_pattern</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../_modules/xplogger/parser/log.html#Parser.parse_last_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.parser.log.Parser.parse_last_log" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">parse_last_log</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath_pattern</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/log.html#Parser.parse_last_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.log.Parser.parse_last_log" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the last log from a file.</p>
 <p>Like <cite>parse()</cite> method, it will iterate over the entire log file
 but will not keep all the logs in memory (thus saving memory).</p>
@@ -296,20 +302,123 @@ but will not keep all the logs in memory (thus saving memory).</p>
 
 <dl class="py function">
 <dt id="xplogger.parser.log.parse_json_and_match_value">
-<code class="sig-prename descclassname">xplogger.parser.log.</code><code class="sig-name descname">parse_json_and_match_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">line</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../_modules/xplogger/parser/log.html#parse_json_and_match_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.parser.log.parse_json_and_match_value" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">xplogger.parser.log.</span></code><code class="sig-name descname"><span class="pre">parse_json_and_match_value</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/log.html#parse_json_and_match_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.log.parse_json_and_match_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse a line as JSON log and check if it a valid log.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="xplogger-parser-metric-module">
-<h2>xplogger.parser.metric module<a class="headerlink" href="#xplogger-parser-metric-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-xplogger.parser.metric">
+<span id="xplogger-parser-metric-module"></span><h2>xplogger.parser.metric module<a class="headerlink" href="#module-xplogger.parser.metric" title="Permalink to this headline">¶</a></h2>
+<p>Implementation of Parser to parse metrics from logs.</p>
+<dl class="py class">
+<dt id="xplogger.parser.metric.Parser">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.parser.metric.</span></code><code class="sig-name descname"><span class="pre">Parser</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">parse_line:</span> <span class="pre">Callable[[str],</span> <span class="pre">Optional[Dict[str,</span> <span class="pre">Any]]]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">parse_json_and_match_value&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/parser/metric.html#Parser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.metric.Parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#xplogger.parser.log.Parser" title="xplogger.parser.log.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">xplogger.parser.log.Parser</span></code></a></p>
+<p>Class to parse the metrics from the logs.</p>
+<dl class="py method">
+<dt id="xplogger.parser.metric.Parser.parse_as_df">
+<code class="sig-name descname"><span class="pre">parse_as_df</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">filepath_pattern:</span> <span class="pre">str,</span> <span class="pre">group_metrics:</span> <span class="pre">Callable[[List[Dict[str,</span> <span class="pre">Any]]],</span> <span class="pre">Dict[str,</span> <span class="pre">List[Dict[str,</span> <span class="pre">Any]]]]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">group_metrics&gt;,</span> <span class="pre">aggregate_metrics:</span> <span class="pre">Callable[[List[Dict[str,</span> <span class="pre">Any]]],</span> <span class="pre">List[Dict[str,</span> <span class="pre">Any]]]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">aggregate_metrics&gt;</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/metric.html#Parser.parse_as_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.metric.Parser.parse_as_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a dict of (metric_name, dataframe).</p>
+<p>Method that:
+(i) reads metrics from the filesystem
+(ii) groups metrics
+(iii) aggregates all the metrics within a group,
+(iv) converts the aggregate metrics into dataframes and returns a             dictionary of dataframes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filepath_pattern</strong> (<em>str</em>) – filepath pattern to glob</p></li>
+<li><p><strong>group_metrics</strong> (<em>Callable</em><em>[</em><em>[</em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Function to group a list of metrics into a dictionary of
+(key, list of grouped metrics). Defaults to group_metrics.</p></li>
+<li><p><strong>aggregate_metrics</strong> (<em>Callable</em><em>[</em><em>[</em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Function to aggregate a list of metrics. Defaults to aggregate_metrics.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="xplogger.parser.metric.aggregate_metrics">
+<code class="sig-prename descclassname"><span class="pre">xplogger.parser.metric.</span></code><code class="sig-name descname"><span class="pre">aggregate_metrics</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/metric.html#aggregate_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.metric.aggregate_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Aggregate a list of metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>metrics</strong> (<em>List</em><em>[</em><em>MetricType</em><em>]</em>) – List of metrics to aggregate</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of aggregated metrics</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[MetricType]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="xplogger.parser.metric.group_metrics">
+<code class="sig-prename descclassname"><span class="pre">xplogger.parser.metric.</span></code><code class="sig-name descname"><span class="pre">group_metrics</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/metric.html#group_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.metric.group_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Group a list of metrics.</p>
+<dl class="simple">
+<dt>Group a list of metrics into a dictionary of</dt><dd><p>(key, list of grouped metrics)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>metrics</strong> (<em>List</em><em>[</em><em>MetricType</em><em>]</em>) – List of metrics to group</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Dictionary of (key,</dt><dd><p>list of grouped metrics)</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Dict[str, List[MetricType]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="xplogger.parser.metric.metrics_to_df">
+<code class="sig-prename descclassname"><span class="pre">xplogger.parser.metric.</span></code><code class="sig-name descname"><span class="pre">metrics_to_df</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">metric_logs:</span> <span class="pre">List[Dict[str,</span> <span class="pre">Any]],</span> <span class="pre">group_metrics:</span> <span class="pre">Callable[[List[Dict[str,</span> <span class="pre">Any]]],</span> <span class="pre">Dict[str,</span> <span class="pre">List[Dict[str,</span> <span class="pre">Any]]]]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">group_metrics&gt;,</span> <span class="pre">aggregate_metrics:</span> <span class="pre">Callable[[List[Dict[str,</span> <span class="pre">Any]]],</span> <span class="pre">List[Dict[str,</span> <span class="pre">Any]]]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">aggregate_metrics&gt;</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/metric.html#metrics_to_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.metric.metrics_to_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a dict of (metric_name, dataframe).</p>
+<p>Method that:
+(i) groups metrics
+(ii) aggregates all the metrics within a group,
+(iii) converts the aggregate metrics into dataframes and returns a         dictionary of dataframes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metric_logs</strong> (<em>List</em><em>[</em><em>LogType</em><em>]</em>) – List of metrics</p></li>
+<li><p><strong>group_metrics</strong> (<em>Callable</em><em>[</em><em>[</em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Function to group a list of metrics into a dictionary of
+(key, list of grouped metrics). Defaults to group_metrics.</p></li>
+<li><p><strong>aggregate_metrics</strong> (<em>Callable</em><em>[</em><em>[</em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Function to aggregate a list of metrics. Defaults to aggregate_metrics.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>[description]</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Dict[str, pd.DataFrame]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="xplogger.parser.metric.parse_json_and_match_value">
+<code class="sig-prename descclassname"><span class="pre">xplogger.parser.metric.</span></code><code class="sig-name descname"><span class="pre">parse_json_and_match_value</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/metric.html#parse_json_and_match_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.metric.parse_json_and_match_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a line as JSON log and check if it a valid metric log.</p>
+</dd></dl>
+
 </div>
 <div class="section" id="module-xplogger.parser.utils">
 <span id="xplogger-parser-utils-module"></span><h2>xplogger.parser.utils module<a class="headerlink" href="#module-xplogger.parser.utils" title="Permalink to this headline">¶</a></h2>
 <p>Utility functions for the parser module.</p>
 <dl class="py function">
 <dt id="xplogger.parser.utils.compare_logs">
-<code class="sig-prename descclassname">xplogger.parser.utils.</code><code class="sig-name descname">compare_logs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">first_log</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">second_log</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">verbose</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">, </span>List<span class="p">[</span>str<span class="p">]</span><span class="p">, </span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../_modules/xplogger/parser/utils.html#compare_logs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.parser.utils.compare_logs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">xplogger.parser.utils.</span></code><code class="sig-name descname"><span class="pre">compare_logs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first_log</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_log</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/utils.html#compare_logs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.utils.compare_logs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compare two logs.</p>
 <p>Return list of keys that are either missing or have different valus
 in the two logs.</p>
@@ -338,7 +447,7 @@ list of keys with values missing in the second log,]</p>
 
 <dl class="py function">
 <dt id="xplogger.parser.utils.flatten_log">
-<code class="sig-prename descclassname">xplogger.parser.utils.</code><code class="sig-name descname">flatten_log</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">d</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">parent_key</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">sep</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'#'</span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><a class="reference internal" href="../../_modules/xplogger/parser/utils.html#flatten_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.parser.utils.flatten_log" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">xplogger.parser.utils.</span></code><code class="sig-name descname"><span class="pre">flatten_log</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_key</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'#'</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/utils.html#flatten_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.utils.flatten_log" title="Permalink to this definition">¶</a></dt>
 <dd><p>Flatten a log using a separator.</p>
 <p>Taken from <a class="reference external" href="https://stackoverflow.com/a/6027615/1353861">https://stackoverflow.com/a/6027615/1353861</a></p>
 <dl class="field-list simple">
@@ -359,8 +468,40 @@ list of keys with values missing in the second log,]</p>
 </dd></dl>
 
 <dl class="py function">
+<dt id="xplogger.parser.utils.get_param_groups">
+<code class="sig-prename descclassname"><span class="pre">xplogger.parser.utils.</span></code><code class="sig-name descname"><span class="pre">get_param_groups</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params_to_exclude</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/utils.html#get_param_groups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.utils.get_param_groups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return two groups of params, one which is fixed across the experiments and one which varies.</p>
+<p>This function is useful when understanding the effect of different parameters on the model’s
+performance. One could plot the performance of the different experiments, as a function of the
+parameters that vary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>configs</strong> (<em>Iterable</em><em>[</em><em>ConfigType</em><em>]</em>) – Collection of configs, to extract params from.</p></li>
+<li><p><strong>params_to_exclude</strong> (<em>Iterable</em><em>[</em><em>str</em><em>]</em>) – These parameters are not returned in either group.
+This is useful for ignoring parameters like <cite>time when the experiment was started</cite>
+since these parameters should not affect the performance. In absence of this argument,
+all such parameters will likely be returned with the group of varying parameters.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>The first group/config contains the params which are fixed across the experiments.</dt><dd><p>It maps these params to their <cite>default</cite> values, hence it should be a subset of any config.
+The second group/config contains the params which vary across the experiments.
+It maps these params to the set of values they take.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[ConfigType, Dict[str, Set[Any]]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="xplogger.parser.utils.parse_json">
-<code class="sig-prename descclassname">xplogger.parser.utils.</code><code class="sig-name descname">parse_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">line</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../_modules/xplogger/parser/utils.html#parse_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.parser.utils.parse_json" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">xplogger.parser.utils.</span></code><code class="sig-name descname"><span class="pre">parse_json</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/utils.html#parse_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.utils.parse_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse a line as JSON string.</p>
 </dd></dl>
 
@@ -375,37 +516,29 @@ list of keys with values missing in the second log,]</p>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="xplogger.parser.experiment.html" class="btn btn-neutral float-right" title="xplogger.parser.experiment package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="xplogger.logger.html" class="btn btn-neutral float-left" title="xplogger.logger package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="xplogger.parser.experiment.html" class="btn btn-neutral float-right" title="xplogger.parser.experiment package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="xplogger.logger.html" class="btn btn-neutral float-left" title="xplogger.logger package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020, Shagun Sodhani
+        &#169; Copyright 2020, Shagun Sodhani.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

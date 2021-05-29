@@ -1,6 +1,7 @@
 """Implementation of Parser to parse the logs."""
 
 import glob
+from collections import deque
 from pathlib import Path
 from typing import Iterator, Optional, Union
 
@@ -87,11 +88,8 @@ class Parser(BaseParser):
             LogType: First instance of a log
 
         """
-        paths = glob.iglob(filepath_pattern)
-        for file_path in paths:
-            for log in self._parse_file(file_path):
-                if log is not None:
-                    return log
+        for log in self.parse(filepath_pattern=filepath_pattern):
+            return log
         return None
 
     def parse_last_log(self, filepath_pattern: str) -> Optional[LogType]:
@@ -107,10 +105,7 @@ class Parser(BaseParser):
             LogType: Last instance of a log
 
         """
-        last_log: Optional[LogType] = None
-        paths = glob.iglob(filepath_pattern)
-        for file_path in paths:
-            for log in self._parse_file(file_path=file_path):
-                if log is not None:
-                    last_log = log
-        return last_log
+        last_log_iter = deque(self.parse(filepath_pattern=filepath_pattern), maxlen=1)
+        if last_log_iter:
+            return last_log_iter.pop()
+        return None

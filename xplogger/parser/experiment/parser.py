@@ -1,7 +1,6 @@
 """Implementation of Parser to parse experiment from the logs."""
 
 import glob
-import os
 from pathlib import Path
 from typing import Any, Dict, Union
 
@@ -61,10 +60,6 @@ class Parser(base_parser.Parser):
         configs = []
         metric_logs = []
         info: Dict[Any, Any] = {}
-        # check if filepath_pattern is a directory
-        if os.path.isdir(filepath_pattern):
-            filepath_pattern = Path(filepath_pattern)
-            # convert the filepath_patter to a Path object.
         if isinstance(filepath_pattern, Path):
             if filepath_pattern.is_dir():
                 # iterate over all the files in the directory.

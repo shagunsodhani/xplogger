@@ -2,24 +2,13 @@
 
 import json
 import logging
-import os
+import pathlib
 from functools import partial
-from typing import Any, Optional
-
-import numpy as np
+from typing import Optional
 
 from xplogger.logger.base import Logger as BaseLogger
 from xplogger.types import ConfigType, LogType
-from xplogger.utils import make_dir
-
-
-def to_json_serializable(val: Any) -> Any:
-    """Serialize values as json."""
-    if isinstance(val, np.floating):
-        return float(val)
-    if isinstance(val, np.integer):
-        return int(val)
-    return val
+from xplogger.utils import make_dir, to_json_serializable
 
 
 def _serialize_log_to_json(log: LogType) -> str:
@@ -174,5 +163,5 @@ def get_logger_file_path(
     """Get path to the file (to write logs to)."""
     if filename is None:
         filename = f"{filename_prefix}{filename_suffix}.jsonl"
-    logger_file_path = os.path.join(logger_dir, filename)
+    logger_file_path = str(pathlib.Path(logger_dir, filename))
     return logger_file_path

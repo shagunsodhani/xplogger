@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>xplogger.logger package &mdash; xplogger 0.7 documentation</title>
+  <title>xplogger.logger package &mdash; xplogger 0.8 documentation</title>
   
 
   
@@ -16,7 +16,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -50,7 +53,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> xplogger
+            <a href="../../index.html" class="icon icon-home"> xplogger
           
 
           
@@ -149,6 +152,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -164,7 +169,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../../_sources/pages/api/xplogger.logger.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -188,12 +193,12 @@
 <p>Abstract logger class.</p>
 <dl class="py class">
 <dt id="xplogger.logger.base.Logger">
-<em class="property">class </em><code class="sig-prename descclassname">xplogger.logger.base.</code><code class="sig-name descname">Logger</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/logger/base.html#Logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.logger.base.Logger" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.logger.base.</span></code><code class="sig-name descname"><span class="pre">Logger</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/logger/base.html#Logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.logger.base.Logger" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Abstract Logger Class.</p>
 <dl class="py method">
 <dt id="xplogger.logger.base.Logger.write">
-<em class="property">abstract </em><code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">log</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/xplogger/logger/base.html#Logger.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xplogger.logger.base.Logger.write" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">write</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/logger/base.html#Logger.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.logger.base.Logger.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Interface to write the log.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -205,20 +210,187 @@
 </dd></dl>
 
 </div>
-<div class="section" id="xplogger-logger-filesystem-module">
-<h2>xplogger.logger.filesystem module<a class="headerlink" href="#xplogger-logger-filesystem-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-xplogger.logger.filesystem">
+<span id="xplogger-logger-filesystem-module"></span><h2>xplogger.logger.filesystem module<a class="headerlink" href="#module-xplogger.logger.filesystem" title="Permalink to this headline">¶</a></h2>
+<p>Functions to interface with the filesystem.</p>
+<dl class="py class">
+<dt id="xplogger.logger.filesystem.Logger">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.logger.filesystem.</span></code><code class="sig-name descname"><span class="pre">Logger</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/logger/filesystem.html#Logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.logger.filesystem.Logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#xplogger.logger.base.Logger" title="xplogger.logger.base.Logger"><code class="xref py py-class docutils literal notranslate"><span class="pre">xplogger.logger.base.Logger</span></code></a></p>
+<p>Logger class that writes to the filesystem.</p>
+<dl class="py method">
+<dt id="xplogger.logger.filesystem.Logger.write">
+<code class="sig-name descname"><span class="pre">write</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/logger/filesystem.html#Logger.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.logger.filesystem.Logger.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the log to the filesystem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>log</strong> (<em>LogType</em>) – Log to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="xplogger.logger.filesystem.get_logger_file_path">
+<code class="sig-prename descclassname"><span class="pre">xplogger.logger.filesystem.</span></code><code class="sig-name descname"><span class="pre">get_logger_file_path</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logger_dir</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename_prefix</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename_suffix</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="reference internal" href="../../_modules/xplogger/logger/filesystem.html#get_logger_file_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.logger.filesystem.get_logger_file_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get path to the file (to write logs to).</p>
+</dd></dl>
+
 </div>
-<div class="section" id="xplogger-logger-mlflow-module">
-<h2>xplogger.logger.mlflow module<a class="headerlink" href="#xplogger-logger-mlflow-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-xplogger.logger.mlflow">
+<span id="xplogger-logger-mlflow-module"></span><h2>xplogger.logger.mlflow module<a class="headerlink" href="#module-xplogger.logger.mlflow" title="Permalink to this headline">¶</a></h2>
+<p>Logger class that writes to mlflow.</p>
+<dl class="py class">
+<dt id="xplogger.logger.mlflow.Logger">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.logger.mlflow.</span></code><code class="sig-name descname"><span class="pre">Logger</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/logger/mlflow.html#Logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.logger.mlflow.Logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#xplogger.logger.base.Logger" title="xplogger.logger.base.Logger"><code class="xref py py-class docutils literal notranslate"><span class="pre">xplogger.logger.base.Logger</span></code></a></p>
+<p>Logger class that writes to mlflow.</p>
+<dl class="py method">
+<dt id="xplogger.logger.mlflow.Logger.write">
+<code class="sig-name descname"><span class="pre">write</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/logger/mlflow.html#Logger.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.logger.mlflow.Logger.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the log to mlflow.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>log</strong> (<em>LogType</em>) – Log to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.logger.mlflow.Logger.write_config">
+<code class="sig-name descname"><span class="pre">write_config</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/logger/mlflow.html#Logger.write_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.logger.mlflow.Logger.write_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the config to mlflow.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> (<em>ConfigType</em>) – Config to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.logger.mlflow.Logger.write_metric">
+<code class="sig-name descname"><span class="pre">write_metric</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/logger/mlflow.html#Logger.write_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.logger.mlflow.Logger.write_metric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write metric to mlflow.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>metric</strong> (<em>MetricType</em>) – Metric to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="xplogger-logger-mongo-module">
-<h2>xplogger.logger.mongo module<a class="headerlink" href="#xplogger-logger-mongo-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-xplogger.logger.mongo">
+<span id="xplogger-logger-mongo-module"></span><h2>xplogger.logger.mongo module<a class="headerlink" href="#module-xplogger.logger.mongo" title="Permalink to this headline">¶</a></h2>
+<p>Functions to interface with the mongodb.</p>
+<dl class="py class">
+<dt id="xplogger.logger.mongo.Logger">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.logger.mongo.</span></code><code class="sig-name descname"><span class="pre">Logger</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/logger/mongo.html#Logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.logger.mongo.Logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#xplogger.logger.base.Logger" title="xplogger.logger.base.Logger"><code class="xref py py-class docutils literal notranslate"><span class="pre">xplogger.logger.base.Logger</span></code></a></p>
+<p>Logger class that writes to the mongodb.</p>
+<dl class="py method">
+<dt id="xplogger.logger.mongo.Logger.write">
+<code class="sig-name descname"><span class="pre">write</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/logger/mongo.html#Logger.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.logger.mongo.Logger.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the log to the filesystem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>log</strong> (<em>LogType</em>) – Log to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="xplogger-logger-tensorboard-module">
-<h2>xplogger.logger.tensorboard module<a class="headerlink" href="#xplogger-logger-tensorboard-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-xplogger.logger.tensorboard">
+<span id="xplogger-logger-tensorboard-module"></span><h2>xplogger.logger.tensorboard module<a class="headerlink" href="#module-xplogger.logger.tensorboard" title="Permalink to this headline">¶</a></h2>
+<p>Logger class that writes to tensorboard.</p>
+<dl class="py class">
+<dt id="xplogger.logger.tensorboard.Logger">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.logger.tensorboard.</span></code><code class="sig-name descname"><span class="pre">Logger</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/logger/tensorboard.html#Logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.logger.tensorboard.Logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#xplogger.logger.base.Logger" title="xplogger.logger.base.Logger"><code class="xref py py-class docutils literal notranslate"><span class="pre">xplogger.logger.base.Logger</span></code></a></p>
+<p>Logger class that writes to tensorboardX.</p>
+<dl class="py method">
+<dt id="xplogger.logger.tensorboard.Logger.write">
+<code class="sig-name descname"><span class="pre">write</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/logger/tensorboard.html#Logger.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.logger.tensorboard.Logger.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the log to tensorboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>log</strong> (<em>LogType</em>) – Log to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.logger.tensorboard.Logger.write_config">
+<code class="sig-name descname"><span class="pre">write_config</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/logger/tensorboard.html#Logger.write_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.logger.tensorboard.Logger.write_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the config to tensorboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> (<em>ConfigType</em>) – Config to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.logger.tensorboard.Logger.write_metric">
+<code class="sig-name descname"><span class="pre">write_metric</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/logger/tensorboard.html#Logger.write_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.logger.tensorboard.Logger.write_metric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write metric to tensorboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>metric</strong> (<em>MetricType</em>) – Metric to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="xplogger-logger-wandb-module">
-<h2>xplogger.logger.wandb module<a class="headerlink" href="#xplogger-logger-wandb-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-xplogger.logger.wandb">
+<span id="xplogger-logger-wandb-module"></span><h2>xplogger.logger.wandb module<a class="headerlink" href="#module-xplogger.logger.wandb" title="Permalink to this headline">¶</a></h2>
+<p>Logger class that writes to wandb.</p>
+<dl class="py class">
+<dt id="xplogger.logger.wandb.Logger">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.logger.wandb.</span></code><code class="sig-name descname"><span class="pre">Logger</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/logger/wandb.html#Logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.logger.wandb.Logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#xplogger.logger.base.Logger" title="xplogger.logger.base.Logger"><code class="xref py py-class docutils literal notranslate"><span class="pre">xplogger.logger.base.Logger</span></code></a></p>
+<p>Logger class that writes to wandb.</p>
+<dl class="py method">
+<dt id="xplogger.logger.wandb.Logger.write">
+<code class="sig-name descname"><span class="pre">write</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/logger/wandb.html#Logger.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.logger.wandb.Logger.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write log to wandb.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>log</strong> (<em>LogType</em>) – Log to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.logger.wandb.Logger.write_config">
+<code class="sig-name descname"><span class="pre">write_config</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/logger/wandb.html#Logger.write_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.logger.wandb.Logger.write_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write config to wandb.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> (<em>ConfigType</em>) – Config to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.logger.wandb.Logger.write_metric">
+<code class="sig-name descname"><span class="pre">write_metric</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/logger/wandb.html#Logger.write_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.logger.wandb.Logger.write_metric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write metric to wandb.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>metric</strong> (<em>MetricType</em>) – Metric to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-xplogger.logger">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-xplogger.logger" title="Permalink to this headline">¶</a></h2>
@@ -230,37 +402,29 @@
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="xplogger.parser.html" class="btn btn-neutral float-right" title="xplogger.parser package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="xplogger.html" class="btn btn-neutral float-left" title="xplogger package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="xplogger.parser.html" class="btn btn-neutral float-right" title="xplogger.parser package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="xplogger.html" class="btn btn-neutral float-left" title="xplogger package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020, Shagun Sodhani
+        &#169; Copyright 2020, Shagun Sodhani.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

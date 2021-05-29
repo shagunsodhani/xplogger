@@ -4,29 +4,28 @@ import gzip
 import json
 from collections import UserList
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, Iterable, List, Optional, Set, Tuple
 
 import pandas as pd
 
-from xplogger import utils
+from xplogger import utils as xplogger_utils
+from xplogger.parser import utils as parser_utils
+from xplogger.parser.experiment import utils as experiment_utils
 from xplogger.types import ConfigType
-
-ExperimentMetricType = Dict[str, pd.DataFrame]
-ExperimentInfoType = Dict[Any, Any]
 
 
 class Experiment:
     def __init__(
         self,
         configs: List[ConfigType],
-        metrics: ExperimentMetricType,
-        info: Optional[ExperimentInfoType] = None,
+        metrics: experiment_utils.ExperimentMetricType,
+        info: Optional[experiment_utils.ExperimentInfoType] = None,
     ):
         """Class to hold the experiment data.
 
         Args:
             configs (List[ConfigType]): Configs used for the experiment
-            metrics (ExperimentMetricType): Dictionary mapping strings
+            metrics (experiment_utils.ExperimentMetricType): Dictionary mapping strings
                 to dataframes. Keys could be "train", "validation", "test"
                 and corresponding dataframes would have the data for these
                 modes.
@@ -54,14 +53,14 @@ class Experiment:
         * metrics are stored in [`feather` format](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_feather.html).
         * info is stored in the gzip format.
         """
-        utils.make_dir(dir_path)
+        xplogger_utils.make_dir(dir_path)
         path_to_save = f"{dir_path}/config.jsonl"
         with open(path_to_save, "w") as f:
             for config in self.configs:
                 f.write(json.dumps(config) + "\n")
 
         metric_dir = f"{dir_path}/metric"
-        utils.make_dir(metric_dir)
+        xplogger_utils.make_dir(metric_dir)
         for key in self.metrics:
             path_to_save = f"{metric_dir}/{key}"
             if self.metrics[key].empty:
@@ -79,11 +78,11 @@ class Experiment:
             return NotImplemented
         return (
             self.configs == other.configs
-            and utils.compare_keys_in_dict(self.metrics, other.metrics)
+            and xplogger_utils.compare_keys_in_dict(self.metrics, other.metrics)
             and all(
                 self.metrics[key].equals(other.metrics[key]) for key in self.metrics
             )
-            and utils.compare_keys_in_dict(self.info, other.info)
+            and xplogger_utils.compare_keys_in_dict(self.info, other.info)
             and all(self.info[key] == other.info[key] for key in self.info)
         )
 
@@ -110,52 +109,6 @@ def deserialize(dir_path: str) -> Experiment:
         info = json.loads(f.read().decode("utf-8"))  # type: ignore[attr-defined]
 
     return Experiment(configs=configs, metrics=metrics, info=info)
-
-
-def return_first_config(config_lists: List[List[ConfigType]]) -> List[ConfigType]:
-    """Return the first config list, from a list of list of configs, else return empty list.
-
-    Args:
-        config_lists (List[List[ConfigType]])
-
-    Returns:
-        List[ConfigType]
-    """
-    for config_list in config_lists:
-        if len(config_list) > 0:
-            return config_list
-    return []
-
-
-def concat_metrics(metric_list: List[ExperimentMetricType]) -> ExperimentMetricType:
-    """Concatenate the metrics.
-
-    Args:
-        metric_list (List[ExperimentMetricType])
-
-    Returns:
-        ExperimentMetricType
-    """
-    concatenated_metrics = {}
-    metric_keys = metric_list[0].keys()
-    for key in metric_keys:
-        concatenated_metrics[key] = pd.concat([metric[key] for metric in metric_list])
-    return concatenated_metrics
-
-
-def return_first_infos(info_list: List[ExperimentInfoType]) -> ExperimentInfoType:
-    """Return the first info, from a list of infos. Otherwise return empty info.
-
-    Args:
-        info_list (List[ExperimentInfoType])
-
-    Returns:
-        ExperimentInfoType
-    """
-    for info in info_list:
-        if info is not None:
-            return info
-    return {}
 
 
 class ExperimentSequence(UserList):  # type: ignore
@@ -204,29 +157,60 @@ class ExperimentSequence(UserList):  # type: ignore
         self,
         aggregate_configs: Callable[
             [List[List[ConfigType]]], List[ConfigType]
-        ] = return_first_config,
+        ] = experiment_utils.return_first_config,
         aggregate_metrics: Callable[
-            [List[ExperimentMetricType]], ExperimentMetricType
-        ] = concat_metrics,
+            [List[experiment_utils.ExperimentMetricType]],
+            experiment_utils.ExperimentMetricType,
+        ] = experiment_utils.concat_metrics,
         aggregate_infos: Callable[
-            [List[ExperimentInfoType]], ExperimentInfoType
-        ] = return_first_infos,
+            [List[experiment_utils.ExperimentInfoType]],
+            experiment_utils.ExperimentInfoType,
+        ] = experiment_utils.return_first_infos,
     ) -> Experiment:
         """Aggregate a sequence of experiments into a single experiment.
 
         Args:
             aggregate_configs (Callable[ [List[List[ConfigType]]], List[ConfigType] ], optional):
-                Function to aggregate the configs. Defaults to return_first_config.
-            aggregate_metrics (Callable[ [List[ExperimentMetricType]], ExperimentMetricType ], optional):
-                Function to aggregate the metrics. Defaults to concat_metrics.
-            aggregate_infos (Callable[ [List[ExperimentInfoType]], ExperimentInfoType ], optional):
-                Function to aggregate the information. Defaults to return_first_infos.
+                Function to aggregate the configs. Defaults to experiment_utils.return_first_config.
+            aggregate_metrics (Callable[ [List[experiment_utils.ExperimentMetricType]], ExperimentMetricType ], optional):
+                Function to aggregate the metrics. Defaults to experiment_utils.concat_metrics.
+            aggregate_infos (Callable[ [List[experiment_utils.ExperimentInfoType]], ExperimentInfoType ], optional):
+                Function to aggregate the information. Defaults to experiment_utils.return_first_infos.
 
         Returns:
             Experiment: Aggregated Experiment.
         """
         return Experiment(
-            configs=aggregate_configs(*[exp.config for exp in self.data]),
-            metrics=aggregate_metrics(*[exp.metrics for exp in self.data]),
-            info=aggregate_infos(*[exp.info for exp in self.data]),
+            configs=aggregate_configs([exp.configs for exp in self.data]),
+            metrics=aggregate_metrics([exp.metrics for exp in self.data]),
+            info=aggregate_infos([exp.info for exp in self.data]),
         )
+
+    def get_param_groups(
+        self, params_to_exclude: Iterable[str]
+    ) -> Tuple[ConfigType, Dict[str, Set[Any]]]:
+        """Return two groups of params, one which is fixed across the experiments and one which varies.
+
+        This function is useful when understanding the effect of different parameters on the model's
+        performance. One could plot the performance of the different experiments, as a function of the
+        parameters that vary.
+
+        Args:
+            params_to_exclude (Iterable[str]): These parameters are not returned in either group.
+                This is useful for ignoring parameters like `time when the experiment was started`
+                since these parameters should not affect the performance. In absence of this argument,
+                all such parameters will likely be returned with the group of varying parameters.
+
+        Returns:
+            Tuple[ConfigType, Dict[str, Set[Any]]]: The first group/config contains the params which are fixed across the experiments.
+                It maps these params to their `default` values, hence it should be a subset of any config.
+                The second group/config contains the params which vary across the experiments.
+                It maps these params to the set of values they take.
+        """
+        return parser_utils.get_param_groups(
+            configs=(experiment.config for experiment in self.data),
+            params_to_exclude=params_to_exclude,
+        )
+
+
+ExperimentList = ExperimentSequence
