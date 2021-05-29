@@ -1,4 +1,4 @@
-"""Utilit functions to work with the experiment data"""
+"""Utilit functions to work with the experiment data."""
 
 from typing import Any, Dict, List
 
@@ -45,7 +45,7 @@ def concat_metrics(metric_list: List[ExperimentMetricType]) -> ExperimentMetricT
 def _compute_sum_or_mean_of_metrics_for_one_mode(
     metric_list: List[ExperimentMetricType], mode: str, return_mean: bool = True
 ) -> pd.DataFrame:
-    metric_to_return: Dict[str, List[Any]] = {}
+    metric_to_return: Dict[str, Any] = {}
     min_len = np.iinfo(np.int32).max
     for metric in metric_list:
         df = metric[mode]
@@ -90,7 +90,6 @@ def _compute_sum_or_mean_of_metrics(
     Returns:
         ExperimentMetricType
     """
-
     concatenated_metrics = {}
     metric_keys = metric_list[0].keys()
     for mode in metric_keys:
