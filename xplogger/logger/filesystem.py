@@ -2,7 +2,7 @@
 
 import json
 import logging
-import os
+import pathlib
 from functools import partial
 from typing import Optional
 
@@ -163,5 +163,5 @@ def get_logger_file_path(
     """Get path to the file (to write logs to)."""
     if filename is None:
         filename = f"{filename_prefix}{filename_suffix}.jsonl"
-    logger_file_path = os.path.join(logger_dir, filename)
+    logger_file_path = str(pathlib.Path(logger_dir, filename))
     return logger_file_path
