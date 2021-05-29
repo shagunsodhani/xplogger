@@ -87,11 +87,8 @@ class Parser(BaseParser):
             LogType: First instance of a log
 
         """
-        paths = glob.iglob(filepath_pattern)
-        for file_path in paths:
-            for log in self._parse_file(file_path):
-                if log is not None:
-                    return log
+        for log in self.parse(filepath_pattern=filepath_pattern):
+            return log
         return None
 
     def parse_last_log(self, filepath_pattern: str) -> Optional[LogType]:
@@ -108,9 +105,6 @@ class Parser(BaseParser):
 
         """
         last_log: Optional[LogType] = None
-        paths = glob.iglob(filepath_pattern)
-        for file_path in paths:
-            for log in self._parse_file(file_path=file_path):
-                if log is not None:
-                    last_log = log
+        for last_log in self.parse(filepath_pattern=filepath_pattern):
+            pass
         return last_log
