@@ -20,6 +20,14 @@ xplogger.parser.experiment.parser module
    :undoc-members:
    :show-inheritance:
 
+xplogger.parser.experiment.utils module
+---------------------------------------
+
+.. automodule:: xplogger.parser.experiment.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 
