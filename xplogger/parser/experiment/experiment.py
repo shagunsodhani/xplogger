@@ -2,7 +2,7 @@
 
 import gzip
 import json
-from collections import UserList
+from collections import UserDict, UserList
 from pathlib import Path
 from typing import Any, Callable, Dict, Iterable, List, Optional, Set, Tuple
 
@@ -12,7 +12,7 @@ import pandas as pd
 from xplogger import utils as xplogger_utils
 from xplogger.parser import utils as parser_utils
 from xplogger.parser.experiment import utils as experiment_utils
-from xplogger.types import ConfigType, ValueType
+from xplogger.types import ConfigType
 
 
 class Experiment:
@@ -282,3 +282,76 @@ class ExperimentSequence(UserList):  # type: ignore
 
 
 ExperimentList = ExperimentSequence
+
+
+class ExperimentSequenceDict(UserDict):  # type: ignore
+    def __init__(self, experiment_sequence_dict: Dict[Any, ExperimentSequence]):
+        """Dict-like interface to a collection of experiment sequences."""
+        super().__init__(experiment_sequence_dict)
+
+    def filter(
+        self, filter_fn: Callable[[str, Experiment], bool]
+    ) -> "ExperimentSequenceDict":
+        """Filter experiment sequences in the dict.
+
+        Args:
+            filter_fn: Function to filter an experiment sequence
+
+        Returns:
+            ExperimentSequenceDict: A dict of sequence of experiments for which the
+            filter condition is true
+        """
+        return ExperimentSequenceDict(
+            {
+                key: experiment_sequence
+                for key, experiment_sequence in self.data.items()
+                if filter_fn(key, experiment_sequence)
+            }
+        )
+
+    def aggregate_metrics(
+        self,
+        get_experiment_name: Callable[[str], str],
+        metric_names: List[str],
+        x_name: str,
+        mode: str,
+    ) -> Dict[str, np.ndarray]:
+        """Given a list of metric names, aggreate the metrics across different
+        experiment sequences in a dictionary indexed by the metric name.
+
+        Args:
+            get_experiment_name (Callable[[str], str]): Function to map the
+                given key with a name.
+            metric_names (List[str]): Names of metrics to aggregate.
+            x_name (str): The column/meric with respect to which other metrics
+                are tracked. For example `steps` or `epochs`. This aggregated values
+                for this metric are also returned.
+            mode (str): Mode when selecting metrics. Recall that `experiment.metrics`
+                is a dictionary mapping `modes` to dataframes.
+
+        Returns:
+            Dict[str, np.ndarray]: dictionary mapping metric name to 2-dimensional
+                numpy array of metric values. The first dimension corresponds to the
+                experiments and the second corresponds to metrics per experiment.
+        """
+        metric_dict: Dict[Any, List[np.ndarray]] = {}
+        min_len = float("inf")
+
+        for key, experiment_sequence in self.data.items():
+            for metric in metric_names:
+                metric_name = f"{get_experiment_name(key)}_{metric}"
+                if metric_name not in metric_dict:
+                    metric_dict[metric_name] = []
+                for experiment in experiment_sequence:
+                    metric_to_append = experiment.metrics[mode][metric].to_numpy()
+                    min_len = min(min_len, len(metric_to_append))
+                    metric_dict[metric_name].append(metric_to_append)
+        min_len = int(min_len)
+        for metric_name in metric_dict:
+            metric_dict[metric_name] = np.asarray(
+                [_metric[:min_len] for _metric in metric_dict[metric_name]]
+            )
+        metric_dict[x_name] = (
+            self.data[key][0].metrics[mode][x_name].to_numpy()[:min_len]
+        )
+        return metric_dict
