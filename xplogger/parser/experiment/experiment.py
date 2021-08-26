@@ -2,10 +2,11 @@
 
 import gzip
 import json
-from collections import UserList
+from collections import UserDict, UserList
 from pathlib import Path
 from typing import Any, Callable, Dict, Iterable, List, Optional, Set, Tuple
 
+import numpy as np
 import pandas as pd
 
 from xplogger import utils as xplogger_utils
@@ -212,5 +213,145 @@ class ExperimentSequence(UserList):  # type: ignore
             params_to_exclude=params_to_exclude,
         )
 
+    def aggregate_metrics(
+        self,
+        metric_names: List[str],
+        x_name: str,
+        x_min: int,
+        x_max: int,
+        mode: str,
+        drop_duplicates: bool,
+        verbose: bool,
+    ) -> Dict[str, np.ndarray]:
+        """Given a list of metric names, aggreate the metrics across different
+        experiments in an experiment sequence.
+
+        Args:
+            metric_names (List[str]): Names of metrics to aggregate.
+            x_name (str): The column/meric with respect to which other metrics
+                are tracked. For example `steps` or `epochs`. This aggregated values
+                for this metric are also returned.
+            x_min (int): Only those experiments are considered (during aggregation)
+                where the max value of `x_name` is greater than or equal to `x_min`.
+            x_max (int): When aggregating experiments, consider metric values such
+                that the max value of `x_name` corresponding to metric values
+                is less than or equal to `x_max`
+            mode (str): Mode when selecting metrics. Recall that `experiment.metrics`
+                is a dictionary mapping `modes` to dataframes.
+            drop_duplicates (bool): Should drop duplicate values in the `x_name` column
+            verbose (bool): Should print additional information
+
+        Returns:
+            Dict[str, np.ndarray]: dictionary mapping metric name to 2-dimensional
+                numpy array of metric values. The first dimension corresponds to the
+                experiments and the second corresponds to metrics per experiment.
+        """
+        metric_dict: Dict[str, np.ndarray] = {name: [] for name in metric_names}
+        min_len = float("inf")
+        num_skipped_experiments = 0
+        for exp in self.data:
+            if mode not in exp.metrics:
+                num_skipped_experiments += 1
+                continue
+            df = exp.metrics[mode]
+            if any(name not in df for name in metric_names):
+                num_skipped_experiments += 1
+                continue
+            filters = df[x_name] <= x_max
+            df = df[filters]
+            if drop_duplicates:
+                df = df.drop_duplicates(subset=[x_name], keep="first")
+            if df[x_name].iloc[-1] >= x_min and all(
+                len(df[name]) > 0 for name in metric_names
+            ):
+                for name in metric_names:
+                    metric_dict[name].append(df[name].to_numpy())
+                min_len = min(min_len, len(metric_dict[name][-1]))
+        if num_skipped_experiments > 0 and verbose:
+            print(
+                f"Skipped {num_skipped_experiments} experiments while parsing {len(self.data)} experiments."
+            )
+        if num_skipped_experiments == len(self.data):
+            return metric_dict
+        min_len = int(min_len)
+        metric_dict = {
+            name: np.asarray([x[:min_len].copy() for x in metric_list])
+            for name, metric_list in metric_dict.items()
+        }
+        return metric_dict
+
 
 ExperimentList = ExperimentSequence
+
+
+class ExperimentSequenceDict(UserDict):  # type: ignore
+    def __init__(self, experiment_sequence_dict: Dict[Any, ExperimentSequence]):
+        """Dict-like interface to a collection of experiment sequences."""
+        super().__init__(experiment_sequence_dict)
+
+    def filter(
+        self, filter_fn: Callable[[str, Experiment], bool]
+    ) -> "ExperimentSequenceDict":
+        """Filter experiment sequences in the dict.
+
+        Args:
+            filter_fn: Function to filter an experiment sequence
+
+        Returns:
+            ExperimentSequenceDict: A dict of sequence of experiments for which the
+            filter condition is true
+        """
+        return ExperimentSequenceDict(
+            {
+                key: experiment_sequence
+                for key, experiment_sequence in self.data.items()
+                if filter_fn(key, experiment_sequence)
+            }
+        )
+
+    def aggregate_metrics(
+        self,
+        get_experiment_name: Callable[[str], str],
+        metric_names: List[str],
+        x_name: str,
+        mode: str,
+    ) -> Dict[str, np.ndarray]:
+        """Given a list of metric names, aggreate the metrics across different
+        experiment sequences in a dictionary indexed by the metric name.
+
+        Args:
+            get_experiment_name (Callable[[str], str]): Function to map the
+                given key with a name.
+            metric_names (List[str]): Names of metrics to aggregate.
+            x_name (str): The column/meric with respect to which other metrics
+                are tracked. For example `steps` or `epochs`. This aggregated values
+                for this metric are also returned.
+            mode (str): Mode when selecting metrics. Recall that `experiment.metrics`
+                is a dictionary mapping `modes` to dataframes.
+
+        Returns:
+            Dict[str, np.ndarray]: dictionary mapping metric name to 2-dimensional
+                numpy array of metric values. The first dimension corresponds to the
+                experiments and the second corresponds to metrics per experiment.
+        """
+        metric_dict: Dict[Any, List[np.ndarray]] = {}
+        min_len = float("inf")
+
+        for key, experiment_sequence in self.data.items():
+            for metric in metric_names:
+                metric_name = f"{get_experiment_name(key)}_{metric}"
+                if metric_name not in metric_dict:
+                    metric_dict[metric_name] = []
+                for experiment in experiment_sequence:
+                    metric_to_append = experiment.metrics[mode][metric].to_numpy()
+                    min_len = min(min_len, len(metric_to_append))
+                    metric_dict[metric_name].append(metric_to_append)
+        min_len = int(min_len)
+        for metric_name in metric_dict:
+            metric_dict[metric_name] = np.asarray(
+                [_metric[:min_len] for _metric in metric_dict[metric_name]]
+            )
+        metric_dict[x_name] = (
+            self.data[key][0].metrics[mode][x_name].to_numpy()[:min_len]
+        )
+        return metric_dict
