@@ -6,12 +6,13 @@ from collections import UserList
 from pathlib import Path
 from typing import Any, Callable, Dict, Iterable, List, Optional, Set, Tuple
 
+import numpy as np
 import pandas as pd
 
 from xplogger import utils as xplogger_utils
 from xplogger.parser import utils as parser_utils
 from xplogger.parser.experiment import utils as experiment_utils
-from xplogger.types import ConfigType
+from xplogger.types import ConfigType, ValueType
 
 
 class Experiment:
@@ -211,6 +212,73 @@ class ExperimentSequence(UserList):  # type: ignore
             configs=(experiment.config for experiment in self.data),
             params_to_exclude=params_to_exclude,
         )
+
+    def aggregate_metrics(
+        self,
+        metric_names: List[str],
+        x_name: str,
+        x_min: int,
+        x_max: int,
+        mode: str,
+        drop_duplicates: bool,
+        verbose: bool,
+    ) -> Dict[str, np.ndarray]:
+        """Given a list of metric names, aggreate the metrics across different
+        experiments in an experiment sequence.
+
+        Args:
+            metric_names (List[str]): Names of metrics to aggregate.
+            x_name (str): The column/meric with respect to which other metrics
+                are tracked. For example `steps` or `epochs`. This aggregated values
+                for this metric are also returned.
+            x_min (int): Only those experiments are considered (during aggregation)
+                where the max value of `x_name` is greater than or equal to `x_min`.
+            x_max (int): When aggregating experiments, consider metric values such
+                that the max value of `x_name` corresponding to metric values
+                is less than or equal to `x_max`
+            mode (str): Mode when selecting metrics. Recall that `experiment.metrics`
+                is a dictionary mapping `modes` to dataframes.
+            drop_duplicates (bool): Should drop duplicate values in the `x_name` column
+            verbose (bool): Should print additional information
+
+        Returns:
+            Dict[str, np.ndarray]: dictionary mapping metric name to 2-dimensional
+                numpy array of metric values. The first dimension corresponds to the
+                experiments and the second corresponds to metrics per experiment.
+        """
+        metric_dict: Dict[str, np.ndarray] = {name: [] for name in metric_names}
+        min_len = float("inf")
+        num_skipped_experiments = 0
+        for exp in self.data:
+            if mode not in exp.metrics:
+                num_skipped_experiments += 1
+                continue
+            df = exp.metrics[mode]
+            if any(name not in df for name in metric_names):
+                num_skipped_experiments += 1
+                continue
+            filters = df[x_name] <= x_max
+            df = df[filters]
+            if drop_duplicates:
+                df = df.drop_duplicates(subset=[x_name], keep="first")
+            if df[x_name].iloc[-1] >= x_min and all(
+                len(df[name]) > 0 for name in metric_names
+            ):
+                for name in metric_names:
+                    metric_dict[name].append(df[name].to_numpy())
+                min_len = min(min_len, len(metric_dict[name][-1]))
+        if num_skipped_experiments > 0 and verbose:
+            print(
+                f"Skipped {num_skipped_experiments} experiments while parsing {len(self.data)} experiments."
+            )
+        if num_skipped_experiments == len(self.data):
+            return metric_dict
+        min_len = int(min_len)
+        metric_dict = {
+            name: np.asarray([x[:min_len].copy() for x in metric_list])
+            for name, metric_list in metric_dict.items()
+        }
+        return metric_dict
 
 
 ExperimentList = ExperimentSequence
