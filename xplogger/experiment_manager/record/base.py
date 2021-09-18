@@ -15,7 +15,7 @@ def get_nested_item(data: dict[Any, Any], keys: list[Any]) -> Any:  # type: igno
     return reduce(lambda seq, key: seq[key], keys, data)
 
 
-class Record(UserDict[str, Any]):
+class Record(UserDict):
     def __init__(self, record: dict[str, Any]):
         super().__init__(record)
 

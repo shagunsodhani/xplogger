@@ -3,8 +3,8 @@ from __future__ import annotations
 
 import collections
 import shutil
-from collections import UserList
-from typing import Any
+from collections import OrderedDict, UserList
+from typing import Any, List
 
 import pymongo
 import ray
@@ -137,26 +137,6 @@ class RecordList(UserList):
         exp_seq = ExperimentSequence([exp for exp in experiments if exp is not None])
         return exp_seq
 
-    @ray.remote
-    def ray_load_experiments(
-        self,
-        load_experiment_from_dir: Any,
-    ) -> ExperimentSequence:
-        """Load experiments."""
-        futures = [
-            base_record.ray_load_experiment.remote(
-                record=record,
-                load_experiment_from_dir=load_experiment_from_dir,
-            )
-            for record in self.data
-        ]
-        return futures
-        # print(f"queued jobs in {load_experiment_from_dir}")
-        # experiments = ray.get(futures)
-
-        # exp_seq = ExperimentSequence([exp for exp in experiments if exp is not None])
-        # return exp_seq
-
     def make_experiment_sequence_dict_groups_and_hyperparams(
         self,
         viz_params: list[str],
@@ -185,33 +165,22 @@ class RecordList(UserList):
     ]:
         """Make experiment groups."""
         groups, hyperparams = self.get_groups_and_hyperparams(viz_params=viz_params)
-        from collections import OrderedDict
 
         groups = OrderedDict(groups)
-        from time import time
 
-        print("game on!")
-        start = time()
         experiment_sequence_dict = ExperimentSequenceDict(
             {
-                key: record_list.ray_load_experiments.remote(
-                    self=self, load_experiment_from_dir=load_experiment_from_dir
+                key: ray_load_experiments.remote(
+                    record_list=record_list,
+                    load_experiment_from_dir=load_experiment_from_dir,
                 )
                 for key, record_list in groups.items()
             }
         )
-
-        # print(record_list)
-
-        print(f"queued jobs in {time() - start}")
-
-        experiment_sequence_dict = {
-            key: ExperimentSequence(
-                [exp for exp in ray.get(ray.get(futures)) if exp is not None]
+        for key in experiment_sequence_dict:
+            experiment_sequence_dict[key] = ExperimentSequence(
+                ray.get(experiment_sequence_dict[key])
             )
-            for key, futures in experiment_sequence_dict.items()
-        }
-        print(f"finished jobs in {time() - start}")
         return experiment_sequence_dict, groups, hyperparams
 
     def get_unique(self, key_func) -> RecordList:
@@ -223,3 +192,20 @@ class RecordList(UserList):
                 seen_keys.add(key)
                 unique_records.append(record)
         return RecordList(unique_records)
+
+
+@ray.remote
+def ray_load_experiments(
+    record_list,
+    load_experiment_from_dir: Any,
+) -> List:
+    """Load experiments."""
+    futures = [
+        base_record.ray_load_experiment.remote(
+            record=record,
+            load_experiment_from_dir=load_experiment_from_dir,
+        )
+        for record in record_list.data
+    ]
+
+    return ray.get(futures)
