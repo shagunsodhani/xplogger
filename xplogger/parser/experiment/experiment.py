@@ -311,7 +311,7 @@ class ExperimentSequenceDict(UserDict):  # type: ignore
 
     def aggregate_metrics(
         self,
-        get_experiment_name: Callable[[str], str],
+        get_experiment_name: Callable[[Dict[str, Any]], str],
         metric_names: List[str],
         x_name: str,
         mode: str,
@@ -339,7 +339,7 @@ class ExperimentSequenceDict(UserDict):  # type: ignore
 
         for key, experiment_sequence in self.data.items():
             for metric in metric_names:
-                metric_name = f"{get_experiment_name(key)}_{metric}"
+                metric_name = f"{get_experiment_name(key, mode=mode)}_{metric}"
                 if metric_name not in metric_dict:
                     metric_dict[metric_name] = []
                 for experiment in experiment_sequence:

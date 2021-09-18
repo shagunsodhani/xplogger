@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import math
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 from bokeh.plotting import figure
 
@@ -16,27 +16,32 @@ def plot_experiment_sequence_dict(
     y_metric_list: list[str],
     x_metric: str,
     mode: str,
+    p: Optional[figure],
+    colors=None,
+    color_offset: int = 0,
 ) -> figure:
     #
     data = exp_seq_dict.aggregate_metrics(
         get_experiment_name=get_experiment_name,
-        metric_list=y_metric_list,
-        x_metric=x_metric,
+        metric_names=y_metric_list,
+        x_name=x_metric,
         mode=mode,
     )
 
-    p = figure(
-        title=metadata_for_plot.get("title", "Default Title"),
-        x_axis_label=x_metric,
-        y_axis_label="-".join(y_metric_list),
-        tooltips="(@x, @y)",
-    )
-    try:
-        colors = color_palette[len(data)]
-    except KeyError:
-        # this could be because we have fewer data points than 3
-        colors = color_palette[3][: len(data)]
-    for index, (key, y) in enumerate(data.items()):
+    if not p:
+        p = figure(
+            title=metadata_for_plot.get("title", "Default Title"),
+            x_axis_label=x_metric,
+            y_axis_label="-".join(y_metric_list),
+            tooltips="(@x, @y)",
+        )
+    if colors is None:
+        try:
+            colors = color_palette[len(data) + color_offset]
+        except KeyError:
+            # this could be because we have fewer data points than 3
+            colors = color_palette[3][: len(data) + color_offset]
+    for index, (key, y) in enumerate(data.items(), color_offset):
         if key == x_metric:
             continue
         x = data[x_metric]
