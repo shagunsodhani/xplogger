@@ -227,6 +227,7 @@ class ExperimentSequence(UserList):  # type: ignore
         """Given a list of metric names, aggreate the metrics across different
         experiments in an experiment sequence.
 
+
         Args:
             metric_names (List[str]): Names of metrics to aggregate.
             x_name (str): The column/meric with respect to which other metrics

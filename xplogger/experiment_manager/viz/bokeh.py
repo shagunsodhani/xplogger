@@ -17,9 +17,9 @@ def plot_experiment_sequence_dict(
     x_metric: str,
     mode: str,
     p: Optional[figure],
-    colors=None,
+    colors: Optional[list[str]] = None,
     color_offset: int = 0,
-    kwargs_for_exp_seq_dict=None,
+    kwargs_for_exp_seq_dict: Optional[dict[str, Any]] = None,
 ) -> figure:
     #
     if not kwargs_for_exp_seq_dict:
