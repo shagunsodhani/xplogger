@@ -19,13 +19,17 @@ def plot_experiment_sequence_dict(
     p: Optional[figure],
     colors=None,
     color_offset: int = 0,
+    kwargs_for_exp_seq_dict=None,
 ) -> figure:
     #
+    if not kwargs_for_exp_seq_dict:
+        kwargs_for_exp_seq_dict = {}
     data = exp_seq_dict.aggregate_metrics(
         get_experiment_name=get_experiment_name,
         metric_names=y_metric_list,
         x_name=x_metric,
         mode=mode,
+        **kwargs_for_exp_seq_dict
     )
 
     if not p:

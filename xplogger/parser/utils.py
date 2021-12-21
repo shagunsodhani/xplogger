@@ -79,6 +79,9 @@ def compare_logs(
 
 def parse_json(line: str) -> Optional[LogType]:
     """Parse a line as JSON string."""
+    line = line.strip()
+    if not (line.startswith("{") and line.endswith("}")):
+        return None
     log: Optional[LogType]
     try:
         log = json.loads(line)
