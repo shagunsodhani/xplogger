@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+# import matplotlib.pyplot as plt
 import pandas as pd
 
 from xplogger import utils as xplogger_utils
@@ -24,7 +25,7 @@ class Result:
     metrics: dict[str, pd.DataFrame]
     info: dict[str, Any]
 
-    def _get_json_dump(self) -> str:
+    def _get_json_dump(self):
         return json.dumps(
             {
                 "id": self.id,
@@ -93,9 +94,9 @@ def deserialize(dir_path: Path):
     )
 
 
-class ResultDict(UserDict):
-    def __init__(self, path: Path, results: "dict[Result]"):
-        """Dict-like interface to a collection of results."""
+class ResultDB(UserDict):
+    def __init__(self, path: Path, results: "list[Result]"):
+        """List-like interface to a collection of Experiments."""
         super().__init__(results)
         self.path = path
         self.load_from_filesystem()

@@ -11,7 +11,7 @@ import ray
 from xplogger.parser.experiment.experiment import Experiment, ExperimentSequence
 
 
-def get_nested_item(data: dict[Any, Any], keys: list[Any]) -> Any:  # type: ignore
+def get_nested_item(data: dict[Any, Any], keys: list[Any]) -> Any:
     return reduce(lambda seq, key: seq[key] if key in seq else None, keys, data)
 
 

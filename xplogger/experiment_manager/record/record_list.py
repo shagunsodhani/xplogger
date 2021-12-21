@@ -4,7 +4,7 @@ from __future__ import annotations
 import collections
 import shutil
 from collections import OrderedDict, UserList
-from typing import Any, List
+from typing import Any, Callable
 
 import pymongo
 import ray
@@ -14,10 +14,13 @@ from omegaconf import DictConfig, OmegaConf
 from xplogger.experiment_manager.record import base as base_record
 from xplogger.experiment_manager.record import omegaconf as oc_utils
 from xplogger.parser.experiment.experiment import (
+    Experiment,
     ExperimentSequence,
     ExperimentSequenceDict,
 )
 from xplogger.types import ValueType
+
+LoadExperientFromDirType = Callable[[str], Experiment]
 
 
 class RecordList(UserList):
@@ -124,7 +127,7 @@ class RecordList(UserList):
 
     def load_experiments(
         self,
-        load_experiment_from_dir: Any,
+        load_experiment_from_dir: LoadExperientFromDirType,
     ) -> ExperimentSequence:
         """Load experiments."""
         experiments = [
@@ -140,7 +143,7 @@ class RecordList(UserList):
     def make_experiment_sequence_dict_groups_and_hyperparams(
         self,
         viz_params: list[str],
-        load_experiment_from_dir: Any,
+        load_experiment_from_dir: LoadExperientFromDirType,
     ) -> tuple[
         ExperimentSequenceDict, dict[Any, RecordList], dict[str, set[ValueType]]
     ]:
@@ -159,7 +162,7 @@ class RecordList(UserList):
     def ray_make_experiment_sequence_dict_groups_and_hyperparams(
         self,
         viz_params: list[str],
-        load_experiment_from_dir: Any,
+        load_experiment_from_dir: LoadExperientFromDirType,
     ) -> tuple[
         ExperimentSequenceDict, dict[Any, RecordList], dict[str, set[ValueType]]
     ]:
@@ -196,9 +199,9 @@ class RecordList(UserList):
 
 @ray.remote
 def ray_load_experiments(
-    record_list,
-    load_experiment_from_dir: Any,
-) -> List:
+    record_list: RecordList,
+    load_experiment_from_dir: LoadExperientFromDirType,
+) -> Any:
     """Load experiments."""
     futures = [
         base_record.ray_load_experiment.remote(
