@@ -221,6 +221,7 @@ class ExperimentSequence(UserList):  # type: ignore
         x_max: int,
         mode: str,
         drop_duplicates: bool,
+        dropna: bool,
         verbose: bool,
     ) -> Dict[str, np.ndarray]:
         """Given a list of metric names, aggreate the metrics across different
@@ -261,6 +262,10 @@ class ExperimentSequence(UserList):  # type: ignore
             df = df[filters]
             if drop_duplicates:
                 df = df.drop_duplicates(subset=[x_name], keep="first")
+            if df.isnull().any().any():
+                print("df contains NaNs")
+            if dropna:
+                df = df.dropna(subset=metric_names, axis=0)
             if df[x_name].iloc[-1] >= x_min and all(
                 len(df[name]) > 0 for name in metric_names
             ):
