@@ -47,7 +47,7 @@ class Experiment:
             return self.configs[-1]
         return None
 
-    def serialize(self, dir_path: str) -> None:
+    def serialize(self, dir_path: Path) -> None:
         """Serialize the experiment data and store at `dir_path`.
 
         * configs are stored as jsonl (since there are only a few configs per experiment) in a file called `config.jsonl`.
@@ -60,7 +60,7 @@ class Experiment:
             for config in self.configs:
                 f.write(json.dumps(config) + "\n")
 
-        metric_dir = f"{dir_path}/metric"
+        metric_dir = dir_path.joinpath("metric")
         xplogger_utils.make_dir(metric_dir)
         for key in self.metrics:
             path_to_save = f"{metric_dir}/{key}"
@@ -345,7 +345,8 @@ class ExperimentSequenceDict(UserDict):  # type: ignore
 
         for key, experiment_sequence in self.data.items():
             for metric in metric_names:
-                metric_name = f"{get_experiment_name(key, mode=mode)}_{metric}"
+                metric_name = f"{get_experiment_name(key, mode=mode)}_{metric}"  # type: ignore
+                # Unexpected keyword argument "mode"
                 if metric_name not in metric_dict:
                     metric_dict[metric_name] = []
                 for experiment in experiment_sequence:

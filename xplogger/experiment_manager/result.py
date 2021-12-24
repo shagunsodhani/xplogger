@@ -6,7 +6,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-# import matplotlib.pyplot as plt
 import pandas as pd
 
 from xplogger import utils as xplogger_utils
@@ -25,7 +24,7 @@ class Result:
     metrics: dict[str, pd.DataFrame]
     info: dict[str, Any]
 
-    def _get_json_dump(self):
+    def _get_json_dump(self) -> str:
         return json.dumps(
             {
                 "id": self.id,
@@ -40,7 +39,7 @@ class Result:
             default=to_json_serializable,
         )
 
-    def serialize(self, dir_path: Path) -> None:
+    def serialize(self, dir_path: Path) -> Path:
         dir_path = dir_path.joinpath(self.name)
         xplogger_utils.make_dir(dir_path)
         data = self._get_json_dump()
@@ -57,7 +56,9 @@ class Result:
                 self.metrics[key].to_feather(path=path_to_save)
         return dir_path
 
-    def __eq__(self, other):
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Result):
+            return False
         return (
             (
                 self.id == other.id
@@ -74,7 +75,7 @@ class Result:
         )
 
 
-def deserialize(dir_path: Path):
+def deserialize(dir_path: Path) -> Result:
     data_dir = dir_path.joinpath("data.json")
     with open(data_dir, "r") as f:
         json_dump = f.read()
@@ -95,18 +96,18 @@ def deserialize(dir_path: Path):
 
 
 class ResultDB(UserDict):
-    def __init__(self, path: Path, results: "list[Result]"):
-        """List-like interface to a collection of Experiments."""
+    def __init__(self, path: Path, results: "dict[Result]"):
+        """Dict-like interface to a collection of Experiments."""
         super().__init__(results)
         self.path = path
         self.load_from_filesystem()
 
-    def load_from_filesystem(self):
+    def load_from_filesystem(self) -> None:
         for result_path in self.path.iterdir():
             result = deserialize(dir_path=result_path)
             self.data[result.name] = result
 
-    def save_to_filesystem(self):
+    def save_to_filesystem(self) -> None:
         for name in self.data:
             dir_path = self.path.joinpath(name)
             self.data[name].serialize(dir_path=dir_path)

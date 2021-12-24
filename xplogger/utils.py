@@ -1,5 +1,5 @@
 """Utility Methods."""
-import pathlib
+from pathlib import Path
 from typing import Any, Dict, List, Set, Tuple
 
 import numpy as np
@@ -32,13 +32,13 @@ def flatten_dict(
     return dict(items)
 
 
-def make_dir(path: str) -> None:
+def make_dir(path: Path) -> None:
     """Make dir, if not exists.
 
     Args:
-        path (str): dir to make
+        path (Path): dir to make
     """
-    pathlib.Path(path).mkdir(parents=True, exist_ok=True)
+    path.mkdir(parents=True, exist_ok=True)
 
 
 def compare_keys_in_dict(dict1: Dict[Any, Any], dict2: Dict[Any, Any]) -> bool:
