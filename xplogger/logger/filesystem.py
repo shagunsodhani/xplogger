@@ -106,7 +106,7 @@ class Logger(BaseLogger):
 
         logger_types = ["config", "message", "metadata", "metric"]
 
-        make_dir(config["logger_dir"])
+        make_dir(pathlib.Path(config["logger_dir"]))
 
         _get_logger_file_path = partial(
             get_logger_file_path,
