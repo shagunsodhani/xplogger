@@ -264,14 +264,7 @@ class ExperimentSequence(UserList):  # type: ignore
 
     def aggregate_metrics(
         self,
-        metric_names: List[str],
-        x_name: str,
-        x_min: int,
-        x_max: int,
-        mode: str,
-        drop_duplicates: bool,
-        dropna: bool,
-        verbose: bool,
+        **kwargs: Any,
     ) -> Dict[str, np.ndarray]:
         """Given a list of metric names, aggreate the metrics across different
         experiments in an experiment sequence.
@@ -297,20 +290,27 @@ class ExperimentSequence(UserList):  # type: ignore
                 numpy array of metric values. The first dimension corresponds to the
                 experiments and the second corresponds to metrics per experiment.
         """
+        for key in [
+            "metric_names",
+            "x_name",
+            "x_min",
+            "x_max",
+            "mode",
+            "drop_duplicates",
+            "dropna",
+            "verbose",
+        ]:
+            assert key in kwargs
+
+        verbose = kwargs.pop("verbose")
+        metric_names = kwargs["metric_names"]
+
         metric_dict: Dict[str, np.ndarray] = {name: [] for name in metric_names}
         min_len = float("inf")
         num_skipped_experiments = 0
 
         for exp in self.data:
-            exp_metric_dict = exp.process_metrics(
-                metric_names=metric_names,
-                x_name=x_name,
-                x_min=x_min,
-                x_max=x_max,
-                mode=mode,
-                drop_duplicates=drop_duplicates,
-                dropna=dropna,
-            )
+            exp_metric_dict = exp.process_metrics(**kwargs)
             if exp_metric_dict:
                 for name in metric_names:
                     metric_dict[name].append(exp_metric_dict[name])
@@ -411,15 +411,7 @@ class ExperimentSequenceDict(UserDict):  # type: ignore
 
     def aggregate_metrics(
         self,
-        get_experiment_name: Callable[[Dict[str, Any]], str],
-        metric_names: List[str],
-        x_name: str,
-        x_min: int,
-        x_max: int,
-        mode: str,
-        drop_duplicates: bool,
-        dropna: bool,
-        verbose: bool,
+        **kwargs: Any,
     ) -> Dict[str, np.ndarray]:
         """Given a list of metric names, aggreate the metrics across different
         experiment sequences in a dictionary indexed by the metric name.
@@ -439,28 +431,34 @@ class ExperimentSequenceDict(UserDict):  # type: ignore
                 numpy array of metric values. The first dimension corresponds to the
                 experiments and the second corresponds to metrics per experiment.
         """
+
+        for key in [
+            "get_experiment_name",
+            "metric_names",
+            "x_name",
+            "x_min",
+            "x_max",
+            "mode",
+            "drop_duplicates",
+            "dropna",
+            "verbose",
+        ]:
+            assert key in kwargs
+
+        get_experiment_name = kwargs.pop("get_experiment_name")
+        metric_names = kwargs["metric_names"]
+        mode: str = kwargs["mode"]
+        x_name: str = kwargs["x_name"]
+
         metric_dict: Dict[str, List[np.ndarray]] = {}
         min_len = float("inf")
-
-        kwargs_for_aggregate_metrics = {
-            "metric_names": metric_names,
-            "x_name": x_name,
-            "x_min": x_min,
-            "x_max": x_max,
-            "mode": mode,
-            "drop_duplicates": drop_duplicates,
-            "dropna": dropna,
-            "verbose": verbose,
-        }
 
         for key, exp_seq in self.data.items():
             new_metric_names = {
                 metric: f"{get_experiment_name(key, mode=mode)}_{metric}"
                 for metric in metric_names
             }
-            current_metric_dict = exp_seq.aggregate_metrics(
-                **kwargs_for_aggregate_metrics
-            )
+            current_metric_dict = exp_seq.aggregate_metrics(**kwargs)
 
             for metric in metric_names:
                 metric_dict[new_metric_names[metric]] = current_metric_dict[metric]
@@ -471,8 +469,8 @@ class ExperimentSequenceDict(UserDict):  # type: ignore
             metric_dict[metric_name] = np.asarray(
                 [_metric[:min_len] for _metric in metric_dict[metric_name]]
             )
-        kwargs_for_aggregate_metrics["metric_names"] = [x_name]
-        metric_dict[x_name] = self.data[key].aggregate_metrics(
-            **kwargs_for_aggregate_metrics
-        )[x_name][0][:min_len]
+        kwargs["metric_names"] = [x_name]
+        metric_dict[x_name] = self.data[key].aggregate_metrics(**kwargs)[x_name][0][
+            :min_len
+        ]
         return metric_dict
