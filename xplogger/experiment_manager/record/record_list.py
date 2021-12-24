@@ -64,7 +64,7 @@ class RecordList(UserList):
                     print(f"Failed to delete {file_path}. Reason: {e}")
         print(counter)
 
-    def get_unique_issues(self) -> collections.Counter[str, int]:
+    def get_unique_issues(self) -> collections.Counter[str]:
         return collections.Counter(
             str(record["setup"]["git"]["issue_id"]) for record in self.data
         )
@@ -77,12 +77,12 @@ class RecordList(UserList):
                     viz_params.add(param)
         return viz_params
 
-    def make_oc_records(self) -> RecordList[DictConfig]:
+    def make_oc_records(self) -> RecordList:
         return RecordList(
-            oc_utils.make_record(mongo_record=record) for record in self.data
+            [oc_utils.make_record(mongo_record=record) for record in self.data]
         )
 
-    def ray_make_oc_records(self) -> RecordList[DictConfig]:
+    def ray_make_oc_records(self) -> RecordList:
         futures = [
             oc_utils.ray_make_record.remote(mongo_record=record) for record in self.data
         ]
@@ -111,10 +111,10 @@ class RecordList(UserList):
         id_set = set()
         for record in self.data:
             params = base_record.get_experiment_params(record, viz_params)
-            for key, value in params.items():
-                if key not in hyperparams:
-                    hyperparams[key] = set()
-                hyperparams[key].add(value)
+            for param_name, value in params.items():
+                if param_name not in hyperparams:
+                    hyperparams[param_name] = set()
+                hyperparams[param_name].add(value)
             key = OmegaConf.create(params)
             if key not in groups:
                 groups[key] = RecordList([])

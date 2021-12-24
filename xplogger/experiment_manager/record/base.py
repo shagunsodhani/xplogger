@@ -11,7 +11,7 @@ import ray
 from xplogger.parser.experiment.experiment import Experiment, ExperimentSequence
 
 
-def get_nested_item(data: dict[Any, Any], keys: list[Any]) -> Any:
+def get_nested_item(data: dict, keys: list[Any]) -> Any:
     return reduce(lambda seq, key: seq[key] if key in seq else None, keys, data)
 
 
@@ -26,7 +26,7 @@ def load_experiment(
 ) -> Experiment:
     """Load experiment given a record."""
     return load_experiment_from_dir(
-        log_dir=record["logbook"]["logger_dir"],
+        log_dir=record["logbook"]["logger_dir"],  # type: ignore
     )
 
 

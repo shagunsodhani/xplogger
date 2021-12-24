@@ -5,10 +5,12 @@ tensorboard, remote backends, etc.
 
 """
 
+from __future__ import annotations
+
 import importlib
 import time
 from copy import deepcopy
-from typing import Any, List, Optional
+from typing import Any, Optional
 
 from xplogger.logger.base import Logger as LoggerType
 from xplogger.types import ConfigType, KeyMapType, LogType, MetricType
@@ -38,7 +40,7 @@ class LogBook:
         self.id = config["id"]
         self.logger_name = config["name"]
         self.time_format = "%I:%M:%S%p %Z %b %d, %Y"  # 10:21:14PM EST Mar 04, 2020
-        self.loggers: List[LoggerType] = []
+        self.loggers: list[LoggerType] = []
         for logger_name, logger_config in config["loggers"].items():
             logger_module = importlib.import_module(f"xplogger.logger.{logger_name}")
             logger_cls = getattr(logger_module, "Logger")

@@ -19,7 +19,7 @@ def prettyprint_dict(d: dict, sep: str = "\t", indent: int = 0) -> None:
     for key, value in d.items():
         print(sep * indent + str(key))
         if isinstance(value, dict):
-            prettyprint_dict(value, indent + 1)
+            prettyprint_dict(d=value, indent=indent + 1)
         else:
             print(sep * (indent + 1) + str(value))
 
@@ -27,7 +27,7 @@ def prettyprint_dict(d: dict, sep: str = "\t", indent: int = 0) -> None:
 def get_mean_and_std_err(
     experiment_sequence: ExperimentSequence, metadata: DictConfig
 ) -> tuple[np.ndarray, np.ndarray, int]:
-    metrics = experiment_sequence.aggregate_metrics(
+    aggregated_metrics = experiment_sequence.aggregate_metrics(
         metric_names=[metadata.metric_name],
         x_name=metadata.x.name,
         x_min=metadata.x.min,
@@ -37,7 +37,7 @@ def get_mean_and_std_err(
         verbose=True,
         dropna=True,
     )
-    metrics = metrics[metadata.metric_name]
+    metrics = aggregated_metrics[metadata.metric_name]
 
     mean = np.mean(metrics, axis=0)
     std = np.std(metrics, axis=0) / np.sqrt(metrics.shape[0])
@@ -58,7 +58,7 @@ def make_df(
         "steps",
     ]
 
-    results = {
+    results: dict[str, Any] = {
         "aggregated": {},
         "converged": {},
     }

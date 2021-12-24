@@ -52,6 +52,7 @@ def plot_experiment_sequence_dict(
         except KeyError:
             # this could be because we have fewer data points than 3
             colors = color_palette[3][: len(data) + color_offset]
+    assert colors is not None
     for index, (key, y) in enumerate(data.items(), color_offset):
         if key == x_metric:
             continue

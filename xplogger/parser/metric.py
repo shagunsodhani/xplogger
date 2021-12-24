@@ -1,6 +1,8 @@
 """Implementation of Parser to parse metrics from logs."""
 
-from typing import Callable, Dict, List, Optional
+from __future__ import annotations
+
+from typing import Callable, Optional
 
 import pandas as pd
 
@@ -13,30 +15,30 @@ def parse_json_and_match_value(line: str) -> Optional[LogType]:
     return log_parser.parse_json_and_match_value(line=line, value="metric")
 
 
-def group_metrics(metrics: List[MetricType]) -> Dict[str, List[MetricType]]:
+def group_metrics(metrics: list[MetricType]) -> dict[str, list[MetricType]]:
     """Group a list of metrics.
 
     Group a list of metrics into a dictionary of
         (key, list of grouped metrics)
 
     Args:
-        metrics (List[MetricType]): List of metrics to group
+        metrics (list[MetricType]): list of metrics to group
 
     Returns:
-        Dict[str, List[MetricType]]: Dictionary of (key,
+        dict[str, list[MetricType]]: Dictionary of (key,
             list of grouped metrics)
     """
     return {"all": metrics}
 
 
-def aggregate_metrics(metrics: List[MetricType]) -> List[MetricType]:
+def aggregate_metrics(metrics: list[MetricType]) -> list[MetricType]:
     """Aggregate a list of metrics.
 
     Args:
-        metrics (List[MetricType]): List of metrics to aggregate
+        metrics (list[MetricType]): list of metrics to aggregate
 
     Returns:
-        List[MetricType]: List of aggregated metrics
+        list[MetricType]: list of aggregated metrics
     """
     return metrics
 
@@ -60,10 +62,10 @@ class Parser(log_parser.Parser):
         self,
         filepath_pattern: str,
         group_metrics: Callable[
-            [List[LogType]], Dict[str, List[LogType]]
+            [list[LogType]], dict[str, list[LogType]]
         ] = group_metrics,
-        aggregate_metrics: Callable[[List[LogType]], List[LogType]] = aggregate_metrics,
-    ) -> Dict[str, pd.DataFrame]:
+        aggregate_metrics: Callable[[list[LogType]], list[LogType]] = aggregate_metrics,
+    ) -> dict[str, pd.DataFrame]:
         """Create a dict of (metric_name, dataframe).
 
         Method that:
@@ -75,10 +77,10 @@ class Parser(log_parser.Parser):
 
         Args:
             filepath_pattern (str): filepath pattern to glob
-            group_metrics (Callable[[List[LogType]], Dict[str, List[LogType]]], optional):
+            group_metrics (Callable[[list[LogType]], dict[str, list[LogType]]], optional):
                 Function to group a list of metrics into a dictionary of
                 (key, list of grouped metrics). Defaults to group_metrics.
-            aggregate_metrics (Callable[[List[LogType]], List[LogType]], optional):
+            aggregate_metrics (Callable[[list[LogType]], list[LogType]], optional):
                 Function to aggregate a list of metrics. Defaults to aggregate_metrics.
 
         """
@@ -91,10 +93,10 @@ class Parser(log_parser.Parser):
 
 
 def metrics_to_df(
-    metric_logs: List[LogType],
-    group_metrics: Callable[[List[LogType]], Dict[str, List[LogType]]] = group_metrics,
-    aggregate_metrics: Callable[[List[LogType]], List[LogType]] = aggregate_metrics,
-) -> Dict[str, pd.DataFrame]:
+    metric_logs: list[LogType],
+    group_metrics: Callable[[list[LogType]], dict[str, list[LogType]]] = group_metrics,
+    aggregate_metrics: Callable[[list[LogType]], list[LogType]] = aggregate_metrics,
+) -> dict[str, pd.DataFrame]:
     """Create a dict of (metric_name, dataframe).
 
     Method that:
@@ -104,18 +106,18 @@ def metrics_to_df(
         dictionary of dataframes
 
     Args:
-        metric_logs (List[LogType]): List of metrics
-        group_metrics (Callable[[List[LogType]], Dict[str, List[LogType]]], optional):
+        metric_logs (list[LogType]): list of metrics
+        group_metrics (Callable[[list[LogType]], dict[str, list[LogType]]], optional):
             Function to group a list of metrics into a dictionary of
             (key, list of grouped metrics). Defaults to group_metrics.
-        aggregate_metrics (Callable[[List[LogType]], List[LogType]], optional):
+        aggregate_metrics (Callable[[list[LogType]], list[LogType]], optional):
             Function to aggregate a list of metrics. Defaults to aggregate_metrics.
 
     Returns:
-        Dict[str, pd.DataFrame]: [description]
+        dict[str, pd.DataFrame]: [description]
 
     """
-    grouped_metrics: Dict[str, List[LogType]] = group_metrics(metric_logs)
+    grouped_metrics: dict[str, list[LogType]] = group_metrics(metric_logs)
     aggregated_metrics = {
         key: aggregate_metrics(metrics) for key, metrics in grouped_metrics.items()
     }

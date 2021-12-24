@@ -1,10 +1,12 @@
 """Container for the experiment data."""
 
+from __future__ import annotations
+
 import gzip
 import json
 from collections import UserDict, UserList
 from pathlib import Path
-from typing import Any, Callable, Dict, Iterable, List, Optional, Set, Tuple
+from typing import Any, Callable, Iterable, Optional
 
 import numpy as np
 import pandas as pd
@@ -18,25 +20,25 @@ from xplogger.types import ConfigType
 class Experiment:
     def __init__(
         self,
-        configs: List[ConfigType],
+        configs: list[ConfigType],
         metrics: experiment_utils.ExperimentMetricType,
         info: Optional[experiment_utils.ExperimentInfoType] = None,
     ):
         """Class to hold the experiment data.
 
         Args:
-            configs (List[ConfigType]): Configs used for the experiment
+            configs (list[ConfigType]): Configs used for the experiment
             metrics (experiment_utils.ExperimentMetricType): Dictionary mapping strings
                 to dataframes. Keys could be "train", "validation", "test"
                 and corresponding dataframes would have the data for these
                 modes.
-            info (Optional[Dict[Any, Any]], optional): A dictionary where the user can store
+            info (Optional[dict[Any, Any]], optional): A dictionary where the user can store
                 any information about the experiment (that does not fit
                 within config and metrics). Defaults to None.
         """
         self.configs = configs
         self.metrics = metrics
-        self.info: Dict[Any, Any] = {}
+        self.info: dict[Any, Any] = {}
         if info is not None:
             self.info = info
 
@@ -89,19 +91,19 @@ class Experiment:
 
     def process_metrics(
         self,
-        metric_names: List[str],
+        metric_names: list[str],
         x_name: str,
         x_min: int,
         x_max: int,
         mode: str,
         drop_duplicates: bool,
         dropna: bool,
-    ) -> Dict[str, np.ndarray]:
+    ) -> dict[str, np.ndarray]:
         """Given a list of metric names, process the metrics for a given experiment
 
 
         Args:
-            metric_names (List[str]): Names of metrics to process.
+            metric_names (list[str]): Names of metrics to process.
             x_name (str): The column/meric with respect to which other metrics
                 are tracked. For example `steps` or `epochs`.
             x_min (int): Filter the experiment where the max value of `x_name`
@@ -114,7 +116,7 @@ class Experiment:
             verbose (bool): Should print additional information
 
         Returns:
-            Dict[str, np.ndarray]: dictionary mapping metric name to 1-dimensional
+            dict[str, np.ndarray]: dictionary mapping metric name to 1-dimensional
                 numpy array of metric values.
         """
         if mode not in self.metrics:
@@ -162,23 +164,23 @@ def deserialize(dir_path: str) -> Experiment:
 
 
 class ExperimentSequence(UserList):  # type: ignore
-    def __init__(self, experiments: List[Experiment]):
-        """List-like interface to a collection of Experiments."""
+    def __init__(self, experiments: list[Experiment]):
+        """list-like interface to a collection of Experiments."""
         super().__init__(experiments)
 
     def groupby(
         self, group_fn: Callable[[Experiment], str]
-    ) -> Dict[str, "ExperimentSequence"]:
+    ) -> dict[str, "ExperimentSequence"]:
         """Group experiments in the sequence.
 
         Args:
             group_fn: Function to assign a string group id to the experiment
 
         Returns:
-            Dict[str, ExperimentSequence]: A dictionary mapping the sring
+            dict[str, ExperimentSequence]: A dictionary mapping the sring
             group id to a sequence of experiments
         """
-        grouped_experiments: Dict[str, List[Experiment]] = {}
+        grouped_experiments: dict[str, list[Experiment]] = {}
         for experiment in self.data:
             key = group_fn(experiment)
             if key not in grouped_experiments:
@@ -206,25 +208,25 @@ class ExperimentSequence(UserList):  # type: ignore
     def aggregate(
         self,
         aggregate_configs: Callable[
-            [List[List[ConfigType]]], List[ConfigType]
+            [list[list[ConfigType]]], list[ConfigType]
         ] = experiment_utils.return_first_config,
         aggregate_metrics: Callable[
-            [List[experiment_utils.ExperimentMetricType]],
+            [list[experiment_utils.ExperimentMetricType]],
             experiment_utils.ExperimentMetricType,
         ] = experiment_utils.concat_metrics,
         aggregate_infos: Callable[
-            [List[experiment_utils.ExperimentInfoType]],
+            [list[experiment_utils.ExperimentInfoType]],
             experiment_utils.ExperimentInfoType,
         ] = experiment_utils.return_first_infos,
     ) -> Experiment:
         """Aggregate a sequence of experiments into a single experiment.
 
         Args:
-            aggregate_configs (Callable[ [List[List[ConfigType]]], List[ConfigType] ], optional):
+            aggregate_configs (Callable[ [list[list[ConfigType]]], list[ConfigType] ], optional):
                 Function to aggregate the configs. Defaults to experiment_utils.return_first_config.
-            aggregate_metrics (Callable[ [List[experiment_utils.ExperimentMetricType]], ExperimentMetricType ], optional):
+            aggregate_metrics (Callable[ [list[experiment_utils.ExperimentMetricType]], ExperimentMetricType ], optional):
                 Function to aggregate the metrics. Defaults to experiment_utils.concat_metrics.
-            aggregate_infos (Callable[ [List[experiment_utils.ExperimentInfoType]], ExperimentInfoType ], optional):
+            aggregate_infos (Callable[ [list[experiment_utils.ExperimentInfoType]], ExperimentInfoType ], optional):
                 Function to aggregate the information. Defaults to experiment_utils.return_first_infos.
 
         Returns:
@@ -238,7 +240,7 @@ class ExperimentSequence(UserList):  # type: ignore
 
     def get_param_groups(
         self, params_to_exclude: Iterable[str]
-    ) -> Tuple[ConfigType, Dict[str, Set[Any]]]:
+    ) -> tuple[ConfigType, dict[str, set[Any]]]:
         """Return two groups of params, one which is fixed across the experiments and one which varies.
 
         This function is useful when understanding the effect of different parameters on the model's
@@ -252,7 +254,7 @@ class ExperimentSequence(UserList):  # type: ignore
                 all such parameters will likely be returned with the group of varying parameters.
 
         Returns:
-            Tuple[ConfigType, Dict[str, Set[Any]]]: The first group/config contains the params which are fixed across the experiments.
+            tuple[ConfigType, dict[str, set[Any]]]: The first group/config contains the params which are fixed across the experiments.
                 It maps these params to their `default` values, hence it should be a subset of any config.
                 The second group/config contains the params which vary across the experiments.
                 It maps these params to the set of values they take.
@@ -265,13 +267,13 @@ class ExperimentSequence(UserList):  # type: ignore
     def aggregate_metrics(
         self,
         **kwargs: Any,
-    ) -> Dict[str, np.ndarray]:
+    ) -> dict[str, np.ndarray]:
         """Given a list of metric names, aggreate the metrics across different
         experiments in an experiment sequence.
 
 
         Args:
-            metric_names (List[str]): Names of metrics to aggregate.
+            metric_names (list[str]): Names of metrics to aggregate.
             x_name (str): The column/meric with respect to which other metrics
                 are tracked. For example `steps` or `epochs`. This aggregated values
                 for this metric are also returned.
@@ -286,7 +288,7 @@ class ExperimentSequence(UserList):  # type: ignore
             verbose (bool): Should print additional information
 
         Returns:
-            Dict[str, np.ndarray]: dictionary mapping metric name to 2-dimensional
+            dict[str, np.ndarray]: dictionary mapping metric name to 2-dimensional
                 numpy array of metric values. The first dimension corresponds to the
                 experiments and the second corresponds to metrics per experiment.
         """
@@ -305,7 +307,7 @@ class ExperimentSequence(UserList):  # type: ignore
         verbose = kwargs.pop("verbose")
         metric_names = kwargs["metric_names"]
 
-        metric_dict: Dict[str, np.ndarray] = {name: [] for name in metric_names}
+        metric_dict: dict[str, list[np.ndarray]] = {name: [] for name in metric_names}
         min_len = float("inf")
         num_skipped_experiments = 0
 
@@ -324,21 +326,22 @@ class ExperimentSequence(UserList):  # type: ignore
                 f"Skipped {num_skipped_experiments} experiments while parsing {len(self.data)} experiments."
             )
         if num_skipped_experiments == len(self.data):
-            return metric_dict
+            return {}
+            # return metric_dict
         min_len = int(min_len)
-        metric_dict = {
+        metric_dict_to_return: dict[str, np.ndarray] = {
             name: np.asarray([x[:min_len].copy() for x in metric_list])
             for name, metric_list in metric_dict.items()
         }
-        return metric_dict
+        return metric_dict_to_return
 
 
 ExperimentList = ExperimentSequence
 
 
 class ExperimentSequenceDict(UserDict):  # type: ignore
-    def __init__(self, experiment_sequence_dict: Dict[Any, ExperimentSequence]):
-        """Dict-like interface to a collection of experiment sequences."""
+    def __init__(self, experiment_sequence_dict: dict[Any, ExperimentSequence]):
+        """dict-like interface to a collection of experiment sequences."""
         super().__init__(experiment_sequence_dict)
 
     def filter(
@@ -412,14 +415,14 @@ class ExperimentSequenceDict(UserDict):  # type: ignore
     def aggregate_metrics(
         self,
         **kwargs: Any,
-    ) -> Dict[str, np.ndarray]:
+    ) -> dict[str, np.ndarray]:
         """Given a list of metric names, aggreate the metrics across different
         experiment sequences in a dictionary indexed by the metric name.
 
         Args:
             get_experiment_name (Callable[[str], str]): Function to map the
                 given key with a name.
-            metric_names (List[str]): Names of metrics to aggregate.
+            metric_names (list[str]): Names of metrics to aggregate.
             x_name (str): The column/meric with respect to which other metrics
                 are tracked. For example `steps` or `epochs`. This aggregated values
                 for this metric are also returned.
@@ -427,7 +430,7 @@ class ExperimentSequenceDict(UserDict):  # type: ignore
                 is a dictionary mapping `modes` to dataframes.
 
         Returns:
-            Dict[str, np.ndarray]: dictionary mapping metric name to 2-dimensional
+            dict[str, np.ndarray]: dictionary mapping metric name to 2-dimensional
                 numpy array of metric values. The first dimension corresponds to the
                 experiments and the second corresponds to metrics per experiment.
         """
@@ -450,7 +453,7 @@ class ExperimentSequenceDict(UserDict):  # type: ignore
         mode: str = kwargs["mode"]
         x_name: str = kwargs["x_name"]
 
-        metric_dict: Dict[str, List[np.ndarray]] = {}
+        metric_dict: dict[str, list[np.ndarray]] = {}
         min_len = float("inf")
 
         for key, exp_seq in self.data.items():
@@ -465,12 +468,14 @@ class ExperimentSequenceDict(UserDict):  # type: ignore
             min_len = min(min_len, len(current_metric_dict[metric][0]))
         min_len = int(min_len)
 
+        metric_dict_with_array: dict[str, np.ndarray] = {}
+
         for metric_name in metric_dict:
-            metric_dict[metric_name] = np.asarray(
+            metric_dict_with_array[metric_name] = np.asarray(
                 [_metric[:min_len] for _metric in metric_dict[metric_name]]
             )
         kwargs["metric_names"] = [x_name]
-        metric_dict[x_name] = self.data[key].aggregate_metrics(**kwargs)[x_name][0][
-            :min_len
-        ]
-        return metric_dict
+        metric_dict_with_array[x_name] = self.data[key].aggregate_metrics(**kwargs)[
+            x_name
+        ][0][:min_len]
+        return metric_dict_with_array

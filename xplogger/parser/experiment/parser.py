@@ -1,8 +1,10 @@
 """Implementation of Parser to parse experiment from the logs."""
 
+from __future__ import annotations
+
 import glob
 from pathlib import Path
-from typing import Any, Dict, Union
+from typing import Any, Union
 
 from xplogger.parser import base as base_parser
 from xplogger.parser.config import (
@@ -59,7 +61,7 @@ class Parser(base_parser.Parser):
         """
         configs = []
         metric_logs = []
-        info: Dict[Any, Any] = {}
+        info: dict[Any, Any] = {}
         if isinstance(filepath_pattern, Path):
             if filepath_pattern.is_dir():
                 # iterate over all the files in the directory.

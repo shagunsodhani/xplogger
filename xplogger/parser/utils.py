@@ -1,6 +1,9 @@
 """Utility functions for the parser module."""
+
+from __future__ import annotations
+
 import json
-from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
+from typing import Any, Iterable, Optional
 
 from xplogger import utils
 from xplogger.types import ConfigType, LogType
@@ -19,7 +22,7 @@ def flatten_log(d: LogType, parent_key: str = "", sep: str = "#") -> LogType:
     Returns:
         LogType: [description]
     """
-    items: List[Tuple[str, Any]] = []
+    items: list[tuple[str, Any]] = []
     for k, v in d.items():
         new_key = parent_key + sep + k if parent_key else k
         if isinstance(v, dict):
@@ -31,7 +34,7 @@ def flatten_log(d: LogType, parent_key: str = "", sep: str = "#") -> LogType:
 
 def compare_logs(
     first_log: LogType, second_log: LogType, verbose: bool = False
-) -> Tuple[List[str], List[str], List[str]]:
+) -> tuple[list[str], list[str], list[str]]:
     """Compare two logs.
 
     Return list of keys that are either missing or have different valus
@@ -43,7 +46,7 @@ def compare_logs(
         verbose (bool): Defaults to False
 
     Returns:
-        Tuple[List[str], List[str], List[str]]: Tuple of [
+        tuple[list[str], list[str], list[str]]: tuple of [
             list of keys with different values,
             list of keys with values missing in first log,
             list of keys with values missing in the second log,]
@@ -92,7 +95,7 @@ def parse_json(line: str) -> Optional[LogType]:
 
 def get_param_groups(
     configs: Iterable[ConfigType], params_to_exclude: Iterable[str]
-) -> Tuple[ConfigType, Dict[str, Set[Any]]]:
+) -> tuple[ConfigType, dict[str, set[Any]]]:
     """Return two groups of params, one which is fixed across the experiments and one which varies.
 
     This function is useful when understanding the effect of different parameters on the model's
@@ -107,13 +110,13 @@ def get_param_groups(
             all such parameters will likely be returned with the group of varying parameters.
 
     Returns:
-        Tuple[ConfigType, Dict[str, Set[Any]]]: The first group/config contains the params which are fixed across the experiments.
+        tuple[ConfigType, dict[str, set[Any]]]: The first group/config contains the params which are fixed across the experiments.
             It maps these params to their `default` values, hence it should be a subset of any config.
             The second group/config contains the params which vary across the experiments.
             It maps these params to the set of values they take.
 
     """
-    param_value_dict: Dict[str, Set[Any]] = {}
+    param_value_dict: dict[str, set[Any]] = {}
     for config in configs:
         for param, value in config.items():
             if param not in param_value_dict:
@@ -123,12 +126,12 @@ def get_param_groups(
                 value_to_add = "_".join(map(str, value))
             param_value_dict[param].add(value_to_add)
 
-    param_value_counter: Dict[str, int] = {}
+    param_value_counter: dict[str, int] = {}
     for param, values in param_value_dict.items():
         param_value_counter[param] = len(values)
 
     fixed_params: ConfigType = {}
-    variable_params: Dict[str, Set[Any]] = {}
+    variable_params: dict[str, set[Any]] = {}
     for param, counter in param_value_counter.items():
         if param not in params_to_exclude:
             if counter == 1:

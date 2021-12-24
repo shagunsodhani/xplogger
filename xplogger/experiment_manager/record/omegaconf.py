@@ -12,10 +12,10 @@ from xplogger.experiment_manager.record import mongo
 def make_record(mongo_record: mongo.Record):
     data = deepcopy(mongo_record.data)
     data["id"] = str(data.pop("_id"))
-    data = OmegaConf.create(data)
-    OmegaConf.set_struct(data, True)
-    OmegaConf.set_readonly(data, True)
-    return data
+    record = OmegaConf.create(data)
+    OmegaConf.set_struct(record, True)
+    OmegaConf.set_readonly(record, True)
+    return record
 
 
 @ray.remote

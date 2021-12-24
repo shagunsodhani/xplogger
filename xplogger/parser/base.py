@@ -1,8 +1,10 @@
 """Base class that all parsers extend."""
 
+from __future__ import annotations
+
 from abc import ABC
 from pathlib import Path
-from typing import Dict, Iterator, Optional, Union
+from typing import Iterator, Optional, Union
 
 from xplogger.parser.utils import parse_json
 from xplogger.types import LogType, ParseLineFunctionType
@@ -42,7 +44,7 @@ class Parser(ABC):
                 yield log
 
     def _wrap_parse_line(
-        self, parser_functions: Dict[str, ParseLineFunctionType]
+        self, parser_functions: dict[str, ParseLineFunctionType]
     ) -> ParseLineFunctionType:
         def fn(line: str) -> Optional[LogType]:
             log = None

@@ -90,13 +90,13 @@ def deserialize(dir_path: Path) -> Result:
         metrics["all"] = pd.DataFrame()
     return Result(
         **data,
-        experiment_sequence=None,
+        experiment_sequence=None,  # type: ignore
         metrics=metrics,
     )
 
 
 class ResultDB(UserDict):
-    def __init__(self, path: Path, results: "dict[Result]"):
+    def __init__(self, path: Path, results: "dict[str, Result]"):
         """Dict-like interface to a collection of Experiments."""
         super().__init__(results)
         self.path = path
