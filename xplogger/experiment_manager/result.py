@@ -9,7 +9,7 @@ from typing import Any
 import pandas as pd
 
 from xplogger import utils as xplogger_utils
-from xplogger.parser.experiment import ExperimentSequence
+from xplogger.parser.experiment import ExperimentSequence  # type: ignore
 from xplogger.utils import to_json_serializable
 
 
@@ -90,13 +90,13 @@ def deserialize(dir_path: Path) -> Result:
         metrics["all"] = pd.DataFrame()
     return Result(
         **data,
-        experiment_sequence=None,  # type: ignore
+        experiment_sequence=None,
         metrics=metrics,
     )
 
 
-class ResultDB(UserDict):
-    def __init__(self, path: Path, results: "dict[str, Result]"):
+class ResultDB(UserDict):  # type: ignore
+    def __init__(self, path: Path, results: dict[str, Result]):
         """Dict-like interface to a collection of Experiments."""
         super().__init__(results)
         self.path = path

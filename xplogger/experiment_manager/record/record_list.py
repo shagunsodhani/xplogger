@@ -13,6 +13,7 @@ from omegaconf import DictConfig, OmegaConf
 
 from xplogger.experiment_manager.record import base as base_record
 from xplogger.experiment_manager.record import omegaconf as oc_utils
+from xplogger.experiment_manager.record.mongo import Record as MongoRecord
 from xplogger.parser.experiment.experiment import (
     Experiment,
     ExperimentSequence,
@@ -23,24 +24,28 @@ from xplogger.types import ValueType
 LoadExperientFromDirType = Callable[[str], Experiment]
 
 
-class RecordList(UserList):
-    def __init__(self, records: "list[base_record.Record]"):
+class RecordList(UserList):  # type: ignore
+    def __init__(self, records: list[base_record.Record]):
         """Dict-like interface to a collection of results."""
         super().__init__(records)
 
-    def mark_analyzed(self, collection: pymongo.collection.Collection):
+    def mark_analyzed(self, collection: pymongo.collection.Collection) -> None:
         if isinstance(self.data[0], DictConfig):
 
-            def process_record(record):
-                return OmegaConf.to_container(record)
+            def process_record(record: base_record.Record) -> dict:  # type: ignore
+                # error: Returning Any from function declared to return "Dict[Any, Any]"
+                data = OmegaConf.to_container(record)
+                assert isinstance(data, dict)
+                return data
 
         else:
 
-            def process_record(record):
+            def process_record(record: base_record.Record) -> base_record.Record:  # type: ignore
+                # error: All conditional function variants must have identical signatures
                 return record
 
-        for record in self.data:
-            record = process_record(record)
+        for data_record in self.data:
+            record = process_record(data_record)
             issue_id = record["setup"]["git"]["issue_id"]
             print(issue_id)
             record["status"] = "ANALYZED"
@@ -51,7 +56,7 @@ class RecordList(UserList):
         self,
         collection: pymongo.collection.Collection,
         delete_from_filesystem: bool = False,
-    ):
+    ) -> None:
         counter = 0
         for record in self.data:
             counter += 1
@@ -78,9 +83,12 @@ class RecordList(UserList):
         return viz_params
 
     def make_oc_records(self) -> RecordList:
-        return RecordList(
-            [oc_utils.make_record(mongo_record=record) for record in self.data]
-        )
+        record_list = []
+        for record in self.data:
+            assert isinstance(record, MongoRecord)
+            record_list.append(oc_utils.make_record(mongo_record=record))
+
+        return RecordList(record_list)
 
     def ray_make_oc_records(self) -> RecordList:
         futures = [
@@ -90,7 +98,7 @@ class RecordList(UserList):
         return RecordList(records=records)
 
     def map_to_slurm_id(self) -> dict[str, RecordList]:
-        def _make_empty_record_list():
+        def _make_empty_record_list() -> RecordList:
             return RecordList([])
 
         mapping: dict[str, RecordList] = collections.defaultdict(
@@ -186,7 +194,7 @@ class RecordList(UserList):
             )
         return experiment_sequence_dict, groups, hyperparams
 
-    def get_unique(self, key_func) -> RecordList:
+    def get_unique(self, key_func: Callable[[base_record.Record], str]) -> RecordList:
         seen_keys = set()
         unique_records = []
         for record in self.data:
@@ -197,7 +205,8 @@ class RecordList(UserList):
         return RecordList(unique_records)
 
 
-@ray.remote
+@ray.remote  # type: ignore
+# Untyped decorator makes function "ray_load_experiments" untyped
 def ray_load_experiments(
     record_list: RecordList,
     load_experiment_from_dir: LoadExperientFromDirType,

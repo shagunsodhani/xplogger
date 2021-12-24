@@ -5,7 +5,7 @@ from typing import Any, Optional
 
 from bokeh.plotting import figure
 
-from xplogger.parser.experiment import ExperimentSequenceDict
+from xplogger.parser.experiment import ExperimentSequenceDict  # type: ignore
 
 
 def plot_experiment_sequence_dict(

@@ -3,11 +3,13 @@ from __future__ import annotations
 import itertools
 from typing import Any
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from omegaconf import DictConfig, OmegaConf
 
 from xplogger.experiment_manager.record.record_list import RecordList
+from xplogger.experiment_manager.result import Result
 from xplogger.parser.experiment.experiment import (
     ExperimentSequence,
     ExperimentSequenceDict,
@@ -15,7 +17,8 @@ from xplogger.parser.experiment.experiment import (
 from xplogger.types import ValueType
 
 
-def prettyprint_dict(d: dict, sep: str = "\t", indent: int = 0) -> None:
+def prettyprint_dict(d: dict, sep: str = "\t", indent: int = 0) -> None:  # type: ignore
+    # error: Missing type parameters for generic type "dict"
     for key, value in d.items():
         print(sep * indent + str(key))
         if isinstance(value, dict):
@@ -26,7 +29,7 @@ def prettyprint_dict(d: dict, sep: str = "\t", indent: int = 0) -> None:
 
 def get_mean_and_std_err(
     experiment_sequence: ExperimentSequence, metadata: DictConfig
-) -> tuple[np.ndarray, np.ndarray, int]:
+) -> tuple[np.typing.NDArray[np.float32], np.typing.NDArray[np.float32], int]:
     aggregated_metrics = experiment_sequence.aggregate_metrics(
         metric_names=[metadata.metric_name],
         x_name=metadata.x.name,
@@ -69,7 +72,7 @@ def make_df(
     valid_params = [
         params
         for params in map(
-            lambda _product: OmegaConf.create(
+            lambda _product: OmegaConf.create(  # type: ignore
                 {k: v for k, v in zip(hyperparams.keys(), _product)}
             ),
             itertools.product(*hyperparams.values()),
@@ -99,14 +102,16 @@ def make_df(
                 results["converged"][f"stderr_{metric_name}"].append(
                     std_err[np.argmax(mean)]
                 )
-                results["converged"][f"mean_{metric_name}"].append(np.max(mean))
+                results["converged"][f"mean_{metric_name}"].append(np.max(mean))  # type: ignore
+                # error: Call to untyped function "max" in typed context
                 results["aggregated"][f"stderr_{metric_name}"].append(std_err[-1])
                 results["aggregated"][f"mean_{metric_name}"].append(mean[-1])
             if mean_steps is None:
                 for mode in ["aggregated", "converged"]:
                     results[mode]["steps"].append(None)
             else:
-                results["converged"]["steps"].append(np.max(mean_steps))
+                results["converged"]["steps"].append(np.max(mean_steps))  # type: ignore
+                # error: Call to untyped function "max" in typed context
                 results["aggregated"]["steps"].append(mean_steps[-1])
             for mode in ["aggregated", "converged"]:
                 results[mode]["seeds"].append(num_seeds)

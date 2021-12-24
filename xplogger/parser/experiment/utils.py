@@ -62,7 +62,7 @@ def _compute_sum_or_mean_of_metrics_for_one_mode(
                     metric_to_return[key] = df[key].to_numpy()
                     min_len = min(min_len, len(metric_to_return[key]))
 
-    np_metric_to_return: dict[str, np.ndarray] = {}
+    np_metric_to_return: dict[str, np.typing.NDArray[np.float32]] = {}
     for metric_name in metric_to_return:
         if isinstance(metric_to_return[metric_name][0], np.ndarray):
             np_metric_to_return[metric_name] = np.array(

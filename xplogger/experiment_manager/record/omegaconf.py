@@ -5,11 +5,12 @@ from copy import deepcopy
 
 import ray
 from omegaconf import OmegaConf
+from omegaconf.dictconfig import DictConfig
 
 from xplogger.experiment_manager.record import mongo
 
 
-def make_record(mongo_record: mongo.Record):
+def make_record(mongo_record: mongo.Record) -> DictConfig:
     data = deepcopy(mongo_record.data)
     data["id"] = str(data.pop("_id"))
     record = OmegaConf.create(data)
@@ -18,6 +19,6 @@ def make_record(mongo_record: mongo.Record):
     return record
 
 
-@ray.remote
-def ray_make_record(mongo_record: mongo.Record):
+@ray.remote  # type: ignore
+def ray_make_record(mongo_record: mongo.Record) -> DictConfig:
     return make_record(mongo_record)

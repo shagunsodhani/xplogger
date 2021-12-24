@@ -98,7 +98,8 @@ class Experiment:
         mode: str,
         drop_duplicates: bool,
         dropna: bool,
-    ) -> dict[str, np.ndarray]:
+        verbose: bool,
+    ) -> dict[str, np.typing.NDArray[np.float32]]:
         """Given a list of metric names, process the metrics for a given experiment
 
 
@@ -128,7 +129,7 @@ class Experiment:
         df = df[filters]
         if drop_duplicates:
             df = df.drop_duplicates(subset=[x_name], keep="first")
-        if df.isnull().any().any():
+        if df.isnull().any().any() and verbose:
             print("df contains NaNs")
         if dropna:
             df = df.dropna(subset=metric_names, axis=0)
@@ -267,7 +268,7 @@ class ExperimentSequence(UserList):  # type: ignore
     def aggregate_metrics(
         self,
         **kwargs: Any,
-    ) -> dict[str, np.ndarray]:
+    ) -> dict[str, np.typing.NDArray[np.float32]]:
         """Given a list of metric names, aggreate the metrics across different
         experiments in an experiment sequence.
 
@@ -304,10 +305,12 @@ class ExperimentSequence(UserList):  # type: ignore
         ]:
             assert key in kwargs
 
-        verbose = kwargs.pop("verbose")
+        verbose = kwargs["verbose"]
         metric_names = kwargs["metric_names"]
 
-        metric_dict: dict[str, list[np.ndarray]] = {name: [] for name in metric_names}
+        metric_dict: dict[str, list[np.typing.NDArray[np.float32]]] = {
+            name: [] for name in metric_names
+        }
         min_len = float("inf")
         num_skipped_experiments = 0
 
@@ -329,7 +332,7 @@ class ExperimentSequence(UserList):  # type: ignore
             return {}
             # return metric_dict
         min_len = int(min_len)
-        metric_dict_to_return: dict[str, np.ndarray] = {
+        metric_dict_to_return: dict[str, np.typing.NDArray[np.float32]] = {
             name: np.asarray([x[:min_len].copy() for x in metric_list])
             for name, metric_list in metric_dict.items()
         }
@@ -415,7 +418,7 @@ class ExperimentSequenceDict(UserDict):  # type: ignore
     def aggregate_metrics(
         self,
         **kwargs: Any,
-    ) -> dict[str, np.ndarray]:
+    ) -> dict[str, np.typing.NDArray[np.float32]]:
         """Given a list of metric names, aggreate the metrics across different
         experiment sequences in a dictionary indexed by the metric name.
 
@@ -430,7 +433,7 @@ class ExperimentSequenceDict(UserDict):  # type: ignore
                 is a dictionary mapping `modes` to dataframes.
 
         Returns:
-            dict[str, np.ndarray]: dictionary mapping metric name to 2-dimensional
+            dict[str, np.typing.NDArray[np.float32]]: dictionary mapping metric name to 2-dimensional
                 numpy array of metric values. The first dimension corresponds to the
                 experiments and the second corresponds to metrics per experiment.
         """
@@ -453,7 +456,7 @@ class ExperimentSequenceDict(UserDict):  # type: ignore
         mode: str = kwargs["mode"]
         x_name: str = kwargs["x_name"]
 
-        metric_dict: dict[str, list[np.ndarray]] = {}
+        metric_dict: dict[str, list[np.typing.NDArray[np.float32]]] = {}
         min_len = float("inf")
 
         for key, exp_seq in self.data.items():
@@ -468,7 +471,7 @@ class ExperimentSequenceDict(UserDict):  # type: ignore
             min_len = min(min_len, len(current_metric_dict[metric][0]))
         min_len = int(min_len)
 
-        metric_dict_with_array: dict[str, np.ndarray] = {}
+        metric_dict_with_array: dict[str, np.typing.NDArray[np.float32]] = {}
 
         for metric_name in metric_dict:
             metric_dict_with_array[metric_name] = np.asarray(

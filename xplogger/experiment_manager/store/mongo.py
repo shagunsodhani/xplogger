@@ -31,7 +31,8 @@ class MongoStore:
         assert isinstance(records, list)
         return RecordList(records=records)
 
-    def get_records(self, query) -> RecordList:
+    def get_records(self, query) -> RecordList:  # type: ignore
+        # error: Function is missing a type annotation for one or more arguments
         return RecordList(
             records=[
                 mongo_record_utils.make_record(record)

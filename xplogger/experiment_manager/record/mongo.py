@@ -11,8 +11,8 @@ class Record(base.Record):
     """Wrappper over mongodb records."""
 
     @property
-    def id(self):
-        return self.data["_id"]
+    def id(self) -> str:
+        return str(self.data["_id"])
 
 
 def make_record(config: ConfigType) -> Record:

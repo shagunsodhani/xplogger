@@ -12,10 +12,10 @@ from xplogger.parser.experiment.experiment import Experiment, ExperimentSequence
 
 
 def get_nested_item(data: Record, keys: list[Any]) -> Any:
-    return reduce(lambda seq, key: seq[key] if key in seq else None, keys, data)
+    return reduce(lambda seq, key: seq[key] if key in seq else None, keys, data)  # type: ignore
 
 
-class Record(UserDict):
+class Record(UserDict):  # type: ignore
     def __init__(self, record: dict[str, Any]):
         super().__init__(record)
 
@@ -30,15 +30,17 @@ def load_experiment(
     )
 
 
-@ray.remote
+@ray.remote  # type: ignore
 def ray_load_experiment(
     record: Record,
     load_experiment_from_dir: Any,
 ) -> Experiment:
     """Load experiment given a record."""
-    return load_experiment_from_dir(
+    exp = load_experiment_from_dir(
         log_dir=record["logbook"]["logger_dir"],
     )
+    assert isinstance(exp, Experiment)
+    return exp
 
 
 def load_all_experiments_from_dir(
