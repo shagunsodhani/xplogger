@@ -87,6 +87,55 @@ class Experiment:
             and all(self.info[key] == other.info[key] for key in self.info)
         )
 
+    def process_metrics(
+        self,
+        metric_names: List[str],
+        x_name: str,
+        x_min: int,
+        x_max: int,
+        mode: str,
+        drop_duplicates: bool,
+        dropna: bool,
+    ) -> Dict[str, np.ndarray]:
+        """Given a list of metric names, process the metrics for a given experiment
+
+
+        Args:
+            metric_names (List[str]): Names of metrics to process.
+            x_name (str): The column/meric with respect to which other metrics
+                are tracked. For example `steps` or `epochs`.
+            x_min (int): Filter the experiment where the max value of `x_name`
+                is less than or equal to `x_min`.
+            x_max (int): Filter the metric values where value of `x_name`
+                (corresponding to metric values) is greater than `x_max`
+            mode (str): Mode when selecting metrics. Recall that `experiment.metrics`
+                is a dictionary mapping `modes` to dataframes.
+            drop_duplicates (bool): Should drop duplicate values in the `x_name` column
+            verbose (bool): Should print additional information
+
+        Returns:
+            Dict[str, np.ndarray]: dictionary mapping metric name to 1-dimensional
+                numpy array of metric values.
+        """
+        if mode not in self.metrics:
+            return {}
+        df = self.metrics[mode]
+        if any(name not in df for name in metric_names):
+            return {}
+        filters = df[x_name] <= x_max
+        df = df[filters]
+        if drop_duplicates:
+            df = df.drop_duplicates(subset=[x_name], keep="first")
+        if df.isnull().any().any():
+            print("df contains NaNs")
+        if dropna:
+            df = df.dropna(subset=metric_names, axis=0)
+        if df[x_name].iloc[-1] >= x_min and all(
+            len(df[name]) > 0 for name in metric_names
+        ):
+            return {name: df[name].to_numpy() for name in metric_names}
+        return {}
+
 
 def deserialize(dir_path: str) -> Experiment:
     """Deserialize the experiment data stored at `dir_path` and return an Experiment object."""
@@ -251,28 +300,25 @@ class ExperimentSequence(UserList):  # type: ignore
         metric_dict: Dict[str, np.ndarray] = {name: [] for name in metric_names}
         min_len = float("inf")
         num_skipped_experiments = 0
+
         for exp in self.data:
-            if mode not in exp.metrics:
-                num_skipped_experiments += 1
-                continue
-            df = exp.metrics[mode]
-            if any(name not in df for name in metric_names):
-                num_skipped_experiments += 1
-                continue
-            filters = df[x_name] <= x_max
-            df = df[filters]
-            if drop_duplicates:
-                df = df.drop_duplicates(subset=[x_name], keep="first")
-            if df.isnull().any().any():
-                print("df contains NaNs")
-            if dropna:
-                df = df.dropna(subset=metric_names, axis=0)
-            if df[x_name].iloc[-1] >= x_min and all(
-                len(df[name]) > 0 for name in metric_names
-            ):
+            exp_metric_dict = exp.process_metrics(
+                metric_names=metric_names,
+                x_name=x_name,
+                x_min=x_min,
+                x_max=x_max,
+                mode=mode,
+                drop_duplicates=drop_duplicates,
+                dropna=dropna,
+            )
+            if exp_metric_dict:
                 for name in metric_names:
-                    metric_dict[name].append(df[name].to_numpy())
+                    metric_dict[name].append(exp_metric_dict[name])
                 min_len = min(min_len, len(metric_dict[name][-1]))
+            else:
+                num_skipped_experiments += 1
+                continue
+
         if num_skipped_experiments > 0 and verbose:
             print(
                 f"Skipped {num_skipped_experiments} experiments while parsing {len(self.data)} experiments."
