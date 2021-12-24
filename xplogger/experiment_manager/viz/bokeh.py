@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import math
-from typing import Any, Callable, Optional
+from typing import Any, Optional
 
 from bokeh.plotting import figure
 
@@ -10,27 +10,34 @@ from xplogger.parser.experiment import ExperimentSequenceDict
 
 def plot_experiment_sequence_dict(
     exp_seq_dict: ExperimentSequenceDict,
-    get_experiment_name: Callable[[str], str],
     metadata_for_plot: dict[str, Any],
     color_palette: list[Any],
-    y_metric_list: list[str],
-    x_metric: str,
-    mode: str,
     p: Optional[figure],
     colors: Optional[list[str]] = None,
     color_offset: int = 0,
-    kwargs_for_exp_seq_dict: Optional[dict[str, Any]] = None,
+    kwargs_for_aggregate_metrics: Optional[dict[str, Any]] = None,
 ) -> figure:
     #
-    if not kwargs_for_exp_seq_dict:
-        kwargs_for_exp_seq_dict = {}
-    data = exp_seq_dict.aggregate_metrics(
-        get_experiment_name=get_experiment_name,
-        metric_names=y_metric_list,
-        x_name=x_metric,
-        mode=mode,
-        **kwargs_for_exp_seq_dict
-    )
+    if not kwargs_for_aggregate_metrics:
+        kwargs_for_aggregate_metrics = {}
+
+    for key in [
+        "get_experiment_name",
+        "metric_names",
+        "x_name",
+        "x_min",
+        "x_max",
+        "mode",
+        "drop_duplicates",
+        "dropna",
+        "verbose",
+    ]:
+        assert key in kwargs_for_aggregate_metrics
+
+    x_metric = kwargs_for_aggregate_metrics["x_name"]
+    y_metric_list = kwargs_for_aggregate_metrics["metric_names"]
+
+    data = exp_seq_dict.aggregate_metrics(**kwargs_for_aggregate_metrics)
 
     if not p:
         p = figure(
