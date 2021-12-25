@@ -34,8 +34,8 @@ def load_experiment(
     load_experiment_from_dir: Callable[[str], Experiment],
 ) -> Experiment:
     """Load experiment given a record."""
-    return load_experiment_from_dir(
-        log_dir=record["logbook"]["logger_dir"],  # type: ignore
+    return load_experiment_from_dir(  # type: ignore
+        log_dir=record["logbook"]["logger_dir"],
     )
 
 
