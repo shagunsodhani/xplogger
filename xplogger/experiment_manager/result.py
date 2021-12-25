@@ -1,3 +1,4 @@
+"""Result class to interface with experiment results."""
 from __future__ import annotations
 
 import json
@@ -40,6 +41,7 @@ class Result:
         )
 
     def serialize(self, dir_path: Path) -> Path:
+        """Save the result to the filesystem."""
         dir_path = dir_path.joinpath(self.name)
         xplogger_utils.make_dir(dir_path)
         data = self._get_json_dump()
@@ -76,6 +78,7 @@ class Result:
 
 
 def deserialize(dir_path: Path) -> Result:
+    """Load the result from the filesystem."""
     data_dir = dir_path.joinpath("data.json")
     with open(data_dir, "r") as f:
         json_dump = f.read()
@@ -103,11 +106,13 @@ class ResultDB(UserDict):  # type: ignore
         self.load_from_filesystem()
 
     def load_from_filesystem(self) -> None:
+        """Load the result db from the filesystem."""
         for result_path in self.path.iterdir():
             result = deserialize(dir_path=result_path)
             self.data[result.name] = result
 
     def save_to_filesystem(self) -> None:
+        """Save the result db to the filesystem."""
         for name in self.data:
             dir_path = self.path.joinpath(name)
             self.data[name].serialize(dir_path=dir_path)

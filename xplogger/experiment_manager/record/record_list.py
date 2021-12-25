@@ -1,4 +1,4 @@
-"""Record class"""
+"""Record class."""
 from __future__ import annotations
 
 import collections
@@ -30,6 +30,12 @@ class RecordList(UserList):  # type: ignore
         super().__init__(records)
 
     def mark_analyzed(self, collection: pymongo.collection.Collection) -> None:
+        """Mark records as analyzed (in the db).
+
+        Args:
+            collection (pymongo.collection.Collection):
+
+        """
         if isinstance(self.data[0], DictConfig):
 
             def process_record(record: base_record.Record) -> dict:  # type: ignore
@@ -57,6 +63,13 @@ class RecordList(UserList):  # type: ignore
         collection: pymongo.collection.Collection,
         delete_from_filesystem: bool = False,
     ) -> None:
+        """Delete jobs from the db and filesystem (optionally).
+
+        Args:
+            collection (pymongo.collection.Collection):
+            delete_from_filesystem (bool, optional): Should delete the job
+                from the filesystem. Defaults to False.
+        """
         counter = 0
         for record in self.data:
             counter += 1
@@ -70,11 +83,13 @@ class RecordList(UserList):  # type: ignore
         print(counter)
 
     def get_unique_issues(self) -> collections.Counter[str]:
+        """Get unique issues from the record list."""
         return collections.Counter(
             str(record["setup"]["git"]["issue_id"]) for record in self.data
         )
 
     def get_viz_params(self) -> set[str]:
+        """Get params for vizualization."""
         viz_params = set()
         for record in self.data:
             if record["setup"]["viz"]["params"]:
@@ -83,6 +98,7 @@ class RecordList(UserList):  # type: ignore
         return viz_params
 
     def make_oc_records(self) -> RecordList:
+        """Make OC records."""
         record_list = []
         for record in self.data:
             assert isinstance(record, MongoRecord)
@@ -91,6 +107,7 @@ class RecordList(UserList):  # type: ignore
         return RecordList(record_list)
 
     def ray_make_oc_records(self) -> RecordList:
+        """Make OC records using ray."""
         futures = [
             oc_utils.ray_make_record.remote(mongo_record=record) for record in self.data
         ]
@@ -98,6 +115,14 @@ class RecordList(UserList):  # type: ignore
         return RecordList(records=records)
 
     def map_to_slurm_id(self) -> dict[str, RecordList]:
+        """Map the record list to a list of slurm ids.
+
+        Returns:
+            dict[str, RecordList]: dictionary where the key is the slurm id
+                and value is the list of records. We return a list of records
+                as sometimes the records are duplicated.
+        """
+
         def _make_empty_record_list() -> RecordList:
             return RecordList([])
 
@@ -195,6 +220,15 @@ class RecordList(UserList):  # type: ignore
         return experiment_sequence_dict, groups, hyperparams
 
     def get_unique(self, key_func: Callable[[base_record.Record], str]) -> RecordList:
+        """Get unique records from the current record list.
+
+        Args:
+            key_func (Callable[[base_record.Record], str]): This function
+                computes the key (or hash) unsed to identify a record.
+
+        Returns:
+            RecordList: List of unique records.
+        """
         seen_keys = set()
         unique_records = []
         for record in self.data:

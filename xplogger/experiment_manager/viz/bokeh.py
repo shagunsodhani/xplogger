@@ -1,3 +1,4 @@
+"""Utlities functions to make bokeh plots."""
 from __future__ import annotations
 
 import math
@@ -17,7 +18,22 @@ def plot_experiment_sequence_dict(
     color_offset: int = 0,
     kwargs_for_aggregate_metrics: Optional[dict[str, Any]] = None,
 ) -> figure:
-    #
+    """Plot the given experiment sequence dict.
+
+    Args:
+        exp_seq_dict (ExperimentSequenceDict):
+        metadata_for_plot (dict[str, Any]):
+        color_palette (list[Any]):
+        p (Optional[figure]):
+        colors (Optional[list[str]], optional): Defaults to None.
+        color_offset (int, optional): Defaults to 0.
+        kwargs_for_aggregate_metrics (Optional[dict[str, Any]], optional):
+            These arguments are pass to aggregation function of exp_seq_dict.
+            Defaults to None.
+
+    Returns:
+        figure:
+    """
     if not kwargs_for_aggregate_metrics:
         kwargs_for_aggregate_metrics = {}
 

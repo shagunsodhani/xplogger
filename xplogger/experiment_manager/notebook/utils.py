@@ -1,15 +1,14 @@
+"""Utlities functions to make it easier to use xplogger with a jupyter notebook."""
 from __future__ import annotations
 
 import itertools
 from typing import Any
 
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from omegaconf import DictConfig, OmegaConf
 
 from xplogger.experiment_manager.record.record_list import RecordList
-from xplogger.experiment_manager.result import Result
 from xplogger.parser.experiment.experiment import (
     ExperimentSequence,
     ExperimentSequenceDict,
@@ -18,7 +17,13 @@ from xplogger.types import ValueType
 
 
 def prettyprint_dict(d: dict, sep: str = "\t", indent: int = 0) -> None:  # type: ignore
-    # error: Missing type parameters for generic type "dict"
+    r"""Pretty print a dictionary.
+
+    Args:
+        d (dict): input dictionary
+        sep (str, optional): Seperator to use. Defaults to "\t".
+        indent (int, optional): Indentation to use. Defaults to 0.
+    """
     for key, value in d.items():
         print(sep * indent + str(key))
         if isinstance(value, dict):
@@ -30,6 +35,17 @@ def prettyprint_dict(d: dict, sep: str = "\t", indent: int = 0) -> None:  # type
 def get_mean_and_std_err(
     experiment_sequence: ExperimentSequence, metadata: DictConfig
 ) -> tuple[np.typing.NDArray[np.float32], np.typing.NDArray[np.float32], int]:
+    """Compute the mean and standard error for a given experiment sequence.
+
+    Args:
+        experiment_sequence (ExperimentSequence):
+        metadata (DictConfig): metadata to use for computing the metrics
+
+    Returns:
+        tuple[np.typing.NDArray[np.float32], np.typing.NDArray[np.float32], int]:
+            tuple of mean, standard error and number of experiments in the
+            experiment sequence (useful for computing standard deviation etc).
+    """
     aggregated_metrics = experiment_sequence.aggregate_metrics(
         metric_names=[metadata.metric_name],
         x_name=metadata.x.name,
@@ -47,14 +63,27 @@ def get_mean_and_std_err(
     return mean, std, metrics.shape[0]
 
 
-def make_df(
+def make_df(  # noqa: C901
     metadata: DictConfig,
     step_metadata: DictConfig,
     groups: dict[Any, RecordList],
     hyperparams: dict[str, set[ValueType]],
     exp_seq_dict: ExperimentSequenceDict,
 ) -> pd.DataFrame:
+    """Make a dataframe using the given experience sequence dict.
 
+    Args:
+        metadata (DictConfig): Contains information like metric_name for
+            the metrics of interest.
+        step_metadata (DictConfig): Contains information like metric_name for
+            the step metric (eg epoch or frames)
+        groups (dict[Any, RecordList]):
+        hyperparams (dict[str, set[ValueType]]):
+        exp_seq_dict (ExperimentSequenceDict):
+
+    Returns:
+        pd.DataFrame:
+    """
     metrics = [
         f"mean_{metadata.metric_name}",
         f"stderr_{metadata.metric_name}",

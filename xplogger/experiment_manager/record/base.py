@@ -12,6 +12,15 @@ from xplogger.parser.experiment.experiment import Experiment, ExperimentSequence
 
 
 def get_nested_item(data: Record, keys: list[Any]) -> Any:
+    """Get item from a nested dict / record.
+
+    Args:
+        data (Record):
+        keys (list[Any]):
+
+    Returns:
+        Any:
+    """
     return reduce(lambda seq, key: seq[key] if key in seq else None, keys, data)  # type: ignore
 
 

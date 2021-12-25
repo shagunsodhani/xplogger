@@ -1,3 +1,4 @@
+"""Class to interface with the mongodb store."""
 from __future__ import annotations
 
 import ray
@@ -13,7 +14,8 @@ class MongoStore:
         self,
         config: ConfigType,
     ):
-        """Class to interface with the mongodb store
+        """Class to interface with the mongodb store.
+
         Args:
             config (ConfigType): Config to connect with the mongo store.
         """
@@ -23,6 +25,7 @@ class MongoStore:
         self.collection = self._client[db][collection_name]
 
     def ray_get_records(self) -> RecordList:
+        """Get records from the db using ray."""
         futures = [
             mongo_record_utils.ray_make_record.remote(record)
             for record in self.collection.find()
@@ -32,7 +35,7 @@ class MongoStore:
         return RecordList(records=records)
 
     def get_records(self, query) -> RecordList:  # type: ignore
-        # error: Function is missing a type annotation for one or more arguments
+        """Get records from the db."""
         return RecordList(
             records=[
                 mongo_record_utils.make_record(record)
@@ -43,24 +46,32 @@ class MongoStore:
     def delete_records(
         self, record_list: RecordList, delete_from_filesystem: bool = False
     ) -> None:
+        """Delete records from the db and filesystem (optional).
+
+        Args:
+            record_list (RecordList):
+            delete_from_filesystem (bool, optional): should delete records
+                from the filesystem. Defaults to False.
+        """
         record_list.delete(
             collection=self.collection, delete_from_filesystem=delete_from_filesystem
         )
 
     def mark_records_as_analyzed(self, record_list: RecordList) -> None:
+        """Mark records as analyzed in the db.
+
+        Args:
+            record_list (RecordList):
+        """
         record_list.mark_analyzed(collection=self.collection)
 
     def get_unanalyzed_records(self) -> RecordList:
+        """Get a lisr of un-analyzed records."""
         query = {"status": {"$ne": "ANALYZED"}}
-        return RecordList(
-            records=[
-                record
-                for record in self.get_records(query=query)
-                # if record.config["status"] != ""
-            ]
-        )
+        return RecordList(records=list(self.get_records(query=query)))
 
     def ray_get_unanalyzed_records(self) -> RecordList:
+        """Get unalalyzed records using ray."""
         query = {"status": {"$ne": "ANALYZED"}}
         futures = [
             mongo_record_utils.ray_make_record.remote(record)

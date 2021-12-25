@@ -1,4 +1,4 @@
-"""Record class"""
+"""OC Record."""
 from __future__ import annotations
 
 from copy import deepcopy
@@ -11,6 +11,7 @@ from xplogger.experiment_manager.record import mongo
 
 
 def make_record(mongo_record: mongo.Record) -> DictConfig:
+    """Make record."""
     data = deepcopy(mongo_record.data)
     data["id"] = str(data.pop("_id"))
     record = OmegaConf.create(data)
@@ -21,4 +22,5 @@ def make_record(mongo_record: mongo.Record) -> DictConfig:
 
 @ray.remote  # type: ignore
 def ray_make_record(mongo_record: mongo.Record) -> DictConfig:
+    """Make record using ray."""
     return make_record(mongo_record)

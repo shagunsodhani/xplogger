@@ -12,6 +12,7 @@ class Record(base.Record):
 
     @property
     def id(self) -> str:
+        """Get record id."""
         return str(self.data["_id"])
 
 
