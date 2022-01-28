@@ -1,4 +1,4 @@
-"""Functions to interface with the mongodb."""
+"""Functions to interface with mongodb."""
 
 
 from pymongo import MongoClient
@@ -16,8 +16,6 @@ class Logger(BaseLogger):
         Args:
             config (ConfigType): config to initialise the mongodb logger.
                 It must have four keys: host, port, db and collection.
-                "logger_file_path" is the path to the file where the logs
-                will be written. "logger_name" is the name of the logger instance
         """
         super().__init__(config=config)
         keys_to_check = [
@@ -37,7 +35,7 @@ class Logger(BaseLogger):
         self.collection = self.client[config["db"]][config["collection"]]
 
     def write(self, log: LogType) -> None:
-        """Write the log to the filesystem.
+        """Write the log to mongodb.
 
         Args:
             log (LogType): Log to write
