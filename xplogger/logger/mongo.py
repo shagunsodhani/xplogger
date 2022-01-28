@@ -15,7 +15,10 @@ class Logger(BaseLogger):
 
         Args:
             config (ConfigType): config to initialise the mongodb logger.
-                It must have four keys: host, port, db and collection.
+                It must have four keys: host, port, db and collection. It
+                can optionally have the following keys:
+                * `logger_types` - list/set of types that the logger
+                    should log.
         """
         super().__init__(config=config)
         keys_to_check = [
@@ -29,8 +32,9 @@ class Logger(BaseLogger):
             raise KeyError(
                 f"One or more of the following keys missing in the config: {key_string}"
             )
-
         self.logger_types = {"config", "message", "metadata"}
+        if "logger_types" in config:
+            self.logger_types = set(config["logger_types"])
         self.client = MongoClient(config["host"], config["port"])
         self.collection = self.client[config["db"]][config["collection"]]
 
