@@ -2,10 +2,25 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 from typing import Any
 
 import numpy as np
+
+from xplogger.types import LogType
+
+
+def serialize_log_to_json(log: LogType) -> str:
+    """Serialize the log into a JSON string.
+
+    Args:
+        log (LogType): Log to be serialized
+
+    Returns:
+        str: JSON serialized string
+    """
+    return json.dumps(log, default=to_json_serializable)
 
 
 def flatten_dict(

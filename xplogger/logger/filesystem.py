@@ -1,6 +1,5 @@
 """Functions to interface with the filesystem."""
 
-import json
 import logging
 import pathlib
 from functools import partial
@@ -8,19 +7,7 @@ from typing import Optional
 
 from xplogger.logger.base import Logger as BaseLogger
 from xplogger.types import ConfigType, LogType
-from xplogger.utils import make_dir, to_json_serializable
-
-
-def _serialize_log_to_json(log: LogType) -> str:
-    """Serialize the log into a JSON string.
-
-    Args:
-        log (LogType): Log to be serialized
-
-    Returns:
-        str: JSON serialized string
-    """
-    return json.dumps(log, default=to_json_serializable)
+from xplogger.utils import make_dir, serialize_log_to_json
 
 
 def _get_logger(logger_name: str = "default_logger") -> logging.Logger:
@@ -142,7 +129,7 @@ class Logger(BaseLogger):
         Args:
             log (LogType): Log to write
         """
-        log_str = _serialize_log_to_json(log=self._prepare_log_to_write(log))
+        log_str = serialize_log_to_json(log=self._prepare_log_to_write(log))
         return self._write_log_to_fs(log_str=log_str, log_type=log["logbook_type"])
 
     def _write_log_to_fs(self, log_str: str, log_type: str) -> None:
