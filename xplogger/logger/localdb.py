@@ -1,21 +1,21 @@
-"""Functions to interface with TinyDB."""
+"""Functions to interface with local db (a file)."""
 
 
-from tinydb import TinyDB
-from tinyrecord import transaction
+from filelock import FileLock
 
 from xplogger.logger.base import Logger as BaseLogger
 from xplogger.types import ConfigType, LogType
+from xplogger.utils import serialize_log_to_json
 
 
 class Logger(BaseLogger):
-    """Logger class that writes to TinyDB."""
+    """Logger class that writes to local db (a file)."""
 
     def __init__(self, config: ConfigType):
-        """Initialise the TinyDB Logger.
+        """Initialise the local db Logger.
 
         Args:
-            config (ConfigType): config to initialise the TinyDB logger.
+            config (ConfigType): config to initialise the local db logger.
                 It must have one key: `path`. It can optionally have the
                 following keys:
                 * `logger_types` - list/set of types that the logger
@@ -34,14 +34,15 @@ class Logger(BaseLogger):
         self.logger_types = {"config", "metadata"}
         if "logger_types" in config:
             self.logger_types = set(config["logger_types"])
+        self.lock = FileLock(f"{self.path}.lock")
 
     def write(self, log: LogType) -> None:
-        """Write the log to TinyDB.
+        """Write the log to local db.
 
         Args:
             log (LogType): Log to write
         """
         if log["logbook_type"] in self.logger_types:
-            table = TinyDB("db.json").table("table")
-            with transaction(table) as tr:
-                tr.insert(log)
+            with self.lock:
+                with open(self.path, "a") as f:
+                    f.write(serialize_log_to_json(log=log) + "\n")

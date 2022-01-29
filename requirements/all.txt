@@ -3,5 +3,4 @@ pymongo>=3.11.1
 wandb>=0.10.11
 tensorboardX>=2.1
 mlflow>=1.12.1
-tinydb>=4.6.1
-tinyrecord>=0.2.0
+filelock>=3.4.2
