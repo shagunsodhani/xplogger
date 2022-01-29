@@ -1,6 +1,8 @@
 """Functions to interface with mongodb."""
 
 
+from copy import deepcopy
+
 from pymongo import MongoClient
 
 from xplogger.logger.base import Logger as BaseLogger
@@ -45,4 +47,4 @@ class Logger(BaseLogger):
             log (LogType): Log to write
         """
         if log["logbook_type"] in self.logger_types:
-            self.collection.insert_one(log)
+            self.collection.insert_one(deepcopy(log))
