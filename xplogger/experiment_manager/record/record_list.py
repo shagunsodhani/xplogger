@@ -4,6 +4,7 @@ from __future__ import annotations
 import collections
 import shutil
 from collections import OrderedDict, UserList
+from subprocess import CalledProcessError
 from typing import Any, Callable
 
 import pymongo
@@ -14,6 +15,7 @@ from omegaconf import DictConfig, OmegaConf
 from xplogger.experiment_manager.record import base as base_record
 from xplogger.experiment_manager.record import omegaconf as oc_utils
 from xplogger.experiment_manager.record.mongo import Record as MongoRecord
+from xplogger.experiment_manager.slurm.utils import map_jobid_to_raw_job_id
 from xplogger.parser.experiment.experiment import (
     Experiment,
     ExperimentSequence,
@@ -57,6 +59,42 @@ class RecordList(UserList):  # type: ignore
             record["status"] = "ANALYZED"
             _id = ObjectId(record.pop("id"))
             print(collection.replace_one({"_id": _id}, record).raw_result)
+
+    def add_slurm_field(self, collection: pymongo.collection.Collection) -> None:
+        """Add slurm field to records (in the db).
+
+        Args:
+            collection (pymongo.collection.Collection):
+
+        """
+        if isinstance(self.data[0], DictConfig):
+
+            def process_record(record: base_record.Record) -> dict:  # type: ignore
+                # error: Returning Any from function declared to return "Dict[Any, Any]"
+                data = OmegaConf.to_container(record)
+                assert isinstance(data, dict)
+                return data
+
+        else:
+
+            def process_record(record: base_record.Record) -> base_record.Record:  # type: ignore
+                # error: All conditional function variants must have identical signatures
+                return record
+
+        for data_record in self.data:
+            record = process_record(data_record)
+            if "slurm" not in record["setup"]:
+                try:
+                    record["setup"]["slurm"] = {
+                        "id": map_jobid_to_raw_job_id(record["setup"]["slurm_id"])
+                    }
+                except CalledProcessError:
+                    record["setup"]["slurm"] = {"id": -1}
+                    # print(record["setup"]["slurm_id"])
+                    # continue
+                print(record["setup"]["slurm"]["id"])
+                _id = ObjectId(record.pop("_id"))
+                print(collection.replace_one({"_id": _id}, record).raw_result)
 
     def delete(
         self,
