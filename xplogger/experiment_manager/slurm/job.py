@@ -40,14 +40,13 @@ def get_running_jobs_as_df(
     Returns:
         pd.DataFrame:
     """
-
     return pd.DataFrame(get_running_jobs_as_list(user=user, mongo_stores=mongo_stores))
 
 
 def get_running_jobs_as_list(
     user: str = "$USER", mongo_stores: Optional[list[MongoStore]] = None
 ) -> SlurmInfoList:
-    """Get a list of SlurmInfo objects corresponding to running jobs
+    """Get a list of SlurmInfo objects corresponding to running jobs.
 
     Returns:
         list[SlurmInfo]: [running jobs]

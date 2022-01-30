@@ -6,6 +6,7 @@ from typing import Any, cast
 
 
 def map_jobid_to_raw_job_id(job_id: str) -> str:
+    """Map job_id to raw job_id."""
     if "_" in job_id:
         return cast(str, get_info_from_slurm(job_id=job_id)["raw_job_id"])
     else:

@@ -31,7 +31,8 @@ class SlurmInfo:
     script_id: str = ""
 
     @classmethod
-    def from_dict(cls, data) -> SlurmInfo:
+    def from_dict(cls, data: dict[str, str]) -> SlurmInfo:  # noqa: ANN102
+        """Map a dict to SlurmInfo instance."""
         slurm_key_to_kwarg_key_mapping = {
             "PRIORITY": "priority",
             "JOBID": "job_id",
@@ -65,11 +66,13 @@ class SlurmInfoList(UserList):
     def to_slurminfo_dict(
         self, key_fn=lambda slurm_info: slurm_info.job_id
     ) -> SlurmInfoDict:
+        """Map SlurmInfo instance to a dict."""
         return SlurmInfoDict(
             {key_fn(slurm_info): slurm_info for slurm_info in self.data}
         )
 
-    def populate_additional_fields(self, mongo_stores: list[MongoStore]):
+    def populate_additional_fields(self, mongo_stores: list[MongoStore]) -> None:
+        """Populate additional fields like collection, git_issue_id and script_id."""
         records = []
         for current_mongo_store in mongo_stores:
             records += current_mongo_store.get_unanalyzed_records()
