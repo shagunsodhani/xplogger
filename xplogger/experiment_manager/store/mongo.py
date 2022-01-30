@@ -4,10 +4,13 @@ from __future__ import annotations
 from pathlib import Path
 
 import ray
+from bson.objectid import ObjectId
 from pymongo import MongoClient
 
 from xplogger.experiment_manager.record import mongo as mongo_record_utils
 from xplogger.experiment_manager.record.record_list import RecordList
+from xplogger.experiment_manager.slurm.job import map_jobid_to_raw_job_id
+from xplogger.parser.utils import parse_json
 from xplogger.types import ConfigType
 from xplogger.utils import serialize_log_to_json
 
@@ -93,3 +96,23 @@ class MongoStore:
                 f.write(serialize_log_to_json(record))
                 f.write("\n")
 
+    def load_from_file(self, filepath: Path) -> None:
+        """Load records from a file to Mongo DB"""
+        with open(filepath) as f:
+            for record in f:
+                record_dict = parse_json(record)
+                assert record_dict is not None
+                record_dict["_id"] = ObjectId(record_dict["_id"])
+                self.collection.insert_one(record_dict)
+
+    def replace_from_file(self, filepath: Path, upsert: bool = False) -> None:
+        """Replace records from a file to Mongo DB"""
+        with open(filepath) as f:
+            for record in f:
+                record_dict = parse_json(record)
+                assert record_dict is not None
+                self.collection.replace_one(
+                    {"_id": ObjectId(record_dict.pop("_id"))},
+                    record_dict,
+                    upsert=upsert,
+                )
