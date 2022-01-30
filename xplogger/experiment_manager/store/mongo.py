@@ -9,7 +9,6 @@ from pymongo import MongoClient
 
 from xplogger.experiment_manager.record import mongo as mongo_record_utils
 from xplogger.experiment_manager.record.record_list import RecordList
-from xplogger.experiment_manager.slurm.job import map_jobid_to_raw_job_id
 from xplogger.parser.utils import parse_json
 from xplogger.types import ConfigType
 from xplogger.utils import serialize_log_to_json
