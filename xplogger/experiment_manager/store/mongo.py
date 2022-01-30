@@ -1,12 +1,15 @@
 """Class to interface with the mongodb store."""
 from __future__ import annotations
 
+from pathlib import Path
+
 import ray
 from pymongo import MongoClient
 
 from xplogger.experiment_manager.record import mongo as mongo_record_utils
 from xplogger.experiment_manager.record.record_list import RecordList
 from xplogger.types import ConfigType
+from xplogger.utils import serialize_log_to_json
 
 
 class MongoStore:
@@ -80,3 +83,13 @@ class MongoStore:
         records = ray.get(futures)
         assert isinstance(records, list)
         return RecordList(records=records)
+
+    def save_to_file(self, filepath: Path) -> None:
+        """Save mongo records to a file"""
+        with open(filepath, "a") as f:
+            for record in self.collection.find():
+                record["_id"] = str(record["_id"])
+                record["mongo_id"] = record["_id"]
+                f.write(serialize_log_to_json(record))
+                f.write("\n")
+
