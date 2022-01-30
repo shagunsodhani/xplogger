@@ -87,7 +87,7 @@ class MongoStore:
         return RecordList(records=records)
 
     def save_to_file(self, filepath: Path) -> None:
-        """Save mongo records to a file"""
+        """Save mongo records to a file."""
         with open(filepath, "a") as f:
             for record in self.collection.find():
                 record["_id"] = str(record["_id"])
@@ -96,7 +96,7 @@ class MongoStore:
                 f.write("\n")
 
     def load_from_file(self, filepath: Path) -> None:
-        """Load records from a file to Mongo DB"""
+        """Load records from a file to Mongo DB."""
         with open(filepath) as f:
             for record in f:
                 record_dict = parse_json(record)
@@ -105,7 +105,7 @@ class MongoStore:
                 self.collection.insert_one(record_dict)
 
     def replace_from_file(self, filepath: Path, upsert: bool = False) -> None:
-        """Replace records from a file to Mongo DB"""
+        """Replace records from a file to Mongo DB."""
         with open(filepath) as f:
             for record in f:
                 record_dict = parse_json(record)
