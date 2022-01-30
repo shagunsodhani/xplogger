@@ -7,7 +7,7 @@ from xplogger.parser.experiment import ExperimentSequenceDict  # type: ignore
 
 
 def validate_kwargs_for_aggregate_metrics(
-    kwargs_for_aggregate_metrics: dict[str, Any]
+    kwargs_for_aggregate_metrics: Optional[dict[str, Any]]
 ) -> None:
     assert kwargs_for_aggregate_metrics is not None
     for key in [

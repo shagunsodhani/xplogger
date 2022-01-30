@@ -59,7 +59,7 @@ class RecordList(UserList):  # type: ignore
             issue_id = record["setup"]["git"]["issue_id"]
             print(issue_id)
             record["status"] = new_status
-            _id = ObjectId(record.pop("id"))
+            _id = ObjectId(record.pop("_id"))
             print(collection.replace_one({"_id": _id}, record).raw_result)
 
     def mark_analyzed(self, collection: pymongo.collection.Collection) -> None:
@@ -100,9 +100,9 @@ class RecordList(UserList):  # type: ignore
                         "id": map_jobid_to_raw_job_id(record["setup"]["slurm_id"])
                     }
                 except CalledProcessError:
-                    record["setup"]["slurm"] = {"id": -1}
-                    # print(record["setup"]["slurm_id"])
-                    # continue
+                    # record["setup"]["slurm"] = {"id": -1}
+                    print(record["setup"]["slurm_id"])
+                    continue
                 print(record["setup"]["slurm"]["id"])
                 _id = ObjectId(record.pop("_id"))
                 print(collection.replace_one({"_id": _id}, record).raw_result)
