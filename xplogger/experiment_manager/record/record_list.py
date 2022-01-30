@@ -31,8 +31,10 @@ class RecordList(UserList):  # type: ignore
         """Dict-like interface to a collection of results."""
         super().__init__(records)
 
-    def mark_analyzed(self, collection: pymongo.collection.Collection) -> None:
-        """Mark records as analyzed (in the db).
+    def update_status(
+        self, collection: pymongo.collection.Collection, new_status: str
+    ) -> None:
+        """Update the status of the records(in the db).
 
         Args:
             collection (pymongo.collection.Collection):
@@ -56,9 +58,18 @@ class RecordList(UserList):  # type: ignore
             record = process_record(data_record)
             issue_id = record["setup"]["git"]["issue_id"]
             print(issue_id)
-            record["status"] = "ANALYZED"
+            record["status"] = new_status
             _id = ObjectId(record.pop("id"))
             print(collection.replace_one({"_id": _id}, record).raw_result)
+
+    def mark_analyzed(self, collection: pymongo.collection.Collection) -> None:
+        """Mark records as analyzed (in the db).
+
+        Args:
+            collection (pymongo.collection.Collection):
+
+        """
+        return self.update_status(collection=collection, new_status="ANALYZED")
 
     def add_slurm_field(self, collection: pymongo.collection.Collection) -> None:
         """Add slurm field to records (in the db).
