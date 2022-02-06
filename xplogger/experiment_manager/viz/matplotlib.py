@@ -23,6 +23,7 @@ def plot_experiment_sequence_dict(
     kwargs_for_aggregate_metrics: Optional[dict[str, Any]] = None,
 ) -> None:
     """Plot the given experiment sequence dict as a matplotlib.
+
     Args:
         exp_seq_dict (ExperimentSequenceDict):
         metadata_for_plot (dict[str, Any]):
@@ -36,7 +37,6 @@ def plot_experiment_sequence_dict(
     Returns:
         figure:
     """
-
     validate_kwargs_for_aggregate_metrics(
         kwargs_for_aggregate_metrics=kwargs_for_aggregate_metrics
     )
