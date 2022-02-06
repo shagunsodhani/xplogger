@@ -9,6 +9,8 @@ from xplogger.parser.experiment import ExperimentSequenceDict  # type: ignore
 def validate_kwargs_for_aggregate_metrics(
     kwargs_for_aggregate_metrics: Optional[dict[str, Any]]
 ) -> None:
+    """Validate that kwargs is not None and contains certain keys."""
+
     assert kwargs_for_aggregate_metrics is not None
     for key in [
         "get_experiment_name",
@@ -32,6 +34,7 @@ def get_data_and_colors(
     colors: Optional[list[str]],
     color_offset: int,
 ) -> tuple[dict[str, Any], list[str]]:
+    """Extract data and colors for generating the plots."""
     data = exp_seq_dict.aggregate_metrics(
         return_all_metrics_with_same_length=return_all_metrics_with_same_length,
         **kwargs_for_aggregate_metrics,

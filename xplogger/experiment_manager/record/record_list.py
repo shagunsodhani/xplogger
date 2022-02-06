@@ -4,7 +4,7 @@ from __future__ import annotations
 import collections
 import shutil
 from collections import OrderedDict, UserList
-from subprocess import CalledProcessError
+from subprocess import CalledProcessError  # noqa: S404
 from typing import Any, Callable
 
 import pymongo

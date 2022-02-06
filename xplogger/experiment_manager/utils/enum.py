@@ -1,3 +1,4 @@
+"""Enum data-structures"""
 from enum import Enum
 
 
