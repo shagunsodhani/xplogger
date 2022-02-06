@@ -2,6 +2,8 @@
 ![PyPI - License](https://img.shields.io/pypi/l/xplogger)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/xplogger)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![DOI](https://zenodo.org/badge/351860799.svg)](https://zenodo.org/badge/latestdoi/351860799)
+
 
 # xplogger
 Logging utility for ML experiments
