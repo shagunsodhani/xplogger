@@ -131,7 +131,7 @@ def make_df(  # noqa: C901
                 results["converged"][f"stderr_{metric_name}"].append(
                     std_err[np.argmax(mean)]
                 )
-                results["converged"][f"mean_{metric_name}"].append(np.max(mean))  # type: ignore
+                results["converged"][f"mean_{metric_name}"].append(np.max(mean))
                 # error: Call to untyped function "max" in typed context
                 results["aggregated"][f"stderr_{metric_name}"].append(std_err[-1])
                 results["aggregated"][f"mean_{metric_name}"].append(mean[-1])
@@ -139,7 +139,7 @@ def make_df(  # noqa: C901
                 for mode in ["aggregated", "converged"]:
                     results[mode]["steps"].append(None)
             else:
-                results["converged"]["steps"].append(np.max(mean_steps))  # type: ignore
+                results["converged"]["steps"].append(np.max(mean_steps))
                 # error: Call to untyped function "max" in typed context
                 results["aggregated"]["steps"].append(mean_steps[-1])
             for mode in ["aggregated", "converged"]:
