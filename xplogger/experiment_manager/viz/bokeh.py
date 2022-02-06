@@ -67,9 +67,16 @@ def plot_experiment_sequence_dict(
     )
 
     for index, (key, y) in enumerate(data.items(), color_offset):
-        if key == x_metric:
+        if key.endswith(f"_{x_metric}"):
             continue
-        x = data[x_metric]
+        for current_metric_name in y_metric_list:
+            if key.endswith(current_metric_name):
+                current_exp_seq_key = key.replace(f"_{current_metric_name}", "")
+                break
+        else:
+            print("Can not find the metric name.")
+        x_key = f"{current_exp_seq_key}_{x_metric}"
+        x = data[x_key].mean(axis=0)
         mean = y.mean(axis=0)
         stderr = y.std(axis=0) / math.sqrt(len(y))
         p.line(x, mean, line_width=2, color=colors[index], legend_label=key)
