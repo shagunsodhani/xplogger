@@ -42,8 +42,8 @@ def plot_experiment_sequence_dict(
         kwargs_for_aggregate_metrics=kwargs_for_aggregate_metrics
     )
 
-    x_metric = kwargs_for_aggregate_metrics["x_name"]
-    y_metric_list = kwargs_for_aggregate_metrics["metric_names"]
+    x_metric = kwargs_for_aggregate_metrics["x_name"]  # type: ignore
+    y_metric_list = kwargs_for_aggregate_metrics["metric_names"]  # type: ignore
 
     plt.title(metadata_for_plot.get("title", "Default Title"))
     plt.xlabel(x_metric)
@@ -52,7 +52,7 @@ def plot_experiment_sequence_dict(
     data, colors = get_data_and_colors(
         exp_seq_dict=exp_seq_dict,
         return_all_metrics_with_same_length=return_all_metrics_with_same_length,
-        kwargs_for_aggregate_metrics=kwargs_for_aggregate_metrics,
+        kwargs_for_aggregate_metrics=kwargs_for_aggregate_metrics,  # type: ignore
         color_palette=color_palette,
         colors=colors,
         color_offset=color_offset,
