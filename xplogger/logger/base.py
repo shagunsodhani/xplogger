@@ -18,8 +18,8 @@ class Logger(metaclass=ABCMeta):
         self.keys_to_retain: Optional[List[str]] = None
         self.keys_to_skip: List[str] = []
         self.keys_to_check: List[str] = []
-        self.key_map: Optional[KeyMapType] = config.pop("logbook_key_map")
-        self.key_prefix: Optional[str] = config.pop("logbook_key_prefix")
+        self.key_map: Optional[KeyMapType] = config.pop("logbook_key_map", None)
+        self.key_prefix: Optional[str] = config.pop("logbook_key_prefix", "")
 
     @abstractmethod
     def write(self, log: LogType) -> None:

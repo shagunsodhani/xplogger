@@ -1,0 +1,382 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>xplogger.experiment_manager.notebook.utils &mdash; xplogger 0.9.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> xplogger
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html">Why xplogger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html#use">Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html#note">Note</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html#dev-setup">Dev Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html#acknowledgements">Acknowledgements</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/api/modules.html">xplogger</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">xplogger</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>xplogger.experiment_manager.notebook.utils</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for xplogger.experiment_manager.notebook.utils</h1><div class="highlight"><pre>
+<span></span><span class="c1"># type: ignore</span>
+<span class="sd">&quot;&quot;&quot;Utlities functions to make it easier to use xplogger with a jupyter notebook.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">omegaconf</span> <span class="kn">import</span> <span class="n">DictConfig</span><span class="p">,</span> <span class="n">OmegaConf</span>
+
+<span class="kn">from</span> <span class="nn">xplogger.experiment_manager.record.record_list</span> <span class="kn">import</span> <span class="n">RecordList</span>
+<span class="kn">from</span> <span class="nn">xplogger.parser.experiment.experiment</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ExperimentSequence</span><span class="p">,</span>
+    <span class="n">ExperimentSequenceDict</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">xplogger.types</span> <span class="kn">import</span> <span class="n">ValueType</span>
+
+
+<div class="viewcode-block" id="prettyprint_dict"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.notebook.html#xplogger.experiment_manager.notebook.utils.prettyprint_dict">[docs]</a><span class="k">def</span> <span class="nf">prettyprint_dict</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">sep</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">indent</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Pretty print a dictionary.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        d (dict): input dictionary</span>
+<span class="sd">        sep (str, optional): Seperator to use. Defaults to &quot;\t&quot;.</span>
+<span class="sd">        indent (int, optional): Indentation to use. Defaults to 0.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">sep</span> <span class="o">*</span> <span class="n">indent</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">prettyprint_dict</span><span class="p">(</span><span class="n">d</span><span class="o">=</span><span class="n">value</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="n">indent</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">sep</span> <span class="o">*</span> <span class="p">(</span><span class="n">indent</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="get_mean_and_std_err"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.notebook.html#xplogger.experiment_manager.notebook.utils.get_mean_and_std_err">[docs]</a><span class="k">def</span> <span class="nf">get_mean_and_std_err</span><span class="p">(</span>
+    <span class="n">experiment_sequence</span><span class="p">:</span> <span class="n">ExperimentSequence</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">DictConfig</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">],</span> <span class="nb">int</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Compute the mean and standard error for a given experiment sequence.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        experiment_sequence (ExperimentSequence):</span>
+<span class="sd">        metadata (DictConfig): metadata to use for computing the metrics</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple[np.typing.NDArray[np.float32], np.typing.NDArray[np.float32], int]:</span>
+<span class="sd">            tuple of mean, standard error and number of experiments in the</span>
+<span class="sd">            experiment sequence (useful for computing standard deviation etc).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">aggregated_metrics</span> <span class="o">=</span> <span class="n">experiment_sequence</span><span class="o">.</span><span class="n">aggregate_metrics</span><span class="p">(</span>
+        <span class="n">metric_names</span><span class="o">=</span><span class="p">[</span><span class="n">metadata</span><span class="o">.</span><span class="n">metric_name</span><span class="p">],</span>
+        <span class="n">x_name</span><span class="o">=</span><span class="n">metadata</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">x_min</span><span class="o">=</span><span class="n">metadata</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">,</span>
+        <span class="n">x_max</span><span class="o">=</span><span class="n">metadata</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">,</span>
+        <span class="n">mode</span><span class="o">=</span><span class="n">metadata</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+        <span class="n">drop_duplicates</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">dropna</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">metrics</span> <span class="o">=</span> <span class="n">aggregated_metrics</span><span class="p">[</span><span class="n">metadata</span><span class="o">.</span><span class="n">metric_name</span><span class="p">]</span>
+
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="n">metrics</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="make_df"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.notebook.html#xplogger.experiment_manager.notebook.utils.make_df">[docs]</a><span class="k">def</span> <span class="nf">make_df</span><span class="p">(</span>  <span class="c1"># noqa: C901</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="n">DictConfig</span><span class="p">,</span>
+    <span class="n">step_metadata</span><span class="p">:</span> <span class="n">DictConfig</span><span class="p">,</span>
+    <span class="n">groups</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">RecordList</span><span class="p">],</span>
+    <span class="n">hyperparams</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="n">ValueType</span><span class="p">]],</span>
+    <span class="n">exp_seq_dict</span><span class="p">:</span> <span class="n">ExperimentSequenceDict</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Make a dataframe using the given experience sequence dict.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        metadata (DictConfig): Contains information like metric_name for</span>
+<span class="sd">            the metrics of interest.</span>
+<span class="sd">        step_metadata (DictConfig): Contains information like metric_name for</span>
+<span class="sd">            the step metric (eg epoch or frames)</span>
+<span class="sd">        groups (dict[Any, RecordList]):</span>
+<span class="sd">        hyperparams (dict[str, set[ValueType]]):</span>
+<span class="sd">        exp_seq_dict (ExperimentSequenceDict):</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">metrics</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="sa">f</span><span class="s2">&quot;mean_</span><span class="si">{</span><span class="n">metadata</span><span class="o">.</span><span class="n">metric_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;stderr_</span><span class="si">{</span><span class="n">metadata</span><span class="o">.</span><span class="n">metric_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;steps&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="n">results</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;aggregated&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;converged&quot;</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">hyperparams</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">+</span> <span class="n">metrics</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;seeds&quot;</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;aggregated&quot;</span><span class="p">,</span> <span class="s2">&quot;converged&quot;</span><span class="p">]:</span>
+            <span class="n">results</span><span class="p">[</span><span class="n">mode</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">valid_params</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">params</span>
+        <span class="k">for</span> <span class="n">params</span> <span class="ow">in</span> <span class="nb">map</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">_product</span><span class="p">:</span> <span class="n">OmegaConf</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">hyperparams</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">_product</span><span class="p">)}</span>
+            <span class="p">),</span>
+            <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">hyperparams</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">in</span> <span class="n">groups</span>
+    <span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">combination</span> <span class="ow">in</span> <span class="n">valid_params</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">hyperparams</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;aggregated&quot;</span><span class="p">,</span> <span class="s2">&quot;converged&quot;</span><span class="p">]:</span>
+                <span class="n">results</span><span class="p">[</span><span class="n">mode</span><span class="p">][</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">combination</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">mean</span><span class="p">,</span> <span class="n">std_err</span><span class="p">,</span> <span class="n">num_seeds</span> <span class="o">=</span> <span class="n">get_mean_and_std_err</span><span class="p">(</span>
+                <span class="n">exp_seq_dict</span><span class="p">[</span><span class="n">combination</span><span class="p">],</span> <span class="n">metadata</span>
+            <span class="p">)</span>
+            <span class="n">mean_steps</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_mean_and_std_err</span><span class="p">(</span>
+                <span class="n">exp_seq_dict</span><span class="p">[</span><span class="n">combination</span><span class="p">],</span> <span class="n">step_metadata</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">mean</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">std_err</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">metric_name</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">metric_name</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;converged&quot;</span><span class="p">][</span><span class="sa">f</span><span class="s2">&quot;stderr_</span><span class="si">{</span><span class="n">metric_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;converged&quot;</span><span class="p">][</span><span class="sa">f</span><span class="s2">&quot;mean_</span><span class="si">{</span><span class="n">metric_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;aggregated&quot;</span><span class="p">][</span><span class="sa">f</span><span class="s2">&quot;stderr_</span><span class="si">{</span><span class="n">metric_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;aggregated&quot;</span><span class="p">][</span><span class="sa">f</span><span class="s2">&quot;mean_</span><span class="si">{</span><span class="n">metric_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">metric_name</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">metric_name</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;converged&quot;</span><span class="p">][</span><span class="sa">f</span><span class="s2">&quot;stderr_</span><span class="si">{</span><span class="n">metric_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">std_err</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">mean</span><span class="p">)]</span>
+                <span class="p">)</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;converged&quot;</span><span class="p">][</span><span class="sa">f</span><span class="s2">&quot;mean_</span><span class="si">{</span><span class="n">metric_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">mean</span><span class="p">))</span>
+                <span class="c1"># error: Call to untyped function &quot;max&quot; in typed context</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;aggregated&quot;</span><span class="p">][</span><span class="sa">f</span><span class="s2">&quot;stderr_</span><span class="si">{</span><span class="n">metric_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">std_err</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;aggregated&quot;</span><span class="p">][</span><span class="sa">f</span><span class="s2">&quot;mean_</span><span class="si">{</span><span class="n">metric_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mean</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">mean_steps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;aggregated&quot;</span><span class="p">,</span> <span class="s2">&quot;converged&quot;</span><span class="p">]:</span>
+                    <span class="n">results</span><span class="p">[</span><span class="n">mode</span><span class="p">][</span><span class="s2">&quot;steps&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;converged&quot;</span><span class="p">][</span><span class="s2">&quot;steps&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">mean_steps</span><span class="p">))</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;aggregated&quot;</span><span class="p">][</span><span class="s2">&quot;steps&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mean_steps</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;aggregated&quot;</span><span class="p">,</span> <span class="s2">&quot;converged&quot;</span><span class="p">]:</span>
+                <span class="n">results</span><span class="p">[</span><span class="n">mode</span><span class="p">][</span><span class="s2">&quot;seeds&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num_seeds</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">hyperparams</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;aggregated&quot;</span><span class="p">,</span> <span class="s2">&quot;converged&quot;</span><span class="p">]:</span>
+                    <span class="n">results</span><span class="p">[</span><span class="n">mode</span><span class="p">][</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;converged&quot;</span><span class="p">])</span></div>
+
+
+<span class="c1"># import matplotlib.pyplot as plt</span>
+<span class="c1"># from xplogger.experiment_manager.result import Result</span>
+<span class="c1"># def plot_result(result: Result, mode: str, metric: str) -&gt; None:</span>
+<span class="c1">#     info = result.info</span>
+<span class="c1">#     steps = (</span>
+<span class="c1">#         result.metrics[mode][&quot;steps&quot;] * result.info[mode][&quot;x&quot;][&quot;alpha&quot;]</span>
+<span class="c1">#         + result.info[mode][&quot;x&quot;][&quot;beta&quot;]</span>
+<span class="c1">#     )</span>
+<span class="c1">#     y_mean = (</span>
+<span class="c1">#         result.metrics[mode][f&quot;{metric}_mean&quot;] * result.info[mode][&quot;y&quot;][&quot;alpha&quot;]</span>
+<span class="c1">#         + result.info[mode][&quot;y&quot;][&quot;beta&quot;]</span>
+<span class="c1">#     )</span>
+
+<span class="c1">#     y_stderr = result.metrics[mode][f&quot;{metric}_stderr&quot;]</span>
+
+<span class="c1">#     plt.plot(steps, y_mean, label=result.label)</span>
+
+<span class="c1">#     plt.fill_between(steps, y_mean - y_stderr, y_mean + y_stderr, alpha=0.1)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, Shagun Sodhani.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

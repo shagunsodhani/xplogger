@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>xplogger.logger.filesystem &mdash; xplogger 0.8 documentation</title>
+  <title>xplogger.logger.filesystem &mdash; xplogger 0.9.0 documentation</title>
   
 
   
@@ -162,7 +162,6 @@
   <h1>Source code for xplogger.logger.filesystem</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Functions to interface with the filesystem.&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">pathlib</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
@@ -170,19 +169,7 @@
 
 <span class="kn">from</span> <span class="nn">xplogger.logger.base</span> <span class="kn">import</span> <span class="n">Logger</span> <span class="k">as</span> <span class="n">BaseLogger</span>
 <span class="kn">from</span> <span class="nn">xplogger.types</span> <span class="kn">import</span> <span class="n">ConfigType</span><span class="p">,</span> <span class="n">LogType</span>
-<span class="kn">from</span> <span class="nn">xplogger.utils</span> <span class="kn">import</span> <span class="n">make_dir</span><span class="p">,</span> <span class="n">to_json_serializable</span>
-
-
-<span class="k">def</span> <span class="nf">_serialize_log_to_json</span><span class="p">(</span><span class="n">log</span><span class="p">:</span> <span class="n">LogType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Serialize the log into a JSON string.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        log (LogType): Log to be serialized</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        str: JSON serialized string</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">log</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">to_json_serializable</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">xplogger.utils</span> <span class="kn">import</span> <span class="n">make_dir</span><span class="p">,</span> <span class="n">serialize_log_to_json</span>
 
 
 <span class="k">def</span> <span class="nf">_get_logger</span><span class="p">(</span><span class="n">logger_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;default_logger&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span><span class="p">:</span>
@@ -268,7 +255,7 @@
 
         <span class="n">logger_types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="s2">&quot;metric&quot;</span><span class="p">]</span>
 
-        <span class="n">make_dir</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;logger_dir&quot;</span><span class="p">])</span>
+        <span class="n">make_dir</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;logger_dir&quot;</span><span class="p">]))</span>
 
         <span class="n">_get_logger_file_path</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
             <span class="n">get_logger_file_path</span><span class="p">,</span>
@@ -304,7 +291,7 @@
 <span class="sd">        Args:</span>
 <span class="sd">            log (LogType): Log to write</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">log_str</span> <span class="o">=</span> <span class="n">_serialize_log_to_json</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_prepare_log_to_write</span><span class="p">(</span><span class="n">log</span><span class="p">))</span>
+        <span class="n">log_str</span> <span class="o">=</span> <span class="n">serialize_log_to_json</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_prepare_log_to_write</span><span class="p">(</span><span class="n">log</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_write_log_to_fs</span><span class="p">(</span><span class="n">log_str</span><span class="o">=</span><span class="n">log_str</span><span class="p">,</span> <span class="n">log_type</span><span class="o">=</span><span class="n">log</span><span class="p">[</span><span class="s2">&quot;logbook_type&quot;</span><span class="p">])</span></div>
 
     <span class="k">def</span> <span class="nf">_write_log_to_fs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">log_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>

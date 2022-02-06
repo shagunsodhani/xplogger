@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>xplogger.parser.metric &mdash; xplogger 0.8 documentation</title>
+  <title>xplogger.parser.metric &mdash; xplogger 0.9.0 documentation</title>
   
 
   
@@ -162,7 +162,9 @@
   <h1>Source code for xplogger.parser.metric</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Implementation of Parser to parse metrics from logs.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
@@ -175,30 +177,30 @@
     <span class="k">return</span> <span class="n">log_parser</span><span class="o">.</span><span class="n">parse_json_and_match_value</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="n">line</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;metric&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="group_metrics"><a class="viewcode-back" href="../../../pages/api/xplogger.parser.html#xplogger.parser.metric.group_metrics">[docs]</a><span class="k">def</span> <span class="nf">group_metrics</span><span class="p">(</span><span class="n">metrics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">MetricType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">MetricType</span><span class="p">]]:</span>
+<div class="viewcode-block" id="group_metrics"><a class="viewcode-back" href="../../../pages/api/xplogger.parser.html#xplogger.parser.metric.group_metrics">[docs]</a><span class="k">def</span> <span class="nf">group_metrics</span><span class="p">(</span><span class="n">metrics</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">MetricType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">MetricType</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;Group a list of metrics.</span>
 
 <span class="sd">    Group a list of metrics into a dictionary of</span>
 <span class="sd">        (key, list of grouped metrics)</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        metrics (List[MetricType]): List of metrics to group</span>
+<span class="sd">        metrics (list[MetricType]): list of metrics to group</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Dict[str, List[MetricType]]: Dictionary of (key,</span>
+<span class="sd">        dict[str, list[MetricType]]: Dictionary of (key,</span>
 <span class="sd">            list of grouped metrics)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;all&quot;</span><span class="p">:</span> <span class="n">metrics</span><span class="p">}</span></div>
 
 
-<div class="viewcode-block" id="aggregate_metrics"><a class="viewcode-back" href="../../../pages/api/xplogger.parser.html#xplogger.parser.metric.aggregate_metrics">[docs]</a><span class="k">def</span> <span class="nf">aggregate_metrics</span><span class="p">(</span><span class="n">metrics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">MetricType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">MetricType</span><span class="p">]:</span>
+<div class="viewcode-block" id="aggregate_metrics"><a class="viewcode-back" href="../../../pages/api/xplogger.parser.html#xplogger.parser.metric.aggregate_metrics">[docs]</a><span class="k">def</span> <span class="nf">aggregate_metrics</span><span class="p">(</span><span class="n">metrics</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">MetricType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">MetricType</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Aggregate a list of metrics.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        metrics (List[MetricType]): List of metrics to aggregate</span>
+<span class="sd">        metrics (list[MetricType]): list of metrics to aggregate</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        List[MetricType]: List of aggregated metrics</span>
+<span class="sd">        list[MetricType]: list of aggregated metrics</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">metrics</span></div>
 
@@ -222,10 +224,10 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">filepath_pattern</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">group_metrics</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span>
-            <span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">LogType</span><span class="p">]],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">LogType</span><span class="p">]]</span>
+            <span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">LogType</span><span class="p">]],</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">LogType</span><span class="p">]]</span>
         <span class="p">]</span> <span class="o">=</span> <span class="n">group_metrics</span><span class="p">,</span>
-        <span class="n">aggregate_metrics</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">List</span><span class="p">[</span><span class="n">LogType</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="n">LogType</span><span class="p">]]</span> <span class="o">=</span> <span class="n">aggregate_metrics</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
+        <span class="n">aggregate_metrics</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">list</span><span class="p">[</span><span class="n">LogType</span><span class="p">]],</span> <span class="nb">list</span><span class="p">[</span><span class="n">LogType</span><span class="p">]]</span> <span class="o">=</span> <span class="n">aggregate_metrics</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Create a dict of (metric_name, dataframe).</span>
 
 <span class="sd">        Method that:</span>
@@ -237,10 +239,10 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            filepath_pattern (str): filepath pattern to glob</span>
-<span class="sd">            group_metrics (Callable[[List[LogType]], Dict[str, List[LogType]]], optional):</span>
+<span class="sd">            group_metrics (Callable[[list[LogType]], dict[str, list[LogType]]], optional):</span>
 <span class="sd">                Function to group a list of metrics into a dictionary of</span>
 <span class="sd">                (key, list of grouped metrics). Defaults to group_metrics.</span>
-<span class="sd">            aggregate_metrics (Callable[[List[LogType]], List[LogType]], optional):</span>
+<span class="sd">            aggregate_metrics (Callable[[list[LogType]], list[LogType]], optional):</span>
 <span class="sd">                Function to aggregate a list of metrics. Defaults to aggregate_metrics.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -253,10 +255,10 @@
 
 
 <div class="viewcode-block" id="metrics_to_df"><a class="viewcode-back" href="../../../pages/api/xplogger.parser.html#xplogger.parser.metric.metrics_to_df">[docs]</a><span class="k">def</span> <span class="nf">metrics_to_df</span><span class="p">(</span>
-    <span class="n">metric_logs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">LogType</span><span class="p">],</span>
-    <span class="n">group_metrics</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">List</span><span class="p">[</span><span class="n">LogType</span><span class="p">]],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">LogType</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">group_metrics</span><span class="p">,</span>
-    <span class="n">aggregate_metrics</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">List</span><span class="p">[</span><span class="n">LogType</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="n">LogType</span><span class="p">]]</span> <span class="o">=</span> <span class="n">aggregate_metrics</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
+    <span class="n">metric_logs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">LogType</span><span class="p">],</span>
+    <span class="n">group_metrics</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">list</span><span class="p">[</span><span class="n">LogType</span><span class="p">]],</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">LogType</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">group_metrics</span><span class="p">,</span>
+    <span class="n">aggregate_metrics</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">list</span><span class="p">[</span><span class="n">LogType</span><span class="p">]],</span> <span class="nb">list</span><span class="p">[</span><span class="n">LogType</span><span class="p">]]</span> <span class="o">=</span> <span class="n">aggregate_metrics</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Create a dict of (metric_name, dataframe).</span>
 
 <span class="sd">    Method that:</span>
@@ -266,18 +268,18 @@
 <span class="sd">        dictionary of dataframes</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        metric_logs (List[LogType]): List of metrics</span>
-<span class="sd">        group_metrics (Callable[[List[LogType]], Dict[str, List[LogType]]], optional):</span>
+<span class="sd">        metric_logs (list[LogType]): list of metrics</span>
+<span class="sd">        group_metrics (Callable[[list[LogType]], dict[str, list[LogType]]], optional):</span>
 <span class="sd">            Function to group a list of metrics into a dictionary of</span>
 <span class="sd">            (key, list of grouped metrics). Defaults to group_metrics.</span>
-<span class="sd">        aggregate_metrics (Callable[[List[LogType]], List[LogType]], optional):</span>
+<span class="sd">        aggregate_metrics (Callable[[list[LogType]], list[LogType]], optional):</span>
 <span class="sd">            Function to aggregate a list of metrics. Defaults to aggregate_metrics.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Dict[str, pd.DataFrame]: [description]</span>
+<span class="sd">        dict[str, pd.DataFrame]: [description]</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">grouped_metrics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">LogType</span><span class="p">]]</span> <span class="o">=</span> <span class="n">group_metrics</span><span class="p">(</span><span class="n">metric_logs</span><span class="p">)</span>
+    <span class="n">grouped_metrics</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">LogType</span><span class="p">]]</span> <span class="o">=</span> <span class="n">group_metrics</span><span class="p">(</span><span class="n">metric_logs</span><span class="p">)</span>
     <span class="n">aggregated_metrics</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">key</span><span class="p">:</span> <span class="n">aggregate_metrics</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">metrics</span> <span class="ow">in</span> <span class="n">grouped_metrics</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
     <span class="p">}</span>

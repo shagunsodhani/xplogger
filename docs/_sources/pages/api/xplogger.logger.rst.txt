@@ -20,6 +20,14 @@ xplogger.logger.filesystem module
    :undoc-members:
    :show-inheritance:
 
+xplogger.logger.localdb module
+------------------------------
+
+.. automodule:: xplogger.logger.localdb
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 xplogger.logger.mlflow module
 -----------------------------
 

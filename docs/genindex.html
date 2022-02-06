@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Index &mdash; xplogger 0.8 documentation</title>
+  <title>Index &mdash; xplogger 0.9.0 documentation</title>
   
 
   
@@ -170,13 +170,17 @@
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#J"><strong>J</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
  | <a href="#W"><strong>W</strong></a>
  | <a href="#X"><strong>X</strong></a>
  
@@ -184,11 +188,21 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.record_list.RecordList.add_slurm_field">add_slurm_field() (xplogger.experiment_manager.record.record_list.RecordList method)</a>
+</li>
       <li><a href="pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.ExperimentSequence.aggregate">aggregate() (xplogger.parser.experiment.experiment.ExperimentSequence method)</a>
 </li>
+      <li><a href="pages/api/xplogger.parser.html#xplogger.parser.metric.aggregate_metrics">aggregate_metrics() (in module xplogger.parser.metric)</a>
+
+      <ul>
+        <li><a href="pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.ExperimentSequence.aggregate_metrics">(xplogger.parser.experiment.experiment.ExperimentSequence method)</a>
+</li>
+        <li><a href="pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.ExperimentSequenceDict.aggregate_metrics">(xplogger.parser.experiment.experiment.ExperimentSequenceDict method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="pages/api/xplogger.parser.html#xplogger.parser.metric.aggregate_metrics">aggregate_metrics() (in module xplogger.parser.metric)</a>
+      <li><a href="pages/api/xplogger.experiment_manager.utils.html#xplogger.experiment_manager.utils.enum.ExperimentStatus.ANALYZED">ANALYZED (xplogger.experiment_manager.utils.enum.ExperimentStatus attribute)</a>
 </li>
       <li><a href="pages/api/xplogger.html#xplogger.metrics.AverageMetric">AverageMetric (class in xplogger.metrics)</a>
 </li>
@@ -212,11 +226,15 @@
 </li>
       <li><a href="pages/api/xplogger.html#xplogger.metrics.ComparisonMetric">ComparisonMetric (class in xplogger.metrics)</a>
 </li>
+      <li><a href="pages/api/xplogger.experiment_manager.utils.html#xplogger.experiment_manager.utils.enum.ExperimentStatus.COMPLETED">COMPLETED (xplogger.experiment_manager.utils.enum.ExperimentStatus attribute)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.utils.concat_metrics">concat_metrics() (in module xplogger.parser.experiment.utils)</a>
 </li>
       <li><a href="pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.Experiment.config">config() (xplogger.parser.experiment.experiment.Experiment property)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.html#xplogger.experiment_manager.result.Result.config_ids">config_ids (xplogger.experiment_manager.result.Result attribute)</a>
 </li>
       <li><a href="pages/api/xplogger.html#xplogger.metrics.ConstantMetric">ConstantMetric (class in xplogger.metrics)</a>
 </li>
@@ -228,8 +246,18 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.deserialize">deserialize() (in module xplogger.parser.experiment.experiment)</a>
+      <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.record_list.RecordList.delete">delete() (xplogger.experiment_manager.record.record_list.RecordList method)</a>
 </li>
+      <li><a href="pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.delete_records">delete_records() (xplogger.experiment_manager.store.mongo.MongoStore method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pages/api/xplogger.experiment_manager.html#xplogger.experiment_manager.result.deserialize">deserialize() (in module xplogger.experiment_manager.result)</a>
+
+      <ul>
+        <li><a href="pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.deserialize">(in module xplogger.parser.experiment.experiment)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -238,11 +266,17 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.Experiment">Experiment (class in xplogger.parser.experiment.experiment)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pages/api/xplogger.experiment_manager.html#xplogger.experiment_manager.result.Result.experiment_sequence">experiment_sequence (xplogger.experiment_manager.result.Result attribute)</a>
+</li>
       <li><a href="pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.ExperimentList">ExperimentList (in module xplogger.parser.experiment.experiment)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.ExperimentSequence">ExperimentSequence (class in xplogger.parser.experiment.experiment)</a>
+</li>
+      <li><a href="pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.ExperimentSequenceDict">ExperimentSequenceDict (class in xplogger.parser.experiment.experiment)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.utils.html#xplogger.experiment_manager.utils.enum.ExperimentStatus">ExperimentStatus (class in xplogger.experiment_manager.utils.enum)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -251,12 +285,18 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.ExperimentSequence.filter">filter() (xplogger.parser.experiment.experiment.ExperimentSequence method)</a>
+
+      <ul>
+        <li><a href="pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.ExperimentSequenceDict.filter">(xplogger.parser.experiment.experiment.ExperimentSequenceDict method)</a>
 </li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pages/api/xplogger.html#xplogger.utils.flatten_dict">flatten_dict() (in module xplogger.utils)</a>
 </li>
       <li><a href="pages/api/xplogger.parser.html#xplogger.parser.utils.flatten_log">flatten_log() (in module xplogger.parser.utils)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfo.from_dict">from_dict() (xplogger.experiment_manager.slurm.ds.SlurmInfo class method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -264,9 +304,21 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pages/api/xplogger.experiment_manager.viz.html#xplogger.experiment_manager.viz.utils.get_data_and_colors">get_data_and_colors() (in module xplogger.experiment_manager.viz.utils)</a>
+</li>
       <li><a href="pages/api/xplogger.html#xplogger.utils.get_elem_from_set">get_elem_from_set() (in module xplogger.utils)</a>
 </li>
+      <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.base.get_experiment_params">get_experiment_params() (in module xplogger.experiment_manager.record.base)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.record_list.RecordList.get_groups_and_hyperparams">get_groups_and_hyperparams() (xplogger.experiment_manager.record.record_list.RecordList method)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.utils.get_info_from_slurm">get_info_from_slurm() (in module xplogger.experiment_manager.slurm.utils)</a>
+</li>
       <li><a href="pages/api/xplogger.logger.html#xplogger.logger.filesystem.get_logger_file_path">get_logger_file_path() (in module xplogger.logger.filesystem)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.notebook.html#xplogger.experiment_manager.notebook.utils.get_mean_and_std_err">get_mean_and_std_err() (in module xplogger.experiment_manager.notebook.utils)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.base.get_nested_item">get_nested_item() (in module xplogger.experiment_manager.record.base)</a>
 </li>
       <li><a href="pages/api/xplogger.parser.html#xplogger.parser.utils.get_param_groups">get_param_groups() (in module xplogger.parser.utils)</a>
 
@@ -274,8 +326,20 @@
         <li><a href="pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.ExperimentSequence.get_param_groups">(xplogger.parser.experiment.experiment.ExperimentSequence method)</a>
 </li>
       </ul></li>
+      <li><a href="pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.get_records">get_records() (xplogger.experiment_manager.store.mongo.MongoStore method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.job.get_running_jobs_as_df">get_running_jobs_as_df() (in module xplogger.experiment_manager.slurm.job)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.job.get_running_jobs_as_list">get_running_jobs_as_list() (in module xplogger.experiment_manager.slurm.job)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.get_unanalyzed_records">get_unanalyzed_records() (xplogger.experiment_manager.store.mongo.MongoStore method)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.record_list.RecordList.get_unique">get_unique() (xplogger.experiment_manager.record.record_list.RecordList method)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.record_list.RecordList.get_unique_issues">get_unique_issues() (xplogger.experiment_manager.record.record_list.RecordList method)</a>
+</li>
       <li><a href="pages/api/xplogger.html#xplogger.metrics.AverageMetric.get_val">get_val() (xplogger.metrics.AverageMetric method)</a>
 
       <ul>
@@ -284,6 +348,10 @@
         <li><a href="pages/api/xplogger.html#xplogger.metrics.SumMetric.get_val">(xplogger.metrics.SumMetric method)</a>
 </li>
       </ul></li>
+      <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.record_list.RecordList.get_viz_params">get_viz_params() (xplogger.experiment_manager.record.record_list.RecordList method)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfo.git_issue_id">git_issue_id (xplogger.experiment_manager.slurm.ds.SlurmInfo attribute)</a>
+</li>
       <li><a href="pages/api/xplogger.parser.html#xplogger.parser.metric.group_metrics">group_metrics() (in module xplogger.parser.metric)</a>
 </li>
       <li><a href="pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.ExperimentSequence.groupby">groupby() (xplogger.parser.experiment.experiment.ExperimentSequence method)</a>
@@ -291,15 +359,59 @@
   </ul></td>
 </tr></table>
 
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pages/api/xplogger.experiment_manager.html#xplogger.experiment_manager.result.Result.id">id (xplogger.experiment_manager.result.Result attribute)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.mongo.Record.id">id() (xplogger.experiment_manager.record.mongo.Record property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.ignore_records_by_status">ignore_records_by_status() (xplogger.experiment_manager.store.mongo.MongoStore method)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.html#xplogger.experiment_manager.result.Result.info">info (xplogger.experiment_manager.result.Result attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="J">J</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfo.job_id">job_id (xplogger.experiment_manager.slurm.ds.SlurmInfo attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfo.job_step_name">job_step_name (xplogger.experiment_manager.slurm.ds.SlurmInfo attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pages/api/xplogger.experiment_manager.html#xplogger.experiment_manager.result.Result.label">label (xplogger.experiment_manager.result.Result attribute)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.base.load_all_experiments_from_dir">load_all_experiments_from_dir() (in module xplogger.experiment_manager.record.base)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.base.load_experiment">load_experiment() (in module xplogger.experiment_manager.record.base)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.record_list.RecordList.load_experiments">load_experiments() (xplogger.experiment_manager.record.record_list.RecordList method)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.load_from_file">load_from_file() (xplogger.experiment_manager.store.mongo.MongoStore method)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.html#xplogger.experiment_manager.result.ResultDB.load_from_filesystem">load_from_filesystem() (xplogger.experiment_manager.result.ResultDB method)</a>
+</li>
       <li><a href="pages/api/xplogger.html#xplogger.logbook.LogBook">LogBook (class in xplogger.logbook)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pages/api/xplogger.logger.html#xplogger.logger.base.Logger">Logger (class in xplogger.logger.base)</a>
 
       <ul>
         <li><a href="pages/api/xplogger.logger.html#xplogger.logger.filesystem.Logger">(class in xplogger.logger.filesystem)</a>
+</li>
+        <li><a href="pages/api/xplogger.logger.html#xplogger.logger.localdb.Logger">(class in xplogger.logger.localdb)</a>
 </li>
         <li><a href="pages/api/xplogger.logger.html#xplogger.logger.mlflow.Logger">(class in xplogger.logger.mlflow)</a>
 </li>
@@ -318,7 +430,27 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pages/api/xplogger.html#xplogger.logbook.make_config">make_config() (in module xplogger.logbook)</a>
 </li>
+      <li><a href="pages/api/xplogger.experiment_manager.notebook.html#xplogger.experiment_manager.notebook.utils.make_df">make_df() (in module xplogger.experiment_manager.notebook.utils)</a>
+</li>
       <li><a href="pages/api/xplogger.html#xplogger.utils.make_dir">make_dir() (in module xplogger.utils)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.record_list.RecordList.make_experiment_sequence_dict_groups_and_hyperparams">make_experiment_sequence_dict_groups_and_hyperparams() (xplogger.experiment_manager.record.record_list.RecordList method)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.record_list.RecordList.make_oc_records">make_oc_records() (xplogger.experiment_manager.record.record_list.RecordList method)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.mongo.make_record">make_record() (in module xplogger.experiment_manager.record.mongo)</a>
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.omegaconf.make_record">(in module xplogger.experiment_manager.record.omegaconf)</a>
+</li>
+      </ul></li>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.utils.map_jobid_to_raw_job_id">map_jobid_to_raw_job_id() (in module xplogger.experiment_manager.slurm.utils)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.record_list.RecordList.map_to_slurm_id">map_to_slurm_id() (xplogger.experiment_manager.record.record_list.RecordList method)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.record_list.RecordList.mark_analyzed">mark_analyzed() (xplogger.experiment_manager.record.record_list.RecordList method)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.mark_records_as_analyzed">mark_records_as_analyzed() (xplogger.experiment_manager.store.mongo.MongoStore method)</a>
 </li>
       <li><a href="pages/api/xplogger.html#xplogger.metrics.MaxMetric">MaxMetric (class in xplogger.metrics)</a>
 </li>
@@ -326,7 +458,13 @@
 </li>
       <li><a href="pages/api/xplogger.html#xplogger.metrics.MetricDict">MetricDict (class in xplogger.metrics)</a>
 </li>
+      <li><a href="pages/api/xplogger.experiment_manager.html#xplogger.experiment_manager.result.Result.metrics">metrics (xplogger.experiment_manager.result.Result attribute)</a>
+</li>
       <li><a href="pages/api/xplogger.parser.html#xplogger.parser.metric.metrics_to_df">metrics_to_df() (in module xplogger.parser.metric)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfo.min_cpus">min_cpus (xplogger.experiment_manager.slurm.ds.SlurmInfo attribute)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfo.min_memory_size">min_memory_size (xplogger.experiment_manager.slurm.ds.SlurmInfo attribute)</a>
 </li>
       <li><a href="pages/api/xplogger.html#xplogger.metrics.MinMetric">MinMetric (class in xplogger.metrics)</a>
 </li>
@@ -336,6 +474,48 @@
       <ul>
         <li><a href="pages/api/xplogger.html#module-xplogger">xplogger</a>
 </li>
+        <li><a href="pages/api/xplogger.experiment_manager.html#module-xplogger.experiment_manager">xplogger.experiment_manager</a>
+</li>
+        <li><a href="pages/api/xplogger.experiment_manager.notebook.html#module-xplogger.experiment_manager.notebook">xplogger.experiment_manager.notebook</a>
+</li>
+        <li><a href="pages/api/xplogger.experiment_manager.notebook.html#module-xplogger.experiment_manager.notebook.utils">xplogger.experiment_manager.notebook.utils</a>
+</li>
+        <li><a href="pages/api/xplogger.experiment_manager.record.html#module-xplogger.experiment_manager.record">xplogger.experiment_manager.record</a>
+</li>
+        <li><a href="pages/api/xplogger.experiment_manager.record.html#module-xplogger.experiment_manager.record.base">xplogger.experiment_manager.record.base</a>
+</li>
+        <li><a href="pages/api/xplogger.experiment_manager.record.html#module-xplogger.experiment_manager.record.mongo">xplogger.experiment_manager.record.mongo</a>
+</li>
+        <li><a href="pages/api/xplogger.experiment_manager.record.html#module-xplogger.experiment_manager.record.omegaconf">xplogger.experiment_manager.record.omegaconf</a>
+</li>
+        <li><a href="pages/api/xplogger.experiment_manager.record.html#module-xplogger.experiment_manager.record.record_list">xplogger.experiment_manager.record.record_list</a>
+</li>
+        <li><a href="pages/api/xplogger.experiment_manager.html#module-xplogger.experiment_manager.result">xplogger.experiment_manager.result</a>
+</li>
+        <li><a href="pages/api/xplogger.experiment_manager.slurm.html#module-xplogger.experiment_manager.slurm">xplogger.experiment_manager.slurm</a>
+</li>
+        <li><a href="pages/api/xplogger.experiment_manager.slurm.html#module-xplogger.experiment_manager.slurm.ds">xplogger.experiment_manager.slurm.ds</a>
+</li>
+        <li><a href="pages/api/xplogger.experiment_manager.slurm.html#module-xplogger.experiment_manager.slurm.job">xplogger.experiment_manager.slurm.job</a>
+</li>
+        <li><a href="pages/api/xplogger.experiment_manager.slurm.html#module-xplogger.experiment_manager.slurm.utils">xplogger.experiment_manager.slurm.utils</a>
+</li>
+        <li><a href="pages/api/xplogger.experiment_manager.store.html#module-xplogger.experiment_manager.store">xplogger.experiment_manager.store</a>
+</li>
+        <li><a href="pages/api/xplogger.experiment_manager.store.html#module-xplogger.experiment_manager.store.mongo">xplogger.experiment_manager.store.mongo</a>
+</li>
+        <li><a href="pages/api/xplogger.experiment_manager.utils.html#module-xplogger.experiment_manager.utils">xplogger.experiment_manager.utils</a>
+</li>
+        <li><a href="pages/api/xplogger.experiment_manager.utils.html#module-xplogger.experiment_manager.utils.enum">xplogger.experiment_manager.utils.enum</a>
+</li>
+        <li><a href="pages/api/xplogger.experiment_manager.viz.html#module-xplogger.experiment_manager.viz">xplogger.experiment_manager.viz</a>
+</li>
+        <li><a href="pages/api/xplogger.experiment_manager.viz.html#module-xplogger.experiment_manager.viz.bokeh">xplogger.experiment_manager.viz.bokeh</a>
+</li>
+        <li><a href="pages/api/xplogger.experiment_manager.viz.html#module-xplogger.experiment_manager.viz.matplotlib">xplogger.experiment_manager.viz.matplotlib</a>
+</li>
+        <li><a href="pages/api/xplogger.experiment_manager.viz.html#module-xplogger.experiment_manager.viz.utils">xplogger.experiment_manager.viz.utils</a>
+</li>
         <li><a href="pages/api/xplogger.html#module-xplogger.logbook">xplogger.logbook</a>
 </li>
         <li><a href="pages/api/xplogger.logger.html#module-xplogger.logger">xplogger.logger</a>
@@ -343,6 +523,8 @@
         <li><a href="pages/api/xplogger.logger.html#module-xplogger.logger.base">xplogger.logger.base</a>
 </li>
         <li><a href="pages/api/xplogger.logger.html#module-xplogger.logger.filesystem">xplogger.logger.filesystem</a>
+</li>
+        <li><a href="pages/api/xplogger.logger.html#module-xplogger.logger.localdb">xplogger.logger.localdb</a>
 </li>
         <li><a href="pages/api/xplogger.logger.html#module-xplogger.logger.mlflow">xplogger.logger.mlflow</a>
 </li>
@@ -380,6 +562,28 @@
 </li>
       </ul></li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfo.mongo_id">mongo_id (xplogger.experiment_manager.slurm.ds.SlurmInfo attribute)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.html#xplogger.experiment_manager.result.Result.mongo_ids">mongo_ids (xplogger.experiment_manager.result.Result attribute)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore">MongoStore (class in xplogger.experiment_manager.store.mongo)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pages/api/xplogger.experiment_manager.html#xplogger.experiment_manager.result.Result.name">name (xplogger.experiment_manager.result.Result attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfo.nodelist">nodelist (xplogger.experiment_manager.slurm.ds.SlurmInfo attribute)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfo.num_nodes">num_nodes (xplogger.experiment_manager.slurm.ds.SlurmInfo attribute)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="P">P</h2>
@@ -405,8 +609,6 @@
         <li><a href="pages/api/xplogger.parser.html#xplogger.parser.metric.parse_json_and_match_value">(in module xplogger.parser.metric)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pages/api/xplogger.parser.html#xplogger.parser.log.Parser.parse_last_log">parse_last_log() (xplogger.parser.log.Parser method)</a>
 </li>
       <li><a href="pages/api/xplogger.parser.html#xplogger.parser.base.Parser">Parser (class in xplogger.parser.base)</a>
@@ -422,10 +624,52 @@
 </li>
       </ul></li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfo.partition">partition (xplogger.experiment_manager.slurm.ds.SlurmInfo attribute)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.viz.html#xplogger.experiment_manager.viz.bokeh.plot_experiment_sequence_dict">plot_experiment_sequence_dict() (in module xplogger.experiment_manager.viz.bokeh)</a>
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.viz.html#xplogger.experiment_manager.viz.matplotlib.plot_experiment_sequence_dict">(in module xplogger.experiment_manager.viz.matplotlib)</a>
+</li>
+      </ul></li>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfoList.populate_additional_fields">populate_additional_fields() (xplogger.experiment_manager.slurm.ds.SlurmInfoList method)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.notebook.html#xplogger.experiment_manager.notebook.utils.prettyprint_dict">prettyprint_dict() (in module xplogger.experiment_manager.notebook.utils)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfo.priority">priority (xplogger.experiment_manager.slurm.ds.SlurmInfo attribute)</a>
+</li>
+      <li><a href="pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.Experiment.process_metrics">process_metrics() (xplogger.parser.experiment.experiment.Experiment method)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfo.project">project (xplogger.experiment_manager.slurm.ds.SlurmInfo attribute)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.ray_get_records">ray_get_records() (xplogger.experiment_manager.store.mongo.MongoStore method)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.ray_get_unanalyzed_records">ray_get_unanalyzed_records() (xplogger.experiment_manager.store.mongo.MongoStore method)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.ray_ignore_records_by_status">ray_ignore_records_by_status() (xplogger.experiment_manager.store.mongo.MongoStore method)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.record_list.RecordList.ray_make_experiment_sequence_dict_groups_and_hyperparams">ray_make_experiment_sequence_dict_groups_and_hyperparams() (xplogger.experiment_manager.record.record_list.RecordList method)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.record_list.RecordList.ray_make_oc_records">ray_make_oc_records() (xplogger.experiment_manager.record.record_list.RecordList method)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.base.Record">Record (class in xplogger.experiment_manager.record.base)</a>
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.mongo.Record">(class in xplogger.experiment_manager.record.mongo)</a>
+</li>
+      </ul></li>
+      <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.record_list.RecordList">RecordList (class in xplogger.experiment_manager.record.record_list)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.replace_from_file">replace_from_file() (xplogger.experiment_manager.store.mongo.MongoStore method)</a>
+</li>
+  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pages/api/xplogger.html#xplogger.metrics.AverageMetric.reset">reset() (xplogger.metrics.AverageMetric method)</a>
 
@@ -439,11 +683,15 @@
         <li><a href="pages/api/xplogger.html#xplogger.metrics.MetricDict.reset">(xplogger.metrics.MetricDict method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pages/api/xplogger.experiment_manager.html#xplogger.experiment_manager.result.Result">Result (class in xplogger.experiment_manager.result)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.html#xplogger.experiment_manager.result.ResultDB">ResultDB (class in xplogger.experiment_manager.result)</a>
+</li>
       <li><a href="pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.utils.return_first_config">return_first_config() (in module xplogger.parser.experiment.utils)</a>
 </li>
       <li><a href="pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.utils.return_first_infos">return_first_infos() (in module xplogger.parser.experiment.utils)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.utils.html#xplogger.experiment_manager.utils.enum.ExperimentStatus.RUNNING">RUNNING (xplogger.experiment_manager.utils.enum.ExperimentStatus attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -451,10 +699,32 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.Experiment.serialize">serialize() (xplogger.parser.experiment.experiment.Experiment method)</a>
+      <li><a href="pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.save_to_file">save_to_file() (xplogger.experiment_manager.store.mongo.MongoStore method)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.html#xplogger.experiment_manager.result.ResultDB.save_to_filesystem">save_to_filesystem() (xplogger.experiment_manager.result.ResultDB method)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfo.script_id">script_id (xplogger.experiment_manager.slurm.ds.SlurmInfo attribute)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.html#xplogger.experiment_manager.result.Result.serialize">serialize() (xplogger.experiment_manager.result.Result method)</a>
+
+      <ul>
+        <li><a href="pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.Experiment.serialize">(xplogger.parser.experiment.experiment.Experiment method)</a>
+</li>
+      </ul></li>
+      <li><a href="pages/api/xplogger.html#xplogger.utils.serialize_log_to_json">serialize_log_to_json() (in module xplogger.utils)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfo">SlurmInfo (class in xplogger.experiment_manager.slurm.ds)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfoDict">SlurmInfoDict (class in xplogger.experiment_manager.slurm.ds)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfoList">SlurmInfoList (class in xplogger.experiment_manager.slurm.ds)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfo.start_time">start_time (xplogger.experiment_manager.slurm.ds.SlurmInfo attribute)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfo.state">state (xplogger.experiment_manager.slurm.ds.SlurmInfo attribute)</a>
+</li>
       <li><a href="pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.utils.sum_metrics">sum_metrics() (in module xplogger.parser.experiment.utils)</a>
 </li>
       <li><a href="pages/api/xplogger.html#xplogger.metrics.SumMetric">SumMetric (class in xplogger.metrics)</a>
@@ -465,11 +735,19 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfo.time">time (xplogger.experiment_manager.slurm.ds.SlurmInfo attribute)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfo.time_limit">time_limit (xplogger.experiment_manager.slurm.ds.SlurmInfo attribute)</a>
+</li>
       <li><a href="pages/api/xplogger.html#xplogger.metrics.MetricDict.to_dict">to_dict() (xplogger.metrics.MetricDict method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pages/api/xplogger.html#xplogger.utils.to_json_serializable">to_json_serializable() (in module xplogger.utils)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfoList.to_slurminfo_dict">to_slurminfo_dict() (xplogger.experiment_manager.slurm.ds.SlurmInfoList method)</a>
+</li>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfo.tres_per_node">tres_per_node (xplogger.experiment_manager.slurm.ds.SlurmInfo attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -492,6 +770,24 @@
 </li>
       </ul></li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.record_list.RecordList.update_status">update_status() (xplogger.experiment_manager.record.record_list.RecordList method)</a>
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.update_status">(xplogger.experiment_manager.store.mongo.MongoStore method)</a>
+</li>
+      </ul></li>
+      <li><a href="pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfo.user">user (xplogger.experiment_manager.slurm.ds.SlurmInfo attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pages/api/xplogger.experiment_manager.viz.html#xplogger.experiment_manager.viz.utils.validate_kwargs_for_aggregate_metrics">validate_kwargs_for_aggregate_metrics() (in module xplogger.experiment_manager.viz.utils)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="W">W</h2>
@@ -503,6 +799,8 @@
         <li><a href="pages/api/xplogger.logger.html#xplogger.logger.base.Logger.write">(xplogger.logger.base.Logger method)</a>
 </li>
         <li><a href="pages/api/xplogger.logger.html#xplogger.logger.filesystem.Logger.write">(xplogger.logger.filesystem.Logger method)</a>
+</li>
+        <li><a href="pages/api/xplogger.logger.html#xplogger.logger.localdb.Logger.write">(xplogger.logger.localdb.Logger method)</a>
 </li>
         <li><a href="pages/api/xplogger.logger.html#xplogger.logger.mlflow.Logger.write">(xplogger.logger.mlflow.Logger method)</a>
 </li>
@@ -553,6 +851,155 @@
 </li>
       </ul></li>
       <li>
+    xplogger.experiment_manager
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.html#module-xplogger.experiment_manager">module</a>
+</li>
+      </ul></li>
+      <li>
+    xplogger.experiment_manager.notebook
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.notebook.html#module-xplogger.experiment_manager.notebook">module</a>
+</li>
+      </ul></li>
+      <li>
+    xplogger.experiment_manager.notebook.utils
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.notebook.html#module-xplogger.experiment_manager.notebook.utils">module</a>
+</li>
+      </ul></li>
+      <li>
+    xplogger.experiment_manager.record
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.record.html#module-xplogger.experiment_manager.record">module</a>
+</li>
+      </ul></li>
+      <li>
+    xplogger.experiment_manager.record.base
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.record.html#module-xplogger.experiment_manager.record.base">module</a>
+</li>
+      </ul></li>
+      <li>
+    xplogger.experiment_manager.record.mongo
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.record.html#module-xplogger.experiment_manager.record.mongo">module</a>
+</li>
+      </ul></li>
+      <li>
+    xplogger.experiment_manager.record.omegaconf
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.record.html#module-xplogger.experiment_manager.record.omegaconf">module</a>
+</li>
+      </ul></li>
+      <li>
+    xplogger.experiment_manager.record.record_list
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.record.html#module-xplogger.experiment_manager.record.record_list">module</a>
+</li>
+      </ul></li>
+      <li>
+    xplogger.experiment_manager.result
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.html#module-xplogger.experiment_manager.result">module</a>
+</li>
+      </ul></li>
+      <li>
+    xplogger.experiment_manager.slurm
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.slurm.html#module-xplogger.experiment_manager.slurm">module</a>
+</li>
+      </ul></li>
+      <li>
+    xplogger.experiment_manager.slurm.ds
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.slurm.html#module-xplogger.experiment_manager.slurm.ds">module</a>
+</li>
+      </ul></li>
+      <li>
+    xplogger.experiment_manager.slurm.job
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.slurm.html#module-xplogger.experiment_manager.slurm.job">module</a>
+</li>
+      </ul></li>
+      <li>
+    xplogger.experiment_manager.slurm.utils
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.slurm.html#module-xplogger.experiment_manager.slurm.utils">module</a>
+</li>
+      </ul></li>
+      <li>
+    xplogger.experiment_manager.store
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.store.html#module-xplogger.experiment_manager.store">module</a>
+</li>
+      </ul></li>
+      <li>
+    xplogger.experiment_manager.store.mongo
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.store.html#module-xplogger.experiment_manager.store.mongo">module</a>
+</li>
+      </ul></li>
+      <li>
+    xplogger.experiment_manager.utils
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.utils.html#module-xplogger.experiment_manager.utils">module</a>
+</li>
+      </ul></li>
+      <li>
+    xplogger.experiment_manager.utils.enum
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.utils.html#module-xplogger.experiment_manager.utils.enum">module</a>
+</li>
+      </ul></li>
+      <li>
+    xplogger.experiment_manager.viz
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.viz.html#module-xplogger.experiment_manager.viz">module</a>
+</li>
+      </ul></li>
+      <li>
+    xplogger.experiment_manager.viz.bokeh
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.viz.html#module-xplogger.experiment_manager.viz.bokeh">module</a>
+</li>
+      </ul></li>
+      <li>
+    xplogger.experiment_manager.viz.matplotlib
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.viz.html#module-xplogger.experiment_manager.viz.matplotlib">module</a>
+</li>
+      </ul></li>
+      <li>
+    xplogger.experiment_manager.viz.utils
+
+      <ul>
+        <li><a href="pages/api/xplogger.experiment_manager.viz.html#module-xplogger.experiment_manager.viz.utils">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
     xplogger.logbook
 
       <ul>
@@ -578,6 +1025,13 @@
 
       <ul>
         <li><a href="pages/api/xplogger.logger.html#module-xplogger.logger.filesystem">module</a>
+</li>
+      </ul></li>
+      <li>
+    xplogger.logger.localdb
+
+      <ul>
+        <li><a href="pages/api/xplogger.logger.html#module-xplogger.logger.localdb">module</a>
 </li>
       </ul></li>
       <li>
@@ -622,8 +1076,6 @@
         <li><a href="pages/api/xplogger.parser.html#module-xplogger.parser">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     xplogger.parser.base
 

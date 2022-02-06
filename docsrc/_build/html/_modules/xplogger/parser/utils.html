@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>xplogger.parser.utils &mdash; xplogger 0.8 documentation</title>
+  <title>xplogger.parser.utils &mdash; xplogger 0.9.0 documentation</title>
   
 
   
@@ -161,10 +161,11 @@
             
   <h1>Source code for xplogger.parser.utils</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Utility functions for the parser module.&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span>
 
-<span class="kn">import</span> <span class="nn">orjson</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">xplogger</span> <span class="kn">import</span> <span class="n">utils</span>
 <span class="kn">from</span> <span class="nn">xplogger.types</span> <span class="kn">import</span> <span class="n">ConfigType</span><span class="p">,</span> <span class="n">LogType</span>
@@ -183,7 +184,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        LogType: [description]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">new_key</span> <span class="o">=</span> <span class="n">parent_key</span> <span class="o">+</span> <span class="n">sep</span> <span class="o">+</span> <span class="n">k</span> <span class="k">if</span> <span class="n">parent_key</span> <span class="k">else</span> <span class="n">k</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
@@ -195,7 +196,7 @@
 
 <div class="viewcode-block" id="compare_logs"><a class="viewcode-back" href="../../../pages/api/xplogger.parser.html#xplogger.parser.utils.compare_logs">[docs]</a><span class="k">def</span> <span class="nf">compare_logs</span><span class="p">(</span>
     <span class="n">first_log</span><span class="p">:</span> <span class="n">LogType</span><span class="p">,</span> <span class="n">second_log</span><span class="p">:</span> <span class="n">LogType</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;Compare two logs.</span>
 
 <span class="sd">    Return list of keys that are either missing or have different valus</span>
@@ -207,7 +208,7 @@
 <span class="sd">        verbose (bool): Defaults to False</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Tuple[List[str], List[str], List[str]]: Tuple of [</span>
+<span class="sd">        tuple[list[str], list[str], list[str]]: tuple of [</span>
 <span class="sd">            list of keys with different values,</span>
 <span class="sd">            list of keys with values missing in first log,</span>
 <span class="sd">            list of keys with values missing in the second log,]</span>
@@ -248,7 +249,7 @@
         <span class="k">return</span> <span class="kc">None</span>
     <span class="n">log</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LogType</span><span class="p">]</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">log</span> <span class="o">=</span> <span class="n">orjson</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="n">log</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span>
         <span class="n">log</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">return</span> <span class="n">log</span></div>
@@ -256,7 +257,7 @@
 
 <div class="viewcode-block" id="get_param_groups"><a class="viewcode-back" href="../../../pages/api/xplogger.parser.html#xplogger.parser.utils.get_param_groups">[docs]</a><span class="k">def</span> <span class="nf">get_param_groups</span><span class="p">(</span>
     <span class="n">configs</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">],</span> <span class="n">params_to_exclude</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Set</span><span class="p">[</span><span class="n">Any</span><span class="p">]]]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="n">Any</span><span class="p">]]]:</span>
     <span class="sd">&quot;&quot;&quot;Return two groups of params, one which is fixed across the experiments and one which varies.</span>
 
 <span class="sd">    This function is useful when understanding the effect of different parameters on the model&#39;s</span>
@@ -271,13 +272,13 @@
 <span class="sd">            all such parameters will likely be returned with the group of varying parameters.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Tuple[ConfigType, Dict[str, Set[Any]]]: The first group/config contains the params which are fixed across the experiments.</span>
+<span class="sd">        tuple[ConfigType, dict[str, set[Any]]]: The first group/config contains the params which are fixed across the experiments.</span>
 <span class="sd">            It maps these params to their `default` values, hence it should be a subset of any config.</span>
 <span class="sd">            The second group/config contains the params which vary across the experiments.</span>
 <span class="sd">            It maps these params to the set of values they take.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">param_value_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Set</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">param_value_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">config</span> <span class="ow">in</span> <span class="n">configs</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">param</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">param_value_dict</span><span class="p">:</span>
@@ -287,12 +288,12 @@
                 <span class="n">value_to_add</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
             <span class="n">param_value_dict</span><span class="p">[</span><span class="n">param</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">value_to_add</span><span class="p">)</span>
 
-    <span class="n">param_value_counter</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">param_value_counter</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">param_value_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">param_value_counter</span><span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
 
     <span class="n">fixed_params</span><span class="p">:</span> <span class="n">ConfigType</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">variable_params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Set</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">variable_params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">counter</span> <span class="ow">in</span> <span class="n">param_value_counter</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">param</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">params_to_exclude</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">counter</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>

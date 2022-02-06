@@ -1,28 +1,46 @@
 """Utility Methods."""
-import pathlib
-from typing import Any, Dict, List, Set, Tuple
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+from typing import Any
 
 import numpy as np
 
+from xplogger.types import LogType
+
+
+def serialize_log_to_json(log: LogType) -> str:
+    """Serialize the log into a JSON string.
+
+    Args:
+        log (LogType): Log to be serialized
+
+    Returns:
+        str: JSON serialized string
+    """
+    return json.dumps(log, default=to_json_serializable)
+
 
 def flatten_dict(
-    d: Dict[str, Any], parent_key: str = "", sep: str = "#"
-) -> Dict[str, Any]:
+    d: dict[str, Any], parent_key: str = "", sep: str = "#"
+) -> dict[str, Any]:
     """Flatten a given dict using the given seperator.
 
     Taken from https://stackoverflow.com/a/6027615/1353861
 
     Args:
-        d (Dict[str, Any]): dictionary to flatten
+        d (dict[str, Any]): dictionary to flatten
         parent_key (str, optional): Keep track of the higher level key
             Defaults to "".
         sep (str, optional): string for concatenating the keys. Defaults
             to "#"
 
     Returns:
-        Dict[str, Any]: [description]
+        dict[str, Any]: [description]
     """
-    items: List[Tuple[str, Any]] = []
+    items: list[tuple[str, Any]] = []
     for k, v in d.items():
         new_key = parent_key + sep + k if parent_key else k
         if isinstance(v, dict):
@@ -32,16 +50,16 @@ def flatten_dict(
     return dict(items)
 
 
-def make_dir(path: str) -> None:
+def make_dir(path: Path) -> None:
     """Make dir, if not exists.
 
     Args:
-        path (str): dir to make
+        path (Path): dir to make
     """
-    pathlib.Path(path).mkdir(parents=True, exist_ok=True)
+    path.mkdir(parents=True, exist_ok=True)
 
 
-def compare_keys_in_dict(dict1: Dict[Any, Any], dict2: Dict[Any, Any]) -> bool:
+def compare_keys_in_dict(dict1: dict[Any, Any], dict2: dict[Any, Any]) -> bool:
     """Check that the two dicts have the same set of keys."""
     return set(dict1.keys()) == set(dict2.keys())
 
@@ -57,7 +75,7 @@ def to_json_serializable(val: Any) -> Any:
     return val
 
 
-def get_elem_from_set(_set: Set[Any]) -> Any:
+def get_elem_from_set(_set: set[Any]) -> Any:
     """Get an element from a set."""
     for _elem in _set:
         break

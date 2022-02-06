@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>xplogger.parser package &mdash; xplogger 0.8 documentation</title>
+  <title>xplogger.parser package &mdash; xplogger 0.9.0 documentation</title>
   
 
   
@@ -98,6 +98,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">xplogger</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="xplogger.html">xplogger package</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="xplogger.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="xplogger.experiment_manager.html">xplogger.experiment_manager package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="xplogger.logger.html">xplogger.logger package</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">xplogger.parser package</a></li>
 </ul>
@@ -317,7 +318,7 @@ but will not keep all the logs in memory (thus saving memory).</p>
 <p>Class to parse the metrics from the logs.</p>
 <dl class="py method">
 <dt id="xplogger.parser.metric.Parser.parse_as_df">
-<code class="sig-name descname"><span class="pre">parse_as_df</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">filepath_pattern:</span> <span class="pre">str,</span> <span class="pre">group_metrics:</span> <span class="pre">Callable[[List[Dict[str,</span> <span class="pre">Any]]],</span> <span class="pre">Dict[str,</span> <span class="pre">List[Dict[str,</span> <span class="pre">Any]]]]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">group_metrics&gt;,</span> <span class="pre">aggregate_metrics:</span> <span class="pre">Callable[[List[Dict[str,</span> <span class="pre">Any]]],</span> <span class="pre">List[Dict[str,</span> <span class="pre">Any]]]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">aggregate_metrics&gt;</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/metric.html#Parser.parse_as_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.metric.Parser.parse_as_df" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">parse_as_df</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">filepath_pattern:</span> <span class="pre">str,</span> <span class="pre">group_metrics:</span> <span class="pre">Callable[[list[LogType]],</span> <span class="pre">dict[str,</span> <span class="pre">list[LogType]]]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">group_metrics&gt;,</span> <span class="pre">aggregate_metrics:</span> <span class="pre">Callable[[list[LogType]],</span> <span class="pre">list[LogType]]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">aggregate_metrics&gt;</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pd.DataFrame</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/metric.html#Parser.parse_as_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.metric.Parser.parse_as_df" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a dict of (metric_name, dataframe).</p>
 <p>Method that:
 (i) reads metrics from the filesystem
@@ -328,9 +329,9 @@ but will not keep all the logs in memory (thus saving memory).</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filepath_pattern</strong> (<em>str</em>) – filepath pattern to glob</p></li>
-<li><p><strong>group_metrics</strong> (<em>Callable</em><em>[</em><em>[</em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Function to group a list of metrics into a dictionary of
+<li><p><strong>group_metrics</strong> (<em>Callable</em><em>[</em><em>[</em><em>list</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>dict</em><em>[</em><em>str</em><em>, </em><em>list</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Function to group a list of metrics into a dictionary of
 (key, list of grouped metrics). Defaults to group_metrics.</p></li>
-<li><p><strong>aggregate_metrics</strong> (<em>Callable</em><em>[</em><em>[</em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Function to aggregate a list of metrics. Defaults to aggregate_metrics.</p></li>
+<li><p><strong>aggregate_metrics</strong> (<em>Callable</em><em>[</em><em>[</em><em>list</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>list</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Function to aggregate a list of metrics. Defaults to aggregate_metrics.</p></li>
 </ul>
 </dd>
 </dl>
@@ -340,24 +341,24 @@ but will not keep all the logs in memory (thus saving memory).</p>
 
 <dl class="py function">
 <dt id="xplogger.parser.metric.aggregate_metrics">
-<code class="sig-prename descclassname"><span class="pre">xplogger.parser.metric.</span></code><code class="sig-name descname"><span class="pre">aggregate_metrics</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/metric.html#aggregate_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.metric.aggregate_metrics" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">xplogger.parser.metric.</span></code><code class="sig-name descname"><span class="pre">aggregate_metrics</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">MetricType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">MetricType</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/metric.html#aggregate_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.metric.aggregate_metrics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Aggregate a list of metrics.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>metrics</strong> (<em>List</em><em>[</em><em>MetricType</em><em>]</em>) – List of metrics to aggregate</p>
+<dd class="field-odd"><p><strong>metrics</strong> (<em>list</em><em>[</em><em>MetricType</em><em>]</em>) – list of metrics to aggregate</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>List of aggregated metrics</p>
+<dd class="field-even"><p>list of aggregated metrics</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>List[MetricType]</p>
+<dd class="field-odd"><p>list[MetricType]</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt id="xplogger.parser.metric.group_metrics">
-<code class="sig-prename descclassname"><span class="pre">xplogger.parser.metric.</span></code><code class="sig-name descname"><span class="pre">group_metrics</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/metric.html#group_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.metric.group_metrics" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">xplogger.parser.metric.</span></code><code class="sig-name descname"><span class="pre">group_metrics</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">MetricType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">MetricType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/metric.html#group_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.metric.group_metrics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Group a list of metrics.</p>
 <dl class="simple">
 <dt>Group a list of metrics into a dictionary of</dt><dd><p>(key, list of grouped metrics)</p>
@@ -365,7 +366,7 @@ but will not keep all the logs in memory (thus saving memory).</p>
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>metrics</strong> (<em>List</em><em>[</em><em>MetricType</em><em>]</em>) – List of metrics to group</p>
+<dd class="field-odd"><p><strong>metrics</strong> (<em>list</em><em>[</em><em>MetricType</em><em>]</em>) – list of metrics to group</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><dl class="simple">
@@ -375,14 +376,14 @@ but will not keep all the logs in memory (thus saving memory).</p>
 </p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Dict[str, List[MetricType]]</p>
+<dd class="field-odd"><p>dict[str, list[MetricType]]</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt id="xplogger.parser.metric.metrics_to_df">
-<code class="sig-prename descclassname"><span class="pre">xplogger.parser.metric.</span></code><code class="sig-name descname"><span class="pre">metrics_to_df</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">metric_logs:</span> <span class="pre">List[Dict[str,</span> <span class="pre">Any]],</span> <span class="pre">group_metrics:</span> <span class="pre">Callable[[List[Dict[str,</span> <span class="pre">Any]]],</span> <span class="pre">Dict[str,</span> <span class="pre">List[Dict[str,</span> <span class="pre">Any]]]]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">group_metrics&gt;,</span> <span class="pre">aggregate_metrics:</span> <span class="pre">Callable[[List[Dict[str,</span> <span class="pre">Any]]],</span> <span class="pre">List[Dict[str,</span> <span class="pre">Any]]]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">aggregate_metrics&gt;</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/metric.html#metrics_to_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.metric.metrics_to_df" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">xplogger.parser.metric.</span></code><code class="sig-name descname"><span class="pre">metrics_to_df</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">metric_logs:</span> <span class="pre">list[LogType],</span> <span class="pre">group_metrics:</span> <span class="pre">Callable[[list[LogType]],</span> <span class="pre">dict[str,</span> <span class="pre">list[LogType]]]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">group_metrics&gt;,</span> <span class="pre">aggregate_metrics:</span> <span class="pre">Callable[[list[LogType]],</span> <span class="pre">list[LogType]]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">aggregate_metrics&gt;</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pd.DataFrame</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/metric.html#metrics_to_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.metric.metrics_to_df" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a dict of (metric_name, dataframe).</p>
 <p>Method that:
 (i) groups metrics
@@ -391,17 +392,17 @@ but will not keep all the logs in memory (thus saving memory).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>metric_logs</strong> (<em>List</em><em>[</em><em>LogType</em><em>]</em>) – List of metrics</p></li>
-<li><p><strong>group_metrics</strong> (<em>Callable</em><em>[</em><em>[</em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Function to group a list of metrics into a dictionary of
+<li><p><strong>metric_logs</strong> (<em>list</em><em>[</em><em>LogType</em><em>]</em>) – list of metrics</p></li>
+<li><p><strong>group_metrics</strong> (<em>Callable</em><em>[</em><em>[</em><em>list</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>dict</em><em>[</em><em>str</em><em>, </em><em>list</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Function to group a list of metrics into a dictionary of
 (key, list of grouped metrics). Defaults to group_metrics.</p></li>
-<li><p><strong>aggregate_metrics</strong> (<em>Callable</em><em>[</em><em>[</em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Function to aggregate a list of metrics. Defaults to aggregate_metrics.</p></li>
+<li><p><strong>aggregate_metrics</strong> (<em>Callable</em><em>[</em><em>[</em><em>list</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>list</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Function to aggregate a list of metrics. Defaults to aggregate_metrics.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>[description]</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Dict[str, pd.DataFrame]</p>
+<dd class="field-odd"><p>dict[str, pd.DataFrame]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -418,7 +419,7 @@ but will not keep all the logs in memory (thus saving memory).</p>
 <p>Utility functions for the parser module.</p>
 <dl class="py function">
 <dt id="xplogger.parser.utils.compare_logs">
-<code class="sig-prename descclassname"><span class="pre">xplogger.parser.utils.</span></code><code class="sig-name descname"><span class="pre">compare_logs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first_log</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_log</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/utils.html#compare_logs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.utils.compare_logs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">xplogger.parser.utils.</span></code><code class="sig-name descname"><span class="pre">compare_logs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first_log</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">LogType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_log</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">LogType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/utils.html#compare_logs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.utils.compare_logs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compare two logs.</p>
 <p>Return list of keys that are either missing or have different valus
 in the two logs.</p>
@@ -432,7 +433,7 @@ in the two logs.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><dl class="simple">
-<dt>Tuple of [</dt><dd><p>list of keys with different values,
+<dt>tuple of [</dt><dd><p>list of keys with different values,
 list of keys with values missing in first log,
 list of keys with values missing in the second log,]</p>
 </dd>
@@ -440,7 +441,7 @@ list of keys with values missing in the second log,]</p>
 </p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Tuple[List[str], List[str], List[str]]</p>
+<dd class="field-odd"><p>tuple[list[str], list[str], list[str]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -469,7 +470,7 @@ list of keys with values missing in the second log,]</p>
 
 <dl class="py function">
 <dt id="xplogger.parser.utils.get_param_groups">
-<code class="sig-prename descclassname"><span class="pre">xplogger.parser.utils.</span></code><code class="sig-name descname"><span class="pre">get_param_groups</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params_to_exclude</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/utils.html#get_param_groups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.utils.get_param_groups" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">xplogger.parser.utils.</span></code><code class="sig-name descname"><span class="pre">get_param_groups</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params_to_exclude</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigType</span><span class="p"><span class="pre">,</span> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/utils.html#get_param_groups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.utils.get_param_groups" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return two groups of params, one which is fixed across the experiments and one which varies.</p>
 <p>This function is useful when understanding the effect of different parameters on the model’s
 performance. One could plot the performance of the different experiments, as a function of the
@@ -494,7 +495,7 @@ It maps these params to the set of values they take.</p>
 </p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Tuple[ConfigType, Dict[str, Set[Any]]]</p>
+<dd class="field-odd"><p>tuple[ConfigType, dict[str, set[Any]]]</p>
 </dd>
 </dl>
 </dd></dl>

@@ -1,5 +1,7 @@
-"""Functions to interface with the mongodb."""
+"""Functions to interface with mongodb."""
 
+
+from copy import deepcopy
 
 from pymongo import MongoClient
 
@@ -15,9 +17,10 @@ class Logger(BaseLogger):
 
         Args:
             config (ConfigType): config to initialise the mongodb logger.
-                It must have four keys: host, port, db and collection.
-                "logger_file_path" is the path to the file where the logs
-                will be written. "logger_name" is the name of the logger instance
+                It must have four keys: host, port, db and collection. It
+                can optionally have the following keys:
+                * `logger_types` - list/set of types that the logger
+                    should log.
         """
         super().__init__(config=config)
         keys_to_check = [
@@ -31,16 +34,17 @@ class Logger(BaseLogger):
             raise KeyError(
                 f"One or more of the following keys missing in the config: {key_string}"
             )
-
         self.logger_types = {"config", "message", "metadata"}
+        if "logger_types" in config:
+            self.logger_types = set(config["logger_types"])
         self.client = MongoClient(config["host"], config["port"])
         self.collection = self.client[config["db"]][config["collection"]]
 
     def write(self, log: LogType) -> None:
-        """Write the log to the filesystem.
+        """Write the log to mongodb.
 
         Args:
             log (LogType): Log to write
         """
         if log["logbook_type"] in self.logger_types:
-            self.collection.insert_one(log)
+            self.collection.insert_one(deepcopy(log))

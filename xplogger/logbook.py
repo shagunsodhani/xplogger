@@ -5,10 +5,12 @@ tensorboard, remote backends, etc.
 
 """
 
+from __future__ import annotations
+
 import importlib
 import time
 from copy import deepcopy
-from typing import Any, List, Optional
+from typing import Any, Optional
 
 from xplogger.logger.base import Logger as LoggerType
 from xplogger.types import ConfigType, KeyMapType, LogType, MetricType
@@ -38,7 +40,7 @@ class LogBook:
         self.id = config["id"]
         self.logger_name = config["name"]
         self.time_format = "%I:%M:%S%p %Z %b %d, %Y"  # 10:21:14PM EST Mar 04, 2020
-        self.loggers: List[LoggerType] = []
+        self.loggers: list[LoggerType] = []
         for logger_name, logger_config in config["loggers"].items():
             logger_module = importlib.import_module(f"xplogger.logger.{logger_name}")
             logger_cls = getattr(logger_module, "Logger")
@@ -124,6 +126,7 @@ def make_config(
     mlflow_key_map: Optional[KeyMapType] = None,
     mlflow_prefix_key: Optional[str] = None,
     mongo_config: Optional[ConfigType] = None,
+    localdb_config: Optional[ConfigType] = None,
 ) -> ConfigType:
     """Make the config that can be passed to the LogBook constructor.
 
@@ -215,11 +218,20 @@ def make_config(
             This argument is ignored if set to None. Defaults to None.
         mongo_config (Optional[ConfigType], optional): config to
             initialise connection to a collection in mongodb. The config
-            supports the following keys:
+            supports the following required keys:
                 (1) host: host where mongodb is running.
                 (2) port: port on which mongodb is running.
                 (3) db: name of the db to use.
                 (4) collection: name of the collection to use.
+            The config supports the following optional keys:
+                (1) logger_types: list/set of types that the logger should log.
+            Defaults to None.
+        localdb_config (Optional[ConfigType], optional): config to
+            initialise connection to localdb. The config
+            supports the following keys:
+                (1) path: path to the localdb file.
+            The config supports the following optional keys:
+                (1) logger_types: list/set of types that the logger should log.
             Defaults to None.
 
     Returns:
@@ -255,6 +267,12 @@ def make_config(
     if mongo_config is not None:
         key = "mongo"
         loggers[key] = mongo_config
+        loggers[key]["logbook_key_map"] = None
+        loggers[key]["logbook_key_prefix"] = None
+
+    if localdb_config is not None:
+        key = "localdb"
+        loggers[key] = localdb_config
         loggers[key]["logbook_key_map"] = None
         loggers[key]["logbook_key_prefix"] = None
 

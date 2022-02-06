@@ -1,4 +1,7 @@
 """Types used in the package."""
+
+from __future__ import annotations
+
 from typing import Any, Callable, Dict, Optional, Union
 
 NumType = Union[int, float]

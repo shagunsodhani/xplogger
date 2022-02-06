@@ -1,0 +1,317 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>xplogger.experiment_manager.slurm.ds &mdash; xplogger 0.9.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> xplogger
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html">Why xplogger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html#use">Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html#note">Note</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html#dev-setup">Dev Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html#acknowledgements">Acknowledgements</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/api/modules.html">xplogger</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">xplogger</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>xplogger.experiment_manager.slurm.ds</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for xplogger.experiment_manager.slurm.ds</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Datastructures to interact with the SLURM system.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">UserDict</span><span class="p">,</span> <span class="n">UserList</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">xplogger.experiment_manager.record.base</span> <span class="kn">import</span> <span class="n">Record</span>
+<span class="kn">from</span> <span class="nn">xplogger.experiment_manager.store.mongo</span> <span class="kn">import</span> <span class="n">MongoStore</span>
+
+
+<div class="viewcode-block" id="SlurmInfo"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfo">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">SlurmInfo</span><span class="p">:</span>
+    <span class="n">priority</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">job_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">partition</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="c1"># job_name: str</span>
+    <span class="n">job_step_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">user</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">state</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">start_time</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">time</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">time_limit</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">num_nodes</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">tres_per_node</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">min_cpus</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">min_memory_size</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">nodelist</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">mongo_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">project</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">git_issue_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">script_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+<div class="viewcode-block" id="SlurmInfo.from_dict"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfo.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">SlurmInfo</span><span class="p">:</span>  <span class="c1"># noqa: ANN102</span>
+        <span class="sd">&quot;&quot;&quot;Map a dict to SlurmInfo instance.&quot;&quot;&quot;</span>
+        <span class="n">slurm_key_to_kwarg_key_mapping</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;PRIORITY&quot;</span><span class="p">:</span> <span class="s2">&quot;priority&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;JOBID&quot;</span><span class="p">:</span> <span class="s2">&quot;job_id&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;PARTITION&quot;</span><span class="p">:</span> <span class="s2">&quot;partition&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;NAME&quot;</span><span class="p">:</span> <span class="s2">&quot;job_step_name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;USER&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;STATE&quot;</span><span class="p">:</span> <span class="s2">&quot;state&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;START_TIME&quot;</span><span class="p">:</span> <span class="s2">&quot;start_time&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;TIME&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;TIME_LIMIT&quot;</span><span class="p">:</span> <span class="s2">&quot;time_limit&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;NODES&quot;</span><span class="p">:</span> <span class="s2">&quot;num_nodes&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;TRES_PER_NOD&quot;</span><span class="p">:</span> <span class="s2">&quot;tres_per_node&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;MI&quot;</span><span class="p">:</span> <span class="s2">&quot;min_cpus&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;MIN_&quot;</span><span class="p">:</span> <span class="s2">&quot;min_memory_size&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;NODELIST(REASON)&quot;</span><span class="p">:</span> <span class="s2">&quot;nodelist&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">kwargs_for_slurm_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">kwargs_key</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="n">slurm_key</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">slurm_key</span><span class="p">,</span> <span class="n">kwargs_key</span> <span class="ow">in</span> <span class="n">slurm_key_to_kwarg_key_mapping</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;priority&quot;</span><span class="p">,</span> <span class="s2">&quot;num_nodes&quot;</span><span class="p">,</span> <span class="s2">&quot;min_cpus&quot;</span><span class="p">]:</span>
+            <span class="n">kwargs_for_slurm_info</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">kwargs_for_slurm_info</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs_for_slurm_info</span><span class="p">)</span>  <span class="c1"># type: ignore</span></div></div>
+
+
+<div class="viewcode-block" id="SlurmInfoList"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfoList">[docs]</a><span class="k">class</span> <span class="nc">SlurmInfoList</span><span class="p">(</span><span class="n">UserList</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slurm_info_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SlurmInfo</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;list-like interface to a collection of SlurmInfo.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">slurm_info_list</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SlurmInfoList.to_slurminfo_dict"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfoList.to_slurminfo_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_slurminfo_dict</span><span class="p">(</span>  <span class="c1"># type: ignore</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">key_fn</span><span class="o">=</span><span class="k">lambda</span> <span class="n">slurm_info</span><span class="p">:</span> <span class="n">slurm_info</span><span class="o">.</span><span class="n">job_id</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SlurmInfoDict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Map SlurmInfo instance to a dict.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">SlurmInfoDict</span><span class="p">(</span>
+            <span class="p">{</span><span class="n">key_fn</span><span class="p">(</span><span class="n">slurm_info</span><span class="p">):</span> <span class="n">slurm_info</span> <span class="k">for</span> <span class="n">slurm_info</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">}</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="SlurmInfoList.populate_additional_fields"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfoList.populate_additional_fields">[docs]</a>    <span class="k">def</span> <span class="nf">populate_additional_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mongo_stores</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">MongoStore</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Populate additional fields like collection, git_issue_id and script_id.&quot;&quot;&quot;</span>
+        <span class="n">record_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Record</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">current_mongo_store</span> <span class="ow">in</span> <span class="n">mongo_stores</span><span class="p">:</span>
+            <span class="n">record_list</span> <span class="o">+=</span> <span class="n">current_mongo_store</span><span class="o">.</span><span class="n">get_unanalyzed_records</span><span class="p">()</span>
+        <span class="n">records</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Record</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">record</span><span class="p">[</span><span class="s2">&quot;setup&quot;</span><span class="p">][</span><span class="s2">&quot;slurm&quot;</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">]:</span> <span class="n">record</span> <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">record_list</span>
+        <span class="p">}</span>
+
+        <span class="k">def</span> <span class="nf">_process_slurm_info</span><span class="p">(</span><span class="n">slurm_info</span><span class="p">:</span> <span class="n">SlurmInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SlurmInfo</span><span class="p">:</span>
+            <span class="n">job_id</span> <span class="o">=</span> <span class="n">slurm_info</span><span class="o">.</span><span class="n">job_id</span>
+            <span class="k">if</span> <span class="n">job_id</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="n">job_id</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="n">job_id</span> <span class="o">+</span> <span class="s2">&quot;-0&quot;</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
+                <span class="n">slurm_info</span><span class="o">.</span><span class="n">project</span> <span class="o">=</span> <span class="n">records</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;logbook&quot;</span><span class="p">][</span><span class="s2">&quot;mongo_config&quot;</span><span class="p">][</span>
+                    <span class="s2">&quot;collection&quot;</span>
+                <span class="p">]</span>
+                <span class="n">slurm_info</span><span class="o">.</span><span class="n">mongo_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">records</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;_id&quot;</span><span class="p">])</span>
+                <span class="n">slurm_info</span><span class="o">.</span><span class="n">git_issue_id</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">slurm_info</span><span class="o">.</span><span class="n">project</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">records</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;setup&#39;</span><span class="p">][</span><span class="s1">&#39;git&#39;</span><span class="p">][</span><span class="s1">&#39;issue_id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+                <span class="n">slurm_info</span><span class="o">.</span><span class="n">script_id</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">slurm_info</span><span class="o">.</span><span class="n">project</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">records</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;setup&#39;</span><span class="p">][</span><span class="s1">&#39;script_id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="n">slurm_info</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">_process_slurm_info</span><span class="p">(</span><span class="n">slurm_info</span><span class="p">)</span> <span class="k">for</span> <span class="n">slurm_info</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">]</span></div></div>
+
+
+<div class="viewcode-block" id="SlurmInfoDict"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.slurm.html#xplogger.experiment_manager.slurm.ds.SlurmInfoDict">[docs]</a><span class="k">class</span> <span class="nc">SlurmInfoDict</span><span class="p">(</span><span class="n">UserDict</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slurminfo_sequence_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">SlurmInfoList</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;dict-like interface to a collection of SlurmInfo.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">slurminfo_sequence_dict</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, Shagun Sodhani.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

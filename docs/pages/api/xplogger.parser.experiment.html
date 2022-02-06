@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>xplogger.parser.experiment package &mdash; xplogger 0.8 documentation</title>
+  <title>xplogger.parser.experiment package &mdash; xplogger 0.9.0 documentation</title>
   
 
   
@@ -97,6 +97,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">xplogger</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="xplogger.html">xplogger package</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="xplogger.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="xplogger.experiment_manager.html">xplogger.experiment_manager package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="xplogger.logger.html">xplogger.logger package</a></li>
 <li class="toctree-l4 current"><a class="reference internal" href="xplogger.parser.html">xplogger.parser package</a></li>
 </ul>
@@ -194,7 +195,7 @@
 <p>Container for the experiment data.</p>
 <dl class="py class">
 <dt id="xplogger.parser.experiment.experiment.Experiment">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.parser.experiment.experiment.</span></code><code class="sig-name descname"><span class="pre">Experiment</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/experiment.html#Experiment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.experiment.Experiment" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.parser.experiment.experiment.</span></code><code class="sig-name descname"><span class="pre">Experiment</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">experiment_utils.ExperimentMetricType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">experiment_utils.ExperimentInfoType</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/experiment.html#Experiment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.experiment.Experiment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt id="xplogger.parser.experiment.experiment.Experiment.config">
@@ -203,8 +204,41 @@
 </dd></dl>
 
 <dl class="py method">
+<dt id="xplogger.parser.experiment.experiment.Experiment.process_metrics">
+<code class="sig-name descname"><span class="pre">process_metrics</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_names</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_min</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_max</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_duplicates</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropna</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">np.typing.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float32</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/experiment.html#Experiment.process_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.experiment.Experiment.process_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a list of metric names, process the metrics for a given experiment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metric_names</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – Names of metrics to process.</p></li>
+<li><p><strong>x_name</strong> (<em>str</em>) – The column/meric with respect to which other metrics
+are tracked. For example <cite>steps</cite> or <cite>epochs</cite>.</p></li>
+<li><p><strong>x_min</strong> (<em>int</em>) – Filter the experiment where the max value of <cite>x_name</cite>
+is less than or equal to <cite>x_min</cite>.</p></li>
+<li><p><strong>x_max</strong> (<em>int</em>) – Filter the metric values where value of <cite>x_name</cite>
+(corresponding to metric values) is greater than <cite>x_max</cite></p></li>
+<li><p><strong>mode</strong> (<em>str</em>) – Mode when selecting metrics. Recall that <cite>experiment.metrics</cite>
+is a dictionary mapping <cite>modes</cite> to dataframes.</p></li>
+<li><p><strong>drop_duplicates</strong> (<em>bool</em>) – Should drop duplicate values in the <cite>x_name</cite> column</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em>) – Should print additional information</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>dictionary mapping metric name to 1-dimensional</dt><dd><p>numpy array of metric values.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict[str, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="xplogger.parser.experiment.experiment.Experiment.serialize">
-<code class="sig-name descname"><span class="pre">serialize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/experiment.html#Experiment.serialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.experiment.Experiment.serialize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">serialize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pathlib.Path</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/experiment.html#Experiment.serialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.experiment.Experiment.serialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Serialize the experiment data and store at <cite>dir_path</cite>.</p>
 <ul class="simple">
 <li><p>configs are stored as jsonl (since there are only a few configs per experiment) in a file called <cite>config.jsonl</cite>.</p></li>
@@ -223,18 +257,18 @@
 
 <dl class="py class">
 <dt id="xplogger.parser.experiment.experiment.ExperimentSequence">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.parser.experiment.experiment.</span></code><code class="sig-name descname"><span class="pre">ExperimentSequence</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiments</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#xplogger.parser.experiment.experiment.Experiment" title="xplogger.parser.experiment.experiment.Experiment"><span class="pre">xplogger.parser.experiment.experiment.Experiment</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/experiment.html#ExperimentSequence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.experiment.ExperimentSequence" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.parser.experiment.experiment.</span></code><code class="sig-name descname"><span class="pre">ExperimentSequence</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiments</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#xplogger.parser.experiment.experiment.Experiment" title="xplogger.parser.experiment.experiment.Experiment"><span class="pre">Experiment</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/experiment.html#ExperimentSequence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.experiment.ExperimentSequence" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.UserList</span></code></p>
 <dl class="py method">
 <dt id="xplogger.parser.experiment.experiment.ExperimentSequence.aggregate">
-<code class="sig-name descname"><span class="pre">aggregate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">aggregate_configs:</span> <span class="pre">Callable[[List[List[Dict[str,</span> <span class="pre">Any]]]],</span> <span class="pre">List[Dict[str,</span> <span class="pre">Any]]]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">return_first_config&gt;,</span> <span class="pre">aggregate_metrics:</span> <span class="pre">Callable[[List[Dict[str,</span> <span class="pre">pandas.core.frame.DataFrame]]],</span> <span class="pre">Dict[str,</span> <span class="pre">pandas.core.frame.DataFrame]]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">concat_metrics&gt;,</span> <span class="pre">aggregate_infos:</span> <span class="pre">Callable[[List[Dict[Any,</span> <span class="pre">Any]]],</span> <span class="pre">Dict[Any,</span> <span class="pre">Any]]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">return_first_infos&gt;</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#xplogger.parser.experiment.experiment.Experiment" title="xplogger.parser.experiment.experiment.Experiment"><span class="pre">xplogger.parser.experiment.experiment.Experiment</span></a><a class="reference internal" href="../../_modules/xplogger/parser/experiment/experiment.html#ExperimentSequence.aggregate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.experiment.ExperimentSequence.aggregate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">aggregate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">aggregate_configs:</span> <span class="pre">Callable[[list[list[ConfigType]]],</span> <span class="pre">list[ConfigType]]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">return_first_config&gt;,</span> <span class="pre">aggregate_metrics:</span> <span class="pre">Callable[[list[experiment_utils.ExperimentMetricType]],</span> <span class="pre">experiment_utils.ExperimentMetricType]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">concat_metrics&gt;,</span> <span class="pre">aggregate_infos:</span> <span class="pre">Callable[[list[experiment_utils.ExperimentInfoType]],</span> <span class="pre">experiment_utils.ExperimentInfoType]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">return_first_infos&gt;</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#xplogger.parser.experiment.experiment.Experiment" title="xplogger.parser.experiment.experiment.Experiment"><span class="pre">Experiment</span></a><a class="reference internal" href="../../_modules/xplogger/parser/experiment/experiment.html#ExperimentSequence.aggregate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.experiment.ExperimentSequence.aggregate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Aggregate a sequence of experiments into a single experiment.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>aggregate_configs</strong> (<em>Callable</em><em>[ </em><em>[</em><em>List</em><em>[</em><em>List</em><em>[</em><em>ConfigType</em><em>]</em><em>]</em><em>]</em><em>, </em><em>List</em><em>[</em><em>ConfigType</em><em>] </em><em>]</em><em>, </em><em>optional</em>) – Function to aggregate the configs. Defaults to experiment_utils.return_first_config.</p></li>
-<li><p><strong>aggregate_metrics</strong> (<em>Callable</em><em>[ </em><em>[</em><em>List</em><em>[</em><em>experiment_utils.ExperimentMetricType</em><em>]</em><em>]</em><em>, </em><em>ExperimentMetricType</em><em> ]</em><em>, </em><em>optional</em>) – Function to aggregate the metrics. Defaults to experiment_utils.concat_metrics.</p></li>
-<li><p><strong>aggregate_infos</strong> (<em>Callable</em><em>[ </em><em>[</em><em>List</em><em>[</em><em>experiment_utils.ExperimentInfoType</em><em>]</em><em>]</em><em>, </em><em>ExperimentInfoType</em><em> ]</em><em>, </em><em>optional</em>) – Function to aggregate the information. Defaults to experiment_utils.return_first_infos.</p></li>
+<li><p><strong>aggregate_configs</strong> (<em>Callable</em><em>[ </em><em>[</em><em>list</em><em>[</em><em>list</em><em>[</em><em>ConfigType</em><em>]</em><em>]</em><em>]</em><em>, </em><em>list</em><em>[</em><em>ConfigType</em><em>] </em><em>]</em><em>, </em><em>optional</em>) – Function to aggregate the configs. Defaults to experiment_utils.return_first_config.</p></li>
+<li><p><strong>aggregate_metrics</strong> (<em>Callable</em><em>[ </em><em>[</em><em>list</em><em>[</em><em>experiment_utils.ExperimentMetricType</em><em>]</em><em>]</em><em>, </em><em>ExperimentMetricType</em><em> ]</em><em>, </em><em>optional</em>) – Function to aggregate the metrics. Defaults to experiment_utils.concat_metrics.</p></li>
+<li><p><strong>aggregate_infos</strong> (<em>Callable</em><em>[ </em><em>[</em><em>list</em><em>[</em><em>experiment_utils.ExperimentInfoType</em><em>]</em><em>]</em><em>, </em><em>ExperimentInfoType</em><em> ]</em><em>, </em><em>optional</em>) – Function to aggregate the information. Defaults to experiment_utils.return_first_infos.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -247,8 +281,46 @@
 </dd></dl>
 
 <dl class="py method">
+<dt id="xplogger.parser.experiment.experiment.ExperimentSequence.aggregate_metrics">
+<code class="sig-name descname"><span class="pre">aggregate_metrics</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">np.typing.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float32</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/experiment.html#ExperimentSequence.aggregate_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.experiment.ExperimentSequence.aggregate_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Aggregate metrics across experiment sequences.</p>
+<p>Given a list of metric names, aggreate the metrics across different
+experiments in an experiment sequence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metric_names</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – Names of metrics to aggregate.</p></li>
+<li><p><strong>x_name</strong> (<em>str</em>) – The column/meric with respect to which other metrics
+are tracked. For example <cite>steps</cite> or <cite>epochs</cite>. This aggregated values
+for this metric are also returned.</p></li>
+<li><p><strong>x_min</strong> (<em>int</em>) – Only those experiments are considered (during aggregation)
+where the max value of <cite>x_name</cite> is greater than or equal to <cite>x_min</cite>.</p></li>
+<li><p><strong>x_max</strong> (<em>int</em>) – When aggregating experiments, consider metric values such
+that the max value of <cite>x_name</cite> corresponding to metric values
+is less than or equal to <cite>x_max</cite></p></li>
+<li><p><strong>mode</strong> (<em>str</em>) – Mode when selecting metrics. Recall that <cite>experiment.metrics</cite>
+is a dictionary mapping <cite>modes</cite> to dataframes.</p></li>
+<li><p><strong>drop_duplicates</strong> (<em>bool</em>) – Should drop duplicate values in the <cite>x_name</cite> column</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em>) – Should print additional information</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>dictionary mapping metric name to 2-dimensional</dt><dd><p>numpy array of metric values. The first dimension corresponds to the
+experiments and the second corresponds to metrics per experiment.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict[str, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="xplogger.parser.experiment.experiment.ExperimentSequence.filter">
-<code class="sig-name descname"><span class="pre">filter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_fn</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#xplogger.parser.experiment.experiment.Experiment" title="xplogger.parser.experiment.experiment.Experiment"><span class="pre">xplogger.parser.experiment.experiment.Experiment</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#xplogger.parser.experiment.experiment.ExperimentSequence" title="xplogger.parser.experiment.experiment.ExperimentSequence"><span class="pre">xplogger.parser.experiment.experiment.ExperimentSequence</span></a><a class="reference internal" href="../../_modules/xplogger/parser/experiment/experiment.html#ExperimentSequence.filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.experiment.ExperimentSequence.filter" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">filter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_fn</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#xplogger.parser.experiment.experiment.Experiment" title="xplogger.parser.experiment.experiment.Experiment"><span class="pre">xplogger.parser.experiment.experiment.Experiment</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#xplogger.parser.experiment.experiment.ExperimentSequence" title="xplogger.parser.experiment.experiment.ExperimentSequence"><span class="pre">ExperimentSequence</span></a><a class="reference internal" href="../../_modules/xplogger/parser/experiment/experiment.html#ExperimentSequence.filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.experiment.ExperimentSequence.filter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Filter experiments in the sequence.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -266,7 +338,7 @@ filter condition is true</p>
 
 <dl class="py method">
 <dt id="xplogger.parser.experiment.experiment.ExperimentSequence.get_param_groups">
-<code class="sig-name descname"><span class="pre">get_param_groups</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params_to_exclude</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/experiment.html#ExperimentSequence.get_param_groups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.experiment.ExperimentSequence.get_param_groups" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_param_groups</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params_to_exclude</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigType</span><span class="p"><span class="pre">,</span> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/experiment.html#ExperimentSequence.get_param_groups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.experiment.ExperimentSequence.get_param_groups" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return two groups of params, one which is fixed across the experiments and one which varies.</p>
 <p>This function is useful when understanding the effect of different parameters on the model’s
 performance. One could plot the performance of the different experiments, as a function of the
@@ -288,14 +360,14 @@ It maps these params to the set of values they take.</p>
 </p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Tuple[ConfigType, Dict[str, Set[Any]]]</p>
+<dd class="field-odd"><p>tuple[ConfigType, dict[str, set[Any]]]</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="xplogger.parser.experiment.experiment.ExperimentSequence.groupby">
-<code class="sig-name descname"><span class="pre">groupby</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_fn</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#xplogger.parser.experiment.experiment.Experiment" title="xplogger.parser.experiment.experiment.Experiment"><span class="pre">xplogger.parser.experiment.experiment.Experiment</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#xplogger.parser.experiment.experiment.ExperimentSequence" title="xplogger.parser.experiment.experiment.ExperimentSequence"><span class="pre">xplogger.parser.experiment.experiment.ExperimentSequence</span></a><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/experiment.html#ExperimentSequence.groupby"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.experiment.ExperimentSequence.groupby" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">groupby</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_fn</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#xplogger.parser.experiment.experiment.Experiment" title="xplogger.parser.experiment.experiment.Experiment"><span class="pre">Experiment</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#xplogger.parser.experiment.experiment.ExperimentSequence" title="xplogger.parser.experiment.experiment.ExperimentSequence"><span class="pre">ExperimentSequence</span></a><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/experiment.html#ExperimentSequence.groupby"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.experiment.ExperimentSequence.groupby" title="Permalink to this definition">¶</a></dt>
 <dd><p>Group experiments in the sequence.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -306,7 +378,64 @@ It maps these params to the set of values they take.</p>
 group id to a sequence of experiments</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Dict[str, <a class="reference internal" href="#xplogger.parser.experiment.experiment.ExperimentSequence" title="xplogger.parser.experiment.experiment.ExperimentSequence">ExperimentSequence</a>]</p>
+<dd class="field-odd"><p>dict[str, <a class="reference internal" href="#xplogger.parser.experiment.experiment.ExperimentSequence" title="xplogger.parser.experiment.experiment.ExperimentSequence">ExperimentSequence</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="xplogger.parser.experiment.experiment.ExperimentSequenceDict">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.parser.experiment.experiment.</span></code><code class="sig-name descname"><span class="pre">ExperimentSequenceDict</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiment_sequence_dict</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#xplogger.parser.experiment.experiment.ExperimentSequence" title="xplogger.parser.experiment.experiment.ExperimentSequence"><span class="pre">ExperimentSequence</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/experiment.html#ExperimentSequenceDict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.experiment.ExperimentSequenceDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.UserDict</span></code></p>
+<dl class="py method">
+<dt id="xplogger.parser.experiment.experiment.ExperimentSequenceDict.aggregate_metrics">
+<code class="sig-name descname"><span class="pre">aggregate_metrics</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_all_metrics_with_same_length</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">np.typing.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float32</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/experiment.html#ExperimentSequenceDict.aggregate_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.experiment.ExperimentSequenceDict.aggregate_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Aggreate metrics across experiment sequences.</p>
+<p>Given a list of metric names, aggreate the metrics across different
+experiment sequences in a dictionary indexed by the metric name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>get_experiment_name</strong> (<em>Callable</em><em>[</em><em>[</em><em>str</em><em>]</em><em>, </em><em>str</em><em>]</em>) – Function to map the
+given key with a name.</p></li>
+<li><p><strong>metric_names</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – Names of metrics to aggregate.</p></li>
+<li><p><strong>x_name</strong> (<em>str</em>) – The column/meric with respect to which other metrics
+are tracked. For example <cite>steps</cite> or <cite>epochs</cite>. This aggregated values
+for this metric are also returned.</p></li>
+<li><p><strong>mode</strong> (<em>str</em>) – Mode when selecting metrics. Recall that <cite>experiment.metrics</cite>
+is a dictionary mapping <cite>modes</cite> to dataframes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>dictionary mapping metric name to 2-dimensional</dt><dd><p>numpy array of metric values. The first dimension corresponds to the
+experiments and the second corresponds to metrics per experiment.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict[str, np.typing.NDArray[np.float32]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.parser.experiment.experiment.ExperimentSequenceDict.filter">
+<code class="sig-name descname"><span class="pre">filter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_fn</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#xplogger.parser.experiment.experiment.Experiment" title="xplogger.parser.experiment.experiment.Experiment"><span class="pre">xplogger.parser.experiment.experiment.Experiment</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#xplogger.parser.experiment.experiment.ExperimentSequenceDict" title="xplogger.parser.experiment.experiment.ExperimentSequenceDict"><span class="pre">ExperimentSequenceDict</span></a><a class="reference internal" href="../../_modules/xplogger/parser/experiment/experiment.html#ExperimentSequenceDict.filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.experiment.ExperimentSequenceDict.filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter experiment sequences in the dict.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filter_fn</strong> – Function to filter an experiment sequence</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dict of sequence of experiments for which the
+filter condition is true</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#xplogger.parser.experiment.experiment.ExperimentSequenceDict" title="xplogger.parser.experiment.experiment.ExperimentSequenceDict">ExperimentSequenceDict</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -351,11 +480,11 @@ or instance of Path (directory) object.</p>
 <p>Utilit functions to work with the experiment data.</p>
 <dl class="py function">
 <dt id="xplogger.parser.experiment.utils.concat_metrics">
-<code class="sig-prename descclassname"><span class="pre">xplogger.parser.experiment.utils.</span></code><code class="sig-name descname"><span class="pre">concat_metrics</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/utils.html#concat_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.utils.concat_metrics" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">xplogger.parser.experiment.utils.</span></code><code class="sig-name descname"><span class="pre">concat_metrics</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">ExperimentMetricType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">ExperimentMetricType</span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/utils.html#concat_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.utils.concat_metrics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Concatenate the metrics.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>metric_list</strong> (<em>List</em><em>[</em><em>ExperimentMetricType</em><em>]</em>) – </p>
+<dd class="field-odd"><p><strong>metric_list</strong> (<em>list</em><em>[</em><em>ExperimentMetricType</em><em>]</em>) – </p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>ExperimentMetricType</p>
@@ -365,11 +494,11 @@ or instance of Path (directory) object.</p>
 
 <dl class="py function">
 <dt id="xplogger.parser.experiment.utils.mean_metrics">
-<code class="sig-prename descclassname"><span class="pre">xplogger.parser.experiment.utils.</span></code><code class="sig-name descname"><span class="pre">mean_metrics</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/utils.html#mean_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.utils.mean_metrics" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">xplogger.parser.experiment.utils.</span></code><code class="sig-name descname"><span class="pre">mean_metrics</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">ExperimentMetricType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">ExperimentMetricType</span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/utils.html#mean_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.utils.mean_metrics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the mean of the metrics.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>metric_list</strong> (<em>List</em><em>[</em><em>ExperimentMetricType</em><em>]</em>) – </p>
+<dd class="field-odd"><p><strong>metric_list</strong> (<em>list</em><em>[</em><em>ExperimentMetricType</em><em>]</em>) – </p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>ExperimentMetricType</p>
@@ -379,25 +508,25 @@ or instance of Path (directory) object.</p>
 
 <dl class="py function">
 <dt id="xplogger.parser.experiment.utils.return_first_config">
-<code class="sig-prename descclassname"><span class="pre">xplogger.parser.experiment.utils.</span></code><code class="sig-name descname"><span class="pre">return_first_config</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_lists</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/utils.html#return_first_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.utils.return_first_config" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">xplogger.parser.experiment.utils.</span></code><code class="sig-name descname"><span class="pre">return_first_config</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_lists</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigType</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/utils.html#return_first_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.utils.return_first_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the first config list, from a list of list of configs, else return empty list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>config_lists</strong> (<em>List</em><em>[</em><em>List</em><em>[</em><em>ConfigType</em><em>]</em><em>]</em>) – </p>
+<dd class="field-odd"><p><strong>config_lists</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>ConfigType</em><em>]</em><em>]</em>) – </p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>List[ConfigType]</p>
+<dd class="field-even"><p>list[ConfigType]</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt id="xplogger.parser.experiment.utils.return_first_infos">
-<code class="sig-prename descclassname"><span class="pre">xplogger.parser.experiment.utils.</span></code><code class="sig-name descname"><span class="pre">return_first_infos</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">info_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/utils.html#return_first_infos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.utils.return_first_infos" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">xplogger.parser.experiment.utils.</span></code><code class="sig-name descname"><span class="pre">return_first_infos</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">info_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">ExperimentInfoType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">ExperimentInfoType</span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/utils.html#return_first_infos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.utils.return_first_infos" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the first info, from a list of infos. Otherwise return empty info.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>info_list</strong> (<em>List</em><em>[</em><em>ExperimentInfoType</em><em>]</em>) – </p>
+<dd class="field-odd"><p><strong>info_list</strong> (<em>list</em><em>[</em><em>ExperimentInfoType</em><em>]</em>) – </p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>ExperimentInfoType</p>
@@ -407,11 +536,11 @@ or instance of Path (directory) object.</p>
 
 <dl class="py function">
 <dt id="xplogger.parser.experiment.utils.sum_metrics">
-<code class="sig-prename descclassname"><span class="pre">xplogger.parser.experiment.utils.</span></code><code class="sig-name descname"><span class="pre">sum_metrics</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/utils.html#sum_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.utils.sum_metrics" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">xplogger.parser.experiment.utils.</span></code><code class="sig-name descname"><span class="pre">sum_metrics</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">ExperimentMetricType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">ExperimentMetricType</span><a class="reference internal" href="../../_modules/xplogger/parser/experiment/utils.html#sum_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.parser.experiment.utils.sum_metrics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the sum of the metrics.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>metric_list</strong> (<em>List</em><em>[</em><em>ExperimentMetricType</em><em>]</em>) – </p>
+<dd class="field-odd"><p><strong>metric_list</strong> (<em>list</em><em>[</em><em>ExperimentMetricType</em><em>]</em>) – </p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>ExperimentMetricType</p>

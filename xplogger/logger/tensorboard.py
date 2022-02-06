@@ -1,6 +1,6 @@
 """Logger class that writes to tensorboard."""
 
-from typing import Dict
+from __future__ import annotations
 
 from tensorboardX import SummaryWriter
 
@@ -89,7 +89,7 @@ class Logger(BaseLogger):
         if "name" in config:
             name = config.pop("name")
 
-        metric_dict: Dict[str, NumType] = {}
+        metric_dict: dict[str, NumType] = {}
         if "metric_dict" in config:
             metric_dict = config.pop("metric_dict")
             metric_dict = self._prepare_metric_log_to_write(log=metric_dict)

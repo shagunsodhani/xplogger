@@ -1,6 +1,8 @@
 """Utilit functions to work with the experiment data."""
 
-from typing import Any, Dict, List
+from __future__ import annotations
+
+from typing import Any, Dict
 
 import numpy as np
 import pandas as pd
@@ -11,14 +13,14 @@ ExperimentMetricType = Dict[str, pd.DataFrame]
 ExperimentInfoType = Dict[Any, Any]
 
 
-def return_first_config(config_lists: List[List[ConfigType]]) -> List[ConfigType]:
+def return_first_config(config_lists: list[list[ConfigType]]) -> list[ConfigType]:
     """Return the first config list, from a list of list of configs, else return empty list.
 
     Args:
-        config_lists (List[List[ConfigType]])
+        config_lists (list[list[ConfigType]])
 
     Returns:
-        List[ConfigType]
+        list[ConfigType]
     """
     for config_list in config_lists:
         if len(config_list) > 0:
@@ -26,11 +28,11 @@ def return_first_config(config_lists: List[List[ConfigType]]) -> List[ConfigType
     return []
 
 
-def concat_metrics(metric_list: List[ExperimentMetricType]) -> ExperimentMetricType:
+def concat_metrics(metric_list: list[ExperimentMetricType]) -> ExperimentMetricType:
     """Concatenate the metrics.
 
     Args:
-        metric_list (List[ExperimentMetricType])
+        metric_list (list[ExperimentMetricType])
 
     Returns:
         ExperimentMetricType
@@ -43,9 +45,9 @@ def concat_metrics(metric_list: List[ExperimentMetricType]) -> ExperimentMetricT
 
 
 def _compute_sum_or_mean_of_metrics_for_one_mode(
-    metric_list: List[ExperimentMetricType], mode: str, return_mean: bool = True
+    metric_list: list[ExperimentMetricType], mode: str, return_mean: bool = True
 ) -> pd.DataFrame:
-    metric_to_return: Dict[str, Any] = {}
+    metric_to_return: dict[str, Any] = {}
     min_len = np.iinfo(np.int32).max
     for metric in metric_list:
         df = metric[mode]
@@ -60,7 +62,7 @@ def _compute_sum_or_mean_of_metrics_for_one_mode(
                     metric_to_return[key] = df[key].to_numpy()
                     min_len = min(min_len, len(metric_to_return[key]))
 
-    np_metric_to_return: Dict[str, np.ndarray] = {}
+    np_metric_to_return: dict[str, np.typing.NDArray[np.float32]] = {}
     for metric_name in metric_to_return:
         if isinstance(metric_to_return[metric_name][0], np.ndarray):
             np_metric_to_return[metric_name] = np.array(
@@ -80,12 +82,12 @@ def _compute_sum_or_mean_of_metrics_for_one_mode(
 
 
 def _compute_sum_or_mean_of_metrics(
-    metric_list: List[ExperimentMetricType], return_mean: bool
+    metric_list: list[ExperimentMetricType], return_mean: bool
 ) -> ExperimentMetricType:
     """Add the metrics.
 
     Args:
-        metric_list (List[ExperimentMetricType])
+        metric_list (list[ExperimentMetricType])
 
     Returns:
         ExperimentMetricType
@@ -99,11 +101,11 @@ def _compute_sum_or_mean_of_metrics(
     return concatenated_metrics
 
 
-def mean_metrics(metric_list: List[ExperimentMetricType]) -> ExperimentMetricType:
+def mean_metrics(metric_list: list[ExperimentMetricType]) -> ExperimentMetricType:
     """Compute the mean of the metrics.
 
     Args:
-        metric_list (List[ExperimentMetricType])
+        metric_list (list[ExperimentMetricType])
 
     Returns:
         ExperimentMetricType
@@ -111,11 +113,11 @@ def mean_metrics(metric_list: List[ExperimentMetricType]) -> ExperimentMetricTyp
     return _compute_sum_or_mean_of_metrics(metric_list=metric_list, return_mean=True)
 
 
-def sum_metrics(metric_list: List[ExperimentMetricType]) -> ExperimentMetricType:
+def sum_metrics(metric_list: list[ExperimentMetricType]) -> ExperimentMetricType:
     """Compute the sum of the metrics.
 
     Args:
-        metric_list (List[ExperimentMetricType])
+        metric_list (list[ExperimentMetricType])
 
     Returns:
         ExperimentMetricType
@@ -123,11 +125,11 @@ def sum_metrics(metric_list: List[ExperimentMetricType]) -> ExperimentMetricType
     return _compute_sum_or_mean_of_metrics(metric_list=metric_list, return_mean=False)
 
 
-def return_first_infos(info_list: List[ExperimentInfoType]) -> ExperimentInfoType:
+def return_first_infos(info_list: list[ExperimentInfoType]) -> ExperimentInfoType:
     """Return the first info, from a list of infos. Otherwise return empty info.
 
     Args:
-        info_list (List[ExperimentInfoType])
+        info_list (list[ExperimentInfoType])
 
     Returns:
         ExperimentInfoType
