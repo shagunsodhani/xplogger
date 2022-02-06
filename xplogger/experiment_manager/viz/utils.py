@@ -10,7 +10,6 @@ def validate_kwargs_for_aggregate_metrics(
     kwargs_for_aggregate_metrics: Optional[dict[str, Any]]
 ) -> None:
     """Validate that kwargs is not None and contains certain keys."""
-
     assert kwargs_for_aggregate_metrics is not None
     for key in [
         "get_experiment_name",
