@@ -59,7 +59,12 @@ class RecordList(UserList):  # type: ignore
             issue_id = record["setup"]["git"]["issue_id"]
             print(issue_id)
             record["status"] = new_status
-            _id = ObjectId(record.pop("_id"))
+            key = "_id"
+            if key in record:
+                _id = ObjectId(record.pop("_id"))
+            else:
+                key = "id"
+                _id = ObjectId(record.pop(key))
             print(collection.replace_one({"_id": _id}, record).raw_result)
 
     def mark_analyzed(self, collection: pymongo.collection.Collection) -> None:
