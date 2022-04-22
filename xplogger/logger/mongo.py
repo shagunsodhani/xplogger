@@ -3,10 +3,13 @@
 
 from copy import deepcopy
 
-from pymongo import MongoClient
+from pymongo import MongoClient  # type: ignore
 
+# Module "pymongo" does not explicitly export attribute "MongoClient"; implicit reexport disabled
 from xplogger.logger.base import Logger as BaseLogger
 from xplogger.types import ConfigType, LogType
+
+# error: Module "pymongo" does not explicitly export attribute "MongoClient"; implicit reexport disabled
 
 
 class Logger(BaseLogger):

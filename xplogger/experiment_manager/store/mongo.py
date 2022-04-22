@@ -5,7 +5,7 @@ from pathlib import Path
 
 import ray
 from bson.objectid import ObjectId
-from pymongo import MongoClient
+from pymongo import MongoClient  # type: ignore
 
 from xplogger.experiment_manager.record import mongo as mongo_record_utils
 from xplogger.experiment_manager.record.record_list import RecordList
@@ -13,6 +13,8 @@ from xplogger.experiment_manager.utils.enum import ExperimentStatus
 from xplogger.parser.utils import parse_json
 from xplogger.types import ConfigType
 from xplogger.utils import serialize_log_to_json
+
+# Module "pymongo" does not explicitly export attribute "MongoClient"; implicit reexport disabled
 
 
 class MongoStore:
