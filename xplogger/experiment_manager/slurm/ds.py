@@ -77,8 +77,13 @@ class SlurmInfoList(UserList):  # type: ignore
         record_list: list[Record] = []
         for current_mongo_store in mongo_stores:
             record_list += current_mongo_store.get_unanalyzed_records()
+        for record in record_list:
+            if "slurm" not in record["setup"]:
+                print(record["setup"])
         records: dict[str, Record] = {
-            record["setup"]["slurm"]["id"]: record for record in record_list
+            record["setup"]["slurm"]["id"]: record
+            for record in record_list
+            if "setup" in record and "slurm" in record["setup"]
         }
 
         def _process_slurm_info(slurm_info: SlurmInfo) -> SlurmInfo:

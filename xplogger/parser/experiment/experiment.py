@@ -423,7 +423,6 @@ class ExperimentSequenceDict(UserDict):  # type: ignore
                 for metric in metric_names
             }
             current_metric_dict = exp_seq.aggregate_metrics(**kwargs)
-
             for metric in metric_names:
                 metric_dict[new_metric_names[metric]] = current_metric_dict[metric]
             min_len = min(min_len, len(current_metric_dict[metric][0]))
