@@ -13,7 +13,10 @@ class Record(base.Record):
     @property
     def id(self) -> str:
         """Get record id."""
-        return str(self.data["_id"])
+        key = "_id"
+        if key not in self.data:
+            key = "id"
+        return str(self.data[key])
 
 
 def make_record(config: ConfigType) -> Record:

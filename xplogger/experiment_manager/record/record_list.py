@@ -32,7 +32,10 @@ class RecordList(UserList):  # type: ignore
         super().__init__(records)
 
     def update_status(
-        self, collection: pymongo.collection.Collection, new_status: str
+        self,
+        collection: pymongo.collection.Collection,  # type: ignore
+        # error: Missing type parameters for generic type "Collection"
+        new_status: str,
     ) -> None:
         """Update the status of the records(in the db).
 
@@ -67,7 +70,8 @@ class RecordList(UserList):  # type: ignore
                 _id = ObjectId(record.pop(key))
             print(collection.replace_one({"_id": _id}, record).raw_result)
 
-    def mark_analyzed(self, collection: pymongo.collection.Collection) -> None:
+    def mark_analyzed(self, collection: pymongo.collection.Collection) -> None:  # type: ignore
+        # error: Missing type parameters for generic type "Collection"
         """Mark records as analyzed (in the db).
 
         Args:
@@ -76,7 +80,8 @@ class RecordList(UserList):  # type: ignore
         """
         return self.update_status(collection=collection, new_status="ANALYZED")
 
-    def add_slurm_field(self, collection: pymongo.collection.Collection) -> None:
+    def add_slurm_field(self, collection: pymongo.collection.Collection) -> None:  # type: ignore
+        # error: Missing type parameters for generic type "Collection"
         """Add slurm field to records (in the db).
 
         Args:
@@ -114,7 +119,8 @@ class RecordList(UserList):  # type: ignore
 
     def delete(
         self,
-        collection: pymongo.collection.Collection,
+        collection: pymongo.collection.Collection,  # type: ignore
+        # error: Missing type parameters for generic type "Collection"
         delete_from_filesystem: bool = False,
     ) -> None:
         """Delete jobs from the db and filesystem (optionally).
