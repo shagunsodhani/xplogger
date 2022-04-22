@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>xplogger.experiment_manager.store.mongo &mdash; xplogger 0.9.0 documentation</title>
+  <title>xplogger.experiment_manager.store.mongo &mdash; xplogger 0.10.0 documentation</title>
   
 
   
@@ -167,7 +167,7 @@
 
 <span class="kn">import</span> <span class="nn">ray</span>
 <span class="kn">from</span> <span class="nn">bson.objectid</span> <span class="kn">import</span> <span class="n">ObjectId</span>
-<span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
+<span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>  <span class="c1"># type: ignore</span>
 
 <span class="kn">from</span> <span class="nn">xplogger.experiment_manager.record</span> <span class="kn">import</span> <span class="n">mongo</span> <span class="k">as</span> <span class="n">mongo_record_utils</span>
 <span class="kn">from</span> <span class="nn">xplogger.experiment_manager.record.record_list</span> <span class="kn">import</span> <span class="n">RecordList</span>
@@ -175,6 +175,8 @@
 <span class="kn">from</span> <span class="nn">xplogger.parser.utils</span> <span class="kn">import</span> <span class="n">parse_json</span>
 <span class="kn">from</span> <span class="nn">xplogger.types</span> <span class="kn">import</span> <span class="n">ConfigType</span>
 <span class="kn">from</span> <span class="nn">xplogger.utils</span> <span class="kn">import</span> <span class="n">serialize_log_to_json</span>
+
+<span class="c1"># Module &quot;pymongo&quot; does not explicitly export attribute &quot;MongoClient&quot;; implicit reexport disabled</span>
 
 
 <div class="viewcode-block" id="MongoStore"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore">[docs]</a><span class="k">class</span> <span class="nc">MongoStore</span><span class="p">:</span>

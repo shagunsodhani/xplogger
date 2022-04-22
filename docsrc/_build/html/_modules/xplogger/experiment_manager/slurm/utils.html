@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>xplogger.experiment_manager.slurm.utils &mdash; xplogger 0.9.0 documentation</title>
+  <title>xplogger.experiment_manager.slurm.utils &mdash; xplogger 0.10.0 documentation</title>
   
 
   
@@ -185,7 +185,6 @@
 <span class="sd">        dict[str, Any]: job info.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;sacct --format=&#39;JobID%30,JobName%300,State,JobIDRaw&#39; -j </span><span class="si">{</span><span class="n">job_id</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
     <span class="n">result</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># noqa: S602</span>
         <span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
