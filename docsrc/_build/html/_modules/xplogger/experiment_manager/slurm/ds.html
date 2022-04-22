@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>xplogger.experiment_manager.slurm.ds &mdash; xplogger 0.9.0 documentation</title>
+  <title>xplogger.experiment_manager.slurm.ds &mdash; xplogger 0.10.0 documentation</title>
   
 
   
@@ -239,8 +239,13 @@
         <span class="n">record_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Record</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">current_mongo_store</span> <span class="ow">in</span> <span class="n">mongo_stores</span><span class="p">:</span>
             <span class="n">record_list</span> <span class="o">+=</span> <span class="n">current_mongo_store</span><span class="o">.</span><span class="n">get_unanalyzed_records</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">record_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;slurm&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">record</span><span class="p">[</span><span class="s2">&quot;setup&quot;</span><span class="p">]:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="s2">&quot;setup&quot;</span><span class="p">])</span>
         <span class="n">records</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Record</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="n">record</span><span class="p">[</span><span class="s2">&quot;setup&quot;</span><span class="p">][</span><span class="s2">&quot;slurm&quot;</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">]:</span> <span class="n">record</span> <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">record_list</span>
+            <span class="n">record</span><span class="p">[</span><span class="s2">&quot;setup&quot;</span><span class="p">][</span><span class="s2">&quot;slurm&quot;</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">]:</span> <span class="n">record</span>
+            <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">record_list</span>
+            <span class="k">if</span> <span class="s2">&quot;setup&quot;</span> <span class="ow">in</span> <span class="n">record</span> <span class="ow">and</span> <span class="s2">&quot;slurm&quot;</span> <span class="ow">in</span> <span class="n">record</span><span class="p">[</span><span class="s2">&quot;setup&quot;</span><span class="p">]</span>
         <span class="p">}</span>
 
         <span class="k">def</span> <span class="nf">_process_slurm_info</span><span class="p">(</span><span class="n">slurm_info</span><span class="p">:</span> <span class="n">SlurmInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SlurmInfo</span><span class="p">:</span>

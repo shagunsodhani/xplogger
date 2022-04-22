@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>xplogger.experiment_manager.record.record_list &mdash; xplogger 0.9.0 documentation</title>
+  <title>xplogger.experiment_manager.record.record_list &mdash; xplogger 0.10.0 documentation</title>
   
 
   
@@ -194,7 +194,10 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">records</span><span class="p">)</span>
 
 <div class="viewcode-block" id="RecordList.update_status"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.record_list.RecordList.update_status">[docs]</a>    <span class="k">def</span> <span class="nf">update_status</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">collection</span><span class="p">:</span> <span class="n">pymongo</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">Collection</span><span class="p">,</span> <span class="n">new_status</span><span class="p">:</span> <span class="nb">str</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">collection</span><span class="p">:</span> <span class="n">pymongo</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">Collection</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+        <span class="c1"># error: Missing type parameters for generic type &quot;Collection&quot;</span>
+        <span class="n">new_status</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Update the status of the records(in the db).</span>
 
@@ -221,10 +224,16 @@
             <span class="n">issue_id</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s2">&quot;setup&quot;</span><span class="p">][</span><span class="s2">&quot;git&quot;</span><span class="p">][</span><span class="s2">&quot;issue_id&quot;</span><span class="p">]</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">issue_id</span><span class="p">)</span>
             <span class="n">record</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_status</span>
-            <span class="n">_id</span> <span class="o">=</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;_id&quot;</span><span class="p">))</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;_id&quot;</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">record</span><span class="p">:</span>
+                <span class="n">_id</span> <span class="o">=</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;_id&quot;</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;id&quot;</span>
+                <span class="n">_id</span> <span class="o">=</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">collection</span><span class="o">.</span><span class="n">replace_one</span><span class="p">({</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">_id</span><span class="p">},</span> <span class="n">record</span><span class="p">)</span><span class="o">.</span><span class="n">raw_result</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RecordList.mark_analyzed"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.record_list.RecordList.mark_analyzed">[docs]</a>    <span class="k">def</span> <span class="nf">mark_analyzed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection</span><span class="p">:</span> <span class="n">pymongo</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">Collection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="RecordList.mark_analyzed"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.record_list.RecordList.mark_analyzed">[docs]</a>    <span class="k">def</span> <span class="nf">mark_analyzed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection</span><span class="p">:</span> <span class="n">pymongo</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">Collection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+        <span class="c1"># error: Missing type parameters for generic type &quot;Collection&quot;</span>
         <span class="sd">&quot;&quot;&quot;Mark records as analyzed (in the db).</span>
 
 <span class="sd">        Args:</span>
@@ -233,7 +242,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_status</span><span class="p">(</span><span class="n">collection</span><span class="o">=</span><span class="n">collection</span><span class="p">,</span> <span class="n">new_status</span><span class="o">=</span><span class="s2">&quot;ANALYZED&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RecordList.add_slurm_field"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.record_list.RecordList.add_slurm_field">[docs]</a>    <span class="k">def</span> <span class="nf">add_slurm_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection</span><span class="p">:</span> <span class="n">pymongo</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">Collection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="RecordList.add_slurm_field"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.record_list.RecordList.add_slurm_field">[docs]</a>    <span class="k">def</span> <span class="nf">add_slurm_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection</span><span class="p">:</span> <span class="n">pymongo</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">Collection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+        <span class="c1"># error: Missing type parameters for generic type &quot;Collection&quot;</span>
         <span class="sd">&quot;&quot;&quot;Add slurm field to records (in the db).</span>
 
 <span class="sd">        Args:</span>
@@ -271,7 +281,8 @@
 
 <div class="viewcode-block" id="RecordList.delete"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.record.html#xplogger.experiment_manager.record.record_list.RecordList.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">collection</span><span class="p">:</span> <span class="n">pymongo</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">Collection</span><span class="p">,</span>
+        <span class="n">collection</span><span class="p">:</span> <span class="n">pymongo</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">Collection</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+        <span class="c1"># error: Missing type parameters for generic type &quot;Collection&quot;</span>
         <span class="n">delete_from_filesystem</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Delete jobs from the db and filesystem (optionally).</span>
