@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from enum import Enum
 from pathlib import Path
 from typing import Any
 
@@ -72,6 +73,8 @@ def to_json_serializable(val: Any) -> Any:
         return int(val)
     if isinstance(val, np.ndarray):
         return val.tolist()
+    if isinstance(val, Enum):
+        return val.value
     return val
 
 

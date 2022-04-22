@@ -1,6 +1,7 @@
 """Implementation of different type of metrics."""
 
 import operator
+from enum import Enum
 from typing import Any, Iterable, Optional, Union
 
 from xplogger.types import ComparisonOpType, LogType, NumType, ValueType
@@ -266,7 +267,9 @@ class MetricDict:
             metrics_dict = metrics_dict.to_dict()
         for key, val in metrics_dict.items():
             if key in self._metrics_dict:
-                if isinstance(val, (str, float, int)):
+                if isinstance(val, Enum):
+                    self._metrics_dict[key].update(val.value)
+                elif isinstance(val, (str, float, int)):
                     self._metrics_dict[key].update(val)
                 else:
                     self._metrics_dict[key].update(*val)
