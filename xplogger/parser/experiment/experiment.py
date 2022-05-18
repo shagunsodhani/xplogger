@@ -72,8 +72,10 @@ class Experiment:
                 self.metrics[key].to_feather(path=path_to_save)
 
         path_to_save = f"{dir_path}/info.gzip"
-        with gzip.open(path_to_save, "wb") as f:
-            f.write(json.dumps(self.info).encode("utf-8"))
+        with gzip.open(path_to_save, "wb") as f:  # type: ignore
+            # Incompatible types in assignment (expression has type "GzipFile", variable has type "TextIO")
+            f.write(json.dumps(self.info).encode("utf-8"))  # type: ignore
+            # Argument 1 to "write" of "IO" has incompatible type "bytes"; expected "str"
 
     def __eq__(self, other: object) -> bool:
         """Compare two `Experiment` objects."""
@@ -157,8 +159,10 @@ def deserialize(dir_path: str) -> Experiment:
         metrics["all"] = pd.DataFrame()
 
     path_to_load_from = f"{dir_path}/info.gzip"
-    with gzip.open(path_to_load_from, "rb") as f:
-        info = json.loads(f.read().decode("utf-8"))
+    with gzip.open(path_to_load_from, "rb") as f:  # type: ignore
+        # error: Incompatible types in assignment (expression has type "GzipFile", variable has type "TextIO")
+        info = json.loads(f.read().decode("utf-8"))  # type: ignore
+        # error: "str" has no attribute "decode"; maybe "encode"?
 
     return Experiment(configs=configs, metrics=metrics, info=info)
 

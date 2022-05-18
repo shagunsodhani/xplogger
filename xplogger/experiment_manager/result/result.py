@@ -6,7 +6,9 @@ from typing import Any, Dict, List
 import pandas as pd
 
 from xplogger import utils as xplogger_utils
-from xplogger.parser.experiment import ExperimentSequence
+from xplogger.parser.experiment import ExperimentSequence  # type: ignore
+
+# error: Module 'xplogger.parser.experiment' does not explicitly export attribute 'ExperimentSequence'; implicit reexport disabled
 from xplogger.utils import to_json_serializable
 
 
@@ -21,7 +23,7 @@ class Result:
     metrics: Dict[str, pd.DataFrame]
     info: Dict[str, Any]
 
-    def _get_json_dump(self):
+    def _get_json_dump(self) -> str:
         return json.dumps(
             {
                 "id": self.id,
@@ -36,7 +38,7 @@ class Result:
             default=to_json_serializable,
         )
 
-    def serialize(self, dir_path: Path) -> None:
+    def serialize(self, dir_path: Path) -> Path:
         dir_path = dir_path.joinpath(self.name)
         xplogger_utils.make_dir(dir_path)
         data = self._get_json_dump()
@@ -53,7 +55,9 @@ class Result:
                 self.metrics[key].to_feather(path=path_to_save)
         return dir_path
 
-    def __eq__(self, other):
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Result):
+            return NotImplemented
         return (
             (
                 self.id == other.id
@@ -70,7 +74,7 @@ class Result:
         )
 
 
-def deserialize(dir_path: Path):
+def deserialize(dir_path: Path) -> Result:
     data_dir = dir_path.joinpath("data.json")
     with open(data_dir, "r") as f:
         json_dump = f.read()
