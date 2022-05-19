@@ -1,3 +1,4 @@
+"""Class to manage a result"""
 import json
 from dataclasses import dataclass
 from pathlib import Path
@@ -39,6 +40,7 @@ class Result:
         )
 
     def serialize(self, dir_path: Path) -> Path:
+        """Serialize the result object and save at a given path"""
         dir_path = dir_path.joinpath(self.name)
         xplogger_utils.make_dir(dir_path)
         data = self._get_json_dump()
@@ -75,6 +77,7 @@ class Result:
 
 
 def deserialize(dir_path: Path) -> Result:
+    """Deserialize the result object, given a path"""
     data_dir = dir_path.joinpath("data.json")
     with open(data_dir, "r") as f:
         json_dump = f.read()
