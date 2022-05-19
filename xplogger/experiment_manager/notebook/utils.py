@@ -102,12 +102,10 @@ def make_df(  # noqa: C901
 
     valid_params = [
         params
-        for params in map(
-            lambda _product: OmegaConf.create(
-                {k: v for k, v in zip(hyperparams.keys(), _product)}
-            ),
-            itertools.product(*hyperparams.values()),
-        )
+        for params in [
+            OmegaConf.create({k: v for k, v in zip(hyperparams.keys(), _product)})
+            for _product in itertools.product(*hyperparams.values())
+        ]
         if params in groups
     ]
 
