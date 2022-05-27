@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>xplogger.logbook &mdash; xplogger 0.8 documentation</title>
+  <title>xplogger.logbook &mdash; xplogger 0.10.0 documentation</title>
   
 
   
@@ -167,10 +167,12 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
 <span class="kn">import</span> <span class="nn">importlib</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">xplogger.logger.base</span> <span class="kn">import</span> <span class="n">Logger</span> <span class="k">as</span> <span class="n">LoggerType</span>
 <span class="kn">from</span> <span class="nn">xplogger.types</span> <span class="kn">import</span> <span class="n">ConfigType</span><span class="p">,</span> <span class="n">KeyMapType</span><span class="p">,</span> <span class="n">LogType</span><span class="p">,</span> <span class="n">MetricType</span>
@@ -200,7 +202,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger_name</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">time_format</span> <span class="o">=</span> <span class="s2">&quot;%I:%M:%S%p %Z %b </span><span class="si">%d</span><span class="s2">, %Y&quot;</span>  <span class="c1"># 10:21:14PM EST Mar 04, 2020</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loggers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">LoggerType</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loggers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">LoggerType</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">logger_name</span><span class="p">,</span> <span class="n">logger_config</span> <span class="ow">in</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;loggers&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">logger_module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;xplogger.logger.</span><span class="si">{</span><span class="n">logger_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">logger_cls</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">logger_module</span><span class="p">,</span> <span class="s2">&quot;Logger&quot;</span><span class="p">)</span>
@@ -286,6 +288,7 @@
     <span class="n">mlflow_key_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">KeyMapType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">mlflow_prefix_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">mongo_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">localdb_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ConfigType</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Make the config that can be passed to the LogBook constructor.</span>
 
@@ -377,11 +380,20 @@
 <span class="sd">            This argument is ignored if set to None. Defaults to None.</span>
 <span class="sd">        mongo_config (Optional[ConfigType], optional): config to</span>
 <span class="sd">            initialise connection to a collection in mongodb. The config</span>
-<span class="sd">            supports the following keys:</span>
+<span class="sd">            supports the following required keys:</span>
 <span class="sd">                (1) host: host where mongodb is running.</span>
 <span class="sd">                (2) port: port on which mongodb is running.</span>
 <span class="sd">                (3) db: name of the db to use.</span>
 <span class="sd">                (4) collection: name of the collection to use.</span>
+<span class="sd">            The config supports the following optional keys:</span>
+<span class="sd">                (1) logger_types: list/set of types that the logger should log.</span>
+<span class="sd">            Defaults to None.</span>
+<span class="sd">        localdb_config (Optional[ConfigType], optional): config to</span>
+<span class="sd">            initialise connection to localdb. The config</span>
+<span class="sd">            supports the following keys:</span>
+<span class="sd">                (1) path: path to the localdb file.</span>
+<span class="sd">            The config supports the following optional keys:</span>
+<span class="sd">                (1) logger_types: list/set of types that the logger should log.</span>
 <span class="sd">            Defaults to None.</span>
 
 <span class="sd">    Returns:</span>
@@ -417,6 +429,12 @@
     <span class="k">if</span> <span class="n">mongo_config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;mongo&quot;</span>
         <span class="n">loggers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">mongo_config</span>
+        <span class="n">loggers</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;logbook_key_map&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">loggers</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;logbook_key_prefix&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">localdb_config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;localdb&quot;</span>
+        <span class="n">loggers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">localdb_config</span>
         <span class="n">loggers</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;logbook_key_map&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">loggers</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;logbook_key_prefix&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 

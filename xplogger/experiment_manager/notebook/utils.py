@@ -1,4 +1,6 @@
+# type: ignore
 """Utlities functions to make it easier to use xplogger with a jupyter notebook."""
+
 from __future__ import annotations
 
 import itertools
@@ -16,7 +18,7 @@ from xplogger.parser.experiment.experiment import (
 from xplogger.types import ValueType
 
 
-def prettyprint_dict(d: dict, sep: str = "\t", indent: int = 0) -> None:  # type: ignore
+def prettyprint_dict(d: dict, sep: str = "\t", indent: int = 0) -> None:
     r"""Pretty print a dictionary.
 
     Args:
@@ -100,12 +102,10 @@ def make_df(  # noqa: C901
 
     valid_params = [
         params
-        for params in map(
-            lambda _product: OmegaConf.create(  # type: ignore
-                {k: v for k, v in zip(hyperparams.keys(), _product)}
-            ),
-            itertools.product(*hyperparams.values()),
-        )
+        for params in [
+            OmegaConf.create({k: v for k, v in zip(hyperparams.keys(), _product)})
+            for _product in itertools.product(*hyperparams.values())
+        ]
         if params in groups
     ]
 
@@ -131,7 +131,7 @@ def make_df(  # noqa: C901
                 results["converged"][f"stderr_{metric_name}"].append(
                     std_err[np.argmax(mean)]
                 )
-                results["converged"][f"mean_{metric_name}"].append(np.max(mean))  # type: ignore
+                results["converged"][f"mean_{metric_name}"].append(np.max(mean))
                 # error: Call to untyped function "max" in typed context
                 results["aggregated"][f"stderr_{metric_name}"].append(std_err[-1])
                 results["aggregated"][f"mean_{metric_name}"].append(mean[-1])
@@ -139,8 +139,7 @@ def make_df(  # noqa: C901
                 for mode in ["aggregated", "converged"]:
                     results[mode]["steps"].append(None)
             else:
-                results["converged"]["steps"].append(np.max(mean_steps))  # type: ignore
-                # error: Call to untyped function "max" in typed context
+                results["converged"]["steps"].append(np.max(mean_steps))
                 results["aggregated"]["steps"].append(mean_steps[-1])
             for mode in ["aggregated", "converged"]:
                 results[mode]["seeds"].append(num_seeds)
@@ -151,3 +150,23 @@ def make_df(  # noqa: C901
                     results[mode][key].pop(-1)
 
     return pd.DataFrame.from_dict(results["converged"])
+
+
+# import matplotlib.pyplot as plt
+# from xplogger.experiment_manager.result import Result
+# def plot_result(result: Result, mode: str, metric: str) -> None:
+#     info = result.info
+#     steps = (
+#         result.metrics[mode]["steps"] * result.info[mode]["x"]["alpha"]
+#         + result.info[mode]["x"]["beta"]
+#     )
+#     y_mean = (
+#         result.metrics[mode][f"{metric}_mean"] * result.info[mode]["y"]["alpha"]
+#         + result.info[mode]["y"]["beta"]
+#     )
+
+#     y_stderr = result.metrics[mode][f"{metric}_stderr"]
+
+#     plt.plot(steps, y_mean, label=result.label)
+
+#     plt.fill_between(steps, y_mean - y_stderr, y_mean + y_stderr, alpha=0.1)

@@ -1,0 +1,348 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>xplogger.experiment_manager.store.mongo &mdash; xplogger 0.10.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> xplogger
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html">Why xplogger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html#use">Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html#note">Note</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html#dev-setup">Dev Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html#acknowledgements">Acknowledgements</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/api/modules.html">xplogger</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">xplogger</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>xplogger.experiment_manager.store.mongo</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for xplogger.experiment_manager.store.mongo</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Class to interface with the mongodb store.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">ray</span>
+<span class="kn">from</span> <span class="nn">bson.objectid</span> <span class="kn">import</span> <span class="n">ObjectId</span>
+<span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>  <span class="c1"># type: ignore</span>
+
+<span class="kn">from</span> <span class="nn">xplogger.experiment_manager.record</span> <span class="kn">import</span> <span class="n">mongo</span> <span class="k">as</span> <span class="n">mongo_record_utils</span>
+<span class="kn">from</span> <span class="nn">xplogger.experiment_manager.record.record_list</span> <span class="kn">import</span> <span class="n">RecordList</span>
+<span class="kn">from</span> <span class="nn">xplogger.experiment_manager.utils.enum</span> <span class="kn">import</span> <span class="n">ExperimentStatus</span>
+<span class="kn">from</span> <span class="nn">xplogger.parser.utils</span> <span class="kn">import</span> <span class="n">parse_json</span>
+<span class="kn">from</span> <span class="nn">xplogger.types</span> <span class="kn">import</span> <span class="n">ConfigType</span>
+<span class="kn">from</span> <span class="nn">xplogger.utils</span> <span class="kn">import</span> <span class="n">serialize_log_to_json</span>
+
+<span class="c1"># Module &quot;pymongo&quot; does not explicitly export attribute &quot;MongoClient&quot;; implicit reexport disabled</span>
+
+
+<div class="viewcode-block" id="MongoStore"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore">[docs]</a><span class="k">class</span> <span class="nc">MongoStore</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">config</span><span class="p">:</span> <span class="n">ConfigType</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Class to interface with the mongodb store.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            config (ConfigType): Config to connect with the mongo store.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">MongoClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;host&quot;</span><span class="p">],</span> <span class="n">port</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;port&quot;</span><span class="p">])</span>
+        <span class="n">db</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;db&quot;</span><span class="p">]</span>
+        <span class="n">collection_name</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;collection_name&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="p">[</span><span class="n">db</span><span class="p">][</span><span class="n">collection_name</span><span class="p">]</span>
+
+<div class="viewcode-block" id="MongoStore.ray_get_records"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.ray_get_records">[docs]</a>    <span class="k">def</span> <span class="nf">ray_get_records</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RecordList</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get records from the db using ray.&quot;&quot;&quot;</span>
+        <span class="n">futures</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">mongo_record_utils</span><span class="o">.</span><span class="n">ray_make_record</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+        <span class="p">]</span>
+        <span class="n">records</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">futures</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">records</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">RecordList</span><span class="p">(</span><span class="n">records</span><span class="o">=</span><span class="n">records</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MongoStore.get_records"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.get_records">[docs]</a>    <span class="k">def</span> <span class="nf">get_records</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RecordList</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+        <span class="sd">&quot;&quot;&quot;Get records from the db.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">RecordList</span><span class="p">(</span>
+            <span class="n">records</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">mongo_record_utils</span><span class="o">.</span><span class="n">make_record</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+            <span class="p">]</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="MongoStore.delete_records"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.delete_records">[docs]</a>    <span class="k">def</span> <span class="nf">delete_records</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">record_list</span><span class="p">:</span> <span class="n">RecordList</span><span class="p">,</span> <span class="n">delete_from_filesystem</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Delete records from the db and filesystem (optional).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            record_list (RecordList):</span>
+<span class="sd">            delete_from_filesystem (bool, optional): should delete records</span>
+<span class="sd">                from the filesystem. Defaults to False.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">record_list</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
+            <span class="n">collection</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="p">,</span> <span class="n">delete_from_filesystem</span><span class="o">=</span><span class="n">delete_from_filesystem</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="MongoStore.update_status"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.update_status">[docs]</a>    <span class="k">def</span> <span class="nf">update_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record_list</span><span class="p">:</span> <span class="n">RecordList</span><span class="p">,</span> <span class="n">new_status</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Mark records as analyzed in the db.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            record_list (RecordList):</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">record_list</span><span class="o">.</span><span class="n">update_status</span><span class="p">(</span>
+            <span class="n">collection</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="p">,</span> <span class="n">new_status</span><span class="o">=</span><span class="n">new_status</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="MongoStore.mark_records_as_analyzed"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.mark_records_as_analyzed">[docs]</a>    <span class="k">def</span> <span class="nf">mark_records_as_analyzed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record_list</span><span class="p">:</span> <span class="n">RecordList</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Mark records as analyzed in the db.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            record_list (RecordList):</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_status</span><span class="p">(</span>
+            <span class="n">record_list</span><span class="o">=</span><span class="n">record_list</span><span class="p">,</span> <span class="n">new_status</span><span class="o">=</span><span class="n">ExperimentStatus</span><span class="o">.</span><span class="n">ANALYZED</span><span class="o">.</span><span class="n">value</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="MongoStore.ignore_records_by_status"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.ignore_records_by_status">[docs]</a>    <span class="k">def</span> <span class="nf">ignore_records_by_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RecordList</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get a list of records which do not match the status.&quot;&quot;&quot;</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$ne&quot;</span><span class="p">:</span> <span class="n">status</span><span class="p">}}</span>
+        <span class="k">return</span> <span class="n">RecordList</span><span class="p">(</span><span class="n">records</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_records</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="MongoStore.ray_ignore_records_by_status"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.ray_ignore_records_by_status">[docs]</a>    <span class="k">def</span> <span class="nf">ray_ignore_records_by_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RecordList</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get a list of records which do not match the status using ray.&quot;&quot;&quot;</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$ne&quot;</span><span class="p">:</span> <span class="n">status</span><span class="p">}}</span>
+        <span class="n">futures</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">mongo_record_utils</span><span class="o">.</span><span class="n">ray_make_record</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_records</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">records</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">futures</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">records</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">RecordList</span><span class="p">(</span><span class="n">records</span><span class="o">=</span><span class="n">records</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MongoStore.get_unanalyzed_records"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.get_unanalyzed_records">[docs]</a>    <span class="k">def</span> <span class="nf">get_unanalyzed_records</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RecordList</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get a list of un-analyzed records.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignore_records_by_status</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="n">ExperimentStatus</span><span class="o">.</span><span class="n">ANALYZED</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MongoStore.ray_get_unanalyzed_records"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.ray_get_unanalyzed_records">[docs]</a>    <span class="k">def</span> <span class="nf">ray_get_unanalyzed_records</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RecordList</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get unalalyzed records using ray.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ray_ignore_records_by_status</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="n">ExperimentStatus</span><span class="o">.</span><span class="n">ANALYZED</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MongoStore.save_to_file"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.save_to_file">[docs]</a>    <span class="k">def</span> <span class="nf">save_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Save mongo records to a file.&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">find</span><span class="p">():</span>
+                <span class="n">record</span><span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">])</span>
+                <span class="n">record</span><span class="p">[</span><span class="s2">&quot;mongo_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">]</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">serialize_log_to_json</span><span class="p">(</span><span class="n">record</span><span class="p">))</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MongoStore.load_from_file"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.load_from_file">[docs]</a>    <span class="k">def</span> <span class="nf">load_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Load records from a file to Mongo DB.&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">record_dict</span> <span class="o">=</span> <span class="n">parse_json</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+                <span class="k">assert</span> <span class="n">record_dict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="n">record_dict</span><span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">record_dict</span><span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">record_dict</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MongoStore.replace_from_file"><a class="viewcode-back" href="../../../../pages/api/xplogger.experiment_manager.store.html#xplogger.experiment_manager.store.mongo.MongoStore.replace_from_file">[docs]</a>    <span class="k">def</span> <span class="nf">replace_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">upsert</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Replace records from a file to Mongo DB.&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">record_dict</span> <span class="o">=</span> <span class="n">parse_json</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+                <span class="k">assert</span> <span class="n">record_dict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">replace_one</span><span class="p">(</span>
+                    <span class="p">{</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">record_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;_id&quot;</span><span class="p">))},</span>
+                    <span class="n">record_dict</span><span class="p">,</span>
+                    <span class="n">upsert</span><span class="o">=</span><span class="n">upsert</span><span class="p">,</span>
+                <span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, Shagun Sodhani.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

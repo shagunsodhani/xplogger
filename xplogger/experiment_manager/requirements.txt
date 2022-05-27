@@ -1,3 +1,2 @@
 bokeh==2.3.3
 pandas-bokeh==0.5.5
-jupyter nbextension install https://github.com/drillan/jupyter-black/archive/master.zip --user

@@ -5,13 +5,16 @@ from pathlib import Path
 
 import ray
 from bson.objectid import ObjectId
-from pymongo import MongoClient
+from pymongo import MongoClient  # type: ignore
 
 from xplogger.experiment_manager.record import mongo as mongo_record_utils
 from xplogger.experiment_manager.record.record_list import RecordList
+from xplogger.experiment_manager.utils.enum import ExperimentStatus
 from xplogger.parser.utils import parse_json
 from xplogger.types import ConfigType
 from xplogger.utils import serialize_log_to_json
+
+# Module "pymongo" does not explicitly export attribute "MongoClient"; implicit reexport disabled
 
 
 class MongoStore:
@@ -62,22 +65,34 @@ class MongoStore:
             collection=self.collection, delete_from_filesystem=delete_from_filesystem
         )
 
+    def update_status(self, record_list: RecordList, new_status: str) -> None:
+        """Mark records as analyzed in the db.
+
+        Args:
+            record_list (RecordList):
+        """
+        return record_list.update_status(
+            collection=self.collection, new_status=new_status
+        )
+
     def mark_records_as_analyzed(self, record_list: RecordList) -> None:
         """Mark records as analyzed in the db.
 
         Args:
             record_list (RecordList):
         """
-        record_list.mark_analyzed(collection=self.collection)
+        return self.update_status(
+            record_list=record_list, new_status=ExperimentStatus.ANALYZED.value
+        )
 
-    def get_unanalyzed_records(self) -> RecordList:
-        """Get a lisr of un-analyzed records."""
-        query = {"status": {"$ne": "ANALYZED"}}
+    def ignore_records_by_status(self, status: str) -> RecordList:
+        """Get a list of records which do not match the status."""
+        query = {"status": {"$ne": status}}
         return RecordList(records=list(self.get_records(query=query)))
 
-    def ray_get_unanalyzed_records(self) -> RecordList:
-        """Get unalalyzed records using ray."""
-        query = {"status": {"$ne": "ANALYZED"}}
+    def ray_ignore_records_by_status(self, status: str) -> RecordList:
+        """Get a list of records which do not match the status using ray."""
+        query = {"status": {"$ne": status}}
         futures = [
             mongo_record_utils.ray_make_record.remote(record)
             for record in self.get_records(query=query)
@@ -85,6 +100,14 @@ class MongoStore:
         records = ray.get(futures)
         assert isinstance(records, list)
         return RecordList(records=records)
+
+    def get_unanalyzed_records(self) -> RecordList:
+        """Get a list of un-analyzed records."""
+        return self.ignore_records_by_status(status=ExperimentStatus.ANALYZED.value)
+
+    def ray_get_unanalyzed_records(self) -> RecordList:
+        """Get unalalyzed records using ray."""
+        return self.ray_ignore_records_by_status(status=ExperimentStatus.ANALYZED.value)
 
     def save_to_file(self, filepath: Path) -> None:
         """Save mongo records to a file."""

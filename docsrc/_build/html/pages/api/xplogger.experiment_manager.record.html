@@ -1,0 +1,471 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>xplogger.experiment_manager.record package &mdash; xplogger 0.10.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="xplogger.experiment_manager.slurm package" href="xplogger.experiment_manager.slurm.html" />
+    <link rel="prev" title="xplogger.experiment_manager.notebook package" href="xplogger.experiment_manager.notebook.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> xplogger
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Why xplogger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#use">Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#note">Note</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#dev-setup">Dev Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#acknowledgements">Acknowledgements</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">xplogger</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="xplogger.html">xplogger package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="xplogger.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="xplogger.experiment_manager.html">xplogger.experiment_manager package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xplogger.logger.html">xplogger.logger package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xplogger.parser.html">xplogger.parser package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#module-xplogger.logbook">xplogger.logbook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#module-xplogger.metrics">xplogger.metrics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#module-xplogger.types">xplogger.types module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#module-xplogger.utils">xplogger.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#module-xplogger">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">xplogger</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">xplogger</a> &raquo;</li>
+        
+          <li><a href="xplogger.html">xplogger package</a> &raquo;</li>
+        
+          <li><a href="xplogger.experiment_manager.html">xplogger.experiment_manager package</a> &raquo;</li>
+        
+      <li>xplogger.experiment_manager.record package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/pages/api/xplogger.experiment_manager.record.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="xplogger-experiment-manager-record-package">
+<h1>xplogger.experiment_manager.record package<a class="headerlink" href="#xplogger-experiment-manager-record-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-xplogger.experiment_manager.record.base">
+<span id="xplogger-experiment-manager-record-base-module"></span><h2>xplogger.experiment_manager.record.base module<a class="headerlink" href="#module-xplogger.experiment_manager.record.base" title="Permalink to this headline">¶</a></h2>
+<p>Record class.</p>
+<dl class="py class">
+<dt id="xplogger.experiment_manager.record.base.Record">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.experiment_manager.record.base.</span></code><code class="sig-name descname"><span class="pre">Record</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/record/base.html#Record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.record.base.Record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.UserDict</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="xplogger.experiment_manager.record.base.get_experiment_params">
+<code class="sig-prename descclassname"><span class="pre">xplogger.experiment_manager.record.base.</span></code><code class="sig-name descname"><span class="pre">get_experiment_params</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#xplogger.experiment_manager.record.base.Record" title="xplogger.experiment_manager.record.base.Record"><span class="pre">Record</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">viz_params</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/record/base.html#get_experiment_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.record.base.get_experiment_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get experiment params.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="xplogger.experiment_manager.record.base.get_nested_item">
+<code class="sig-prename descclassname"><span class="pre">xplogger.experiment_manager.record.base.</span></code><code class="sig-name descname"><span class="pre">get_nested_item</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#xplogger.experiment_manager.record.base.Record" title="xplogger.experiment_manager.record.base.Record"><span class="pre">Record</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Any</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/record/base.html#get_nested_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.record.base.get_nested_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get item from a nested dict / record.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference internal" href="#xplogger.experiment_manager.record.base.Record" title="xplogger.experiment_manager.record.base.Record"><em>Record</em></a>) – </p></li>
+<li><p><strong>keys</strong> (<em>list</em><em>[</em><em>Any</em><em>]</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="xplogger.experiment_manager.record.base.load_all_experiments_from_dir">
+<code class="sig-prename descclassname"><span class="pre">xplogger.experiment_manager.record.base.</span></code><code class="sig-name descname"><span class="pre">load_all_experiments_from_dir</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load_experiment_from_dir</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_dir</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.ExperimentSequence" title="xplogger.parser.experiment.experiment.ExperimentSequence"><span class="pre">xplogger.parser.experiment.experiment.ExperimentSequence</span></a><a class="reference internal" href="../../_modules/xplogger/experiment_manager/record/base.html#load_all_experiments_from_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.record.base.load_all_experiments_from_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load all experiments in a directory.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="xplogger.experiment_manager.record.base.load_experiment">
+<code class="sig-prename descclassname"><span class="pre">xplogger.experiment_manager.record.base.</span></code><code class="sig-name descname"><span class="pre">load_experiment</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#xplogger.experiment_manager.record.base.Record" title="xplogger.experiment_manager.record.base.Record"><span class="pre">xplogger.experiment_manager.record.base.Record</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_experiment_from_dir</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.Experiment" title="xplogger.parser.experiment.experiment.Experiment"><span class="pre">xplogger.parser.experiment.experiment.Experiment</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.Experiment" title="xplogger.parser.experiment.experiment.Experiment"><span class="pre">xplogger.parser.experiment.experiment.Experiment</span></a><a class="reference internal" href="../../_modules/xplogger/experiment_manager/record/base.html#load_experiment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.record.base.load_experiment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load experiment given a record.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-xplogger.experiment_manager.record.mongo">
+<span id="xplogger-experiment-manager-record-mongo-module"></span><h2>xplogger.experiment_manager.record.mongo module<a class="headerlink" href="#module-xplogger.experiment_manager.record.mongo" title="Permalink to this headline">¶</a></h2>
+<p>Mongo Record class.</p>
+<dl class="py class">
+<dt id="xplogger.experiment_manager.record.mongo.Record">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.experiment_manager.record.mongo.</span></code><code class="sig-name descname"><span class="pre">Record</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/record/mongo.html#Record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.record.mongo.Record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#xplogger.experiment_manager.record.base.Record" title="xplogger.experiment_manager.record.base.Record"><code class="xref py py-class docutils literal notranslate"><span class="pre">xplogger.experiment_manager.record.base.Record</span></code></a></p>
+<p>Wrappper over mongodb records.</p>
+<dl class="py method">
+<dt id="xplogger.experiment_manager.record.mongo.Record.id">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">id</span></code><a class="headerlink" href="#xplogger.experiment_manager.record.mongo.Record.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get record id.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="xplogger.experiment_manager.record.mongo.make_record">
+<code class="sig-prename descclassname"><span class="pre">xplogger.experiment_manager.record.mongo.</span></code><code class="sig-name descname"><span class="pre">make_record</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#xplogger.experiment_manager.record.mongo.Record" title="xplogger.experiment_manager.record.mongo.Record"><span class="pre">xplogger.experiment_manager.record.mongo.Record</span></a><a class="reference internal" href="../../_modules/xplogger/experiment_manager/record/mongo.html#make_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.record.mongo.make_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a mongo record.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-xplogger.experiment_manager.record.omegaconf">
+<span id="xplogger-experiment-manager-record-omegaconf-module"></span><h2>xplogger.experiment_manager.record.omegaconf module<a class="headerlink" href="#module-xplogger.experiment_manager.record.omegaconf" title="Permalink to this headline">¶</a></h2>
+<p>OC Record.</p>
+<dl class="py function">
+<dt id="xplogger.experiment_manager.record.omegaconf.make_record">
+<code class="sig-prename descclassname"><span class="pre">xplogger.experiment_manager.record.omegaconf.</span></code><code class="sig-name descname"><span class="pre">make_record</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mongo_record</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#xplogger.experiment_manager.record.mongo.Record" title="xplogger.experiment_manager.record.mongo.Record"><span class="pre">xplogger.experiment_manager.record.mongo.Record</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">omegaconf.dictconfig.DictConfig</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/record/omegaconf.html#make_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.record.omegaconf.make_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make record.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-xplogger.experiment_manager.record.record_list">
+<span id="xplogger-experiment-manager-record-record-list-module"></span><h2>xplogger.experiment_manager.record.record_list module<a class="headerlink" href="#module-xplogger.experiment_manager.record.record_list" title="Permalink to this headline">¶</a></h2>
+<p>Record class.</p>
+<dl class="py class">
+<dt id="xplogger.experiment_manager.record.record_list.RecordList">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.experiment_manager.record.record_list.</span></code><code class="sig-name descname"><span class="pre">RecordList</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">records</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">base_record.Record</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/record/record_list.html#RecordList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.record.record_list.RecordList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.UserList</span></code></p>
+<dl class="py method">
+<dt id="xplogger.experiment_manager.record.record_list.RecordList.add_slurm_field">
+<code class="sig-name descname"><span class="pre">add_slurm_field</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">collection</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pymongo.collection.Collection</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/record/record_list.html#RecordList.add_slurm_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.record.record_list.RecordList.add_slurm_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add slurm field to records (in the db).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>collection</strong> (<em>pymongo.collection.Collection</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.experiment_manager.record.record_list.RecordList.delete">
+<code class="sig-name descname"><span class="pre">delete</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">collection</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pymongo.collection.Collection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete_from_filesystem</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/record/record_list.html#RecordList.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.record.record_list.RecordList.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete jobs from the db and filesystem (optionally).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>collection</strong> (<em>pymongo.collection.Collection</em>) – </p></li>
+<li><p><strong>delete_from_filesystem</strong> (<em>bool</em><em>, </em><em>optional</em>) – Should delete the job
+from the filesystem. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.experiment_manager.record.record_list.RecordList.get_groups_and_hyperparams">
+<code class="sig-name descname"><span class="pre">get_groups_and_hyperparams</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">viz_params</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#xplogger.experiment_manager.record.record_list.RecordList" title="xplogger.experiment_manager.record.record_list.RecordList"><span class="pre">RecordList</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">ValueType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/record/record_list.html#RecordList.get_groups_and_hyperparams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.record.record_list.RecordList.get_groups_and_hyperparams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Group experiments.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.experiment_manager.record.record_list.RecordList.get_unique">
+<code class="sig-name descname"><span class="pre">get_unique</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key_func</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#xplogger.experiment_manager.record.base.Record" title="xplogger.experiment_manager.record.base.Record"><span class="pre">xplogger.experiment_manager.record.base.Record</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#xplogger.experiment_manager.record.record_list.RecordList" title="xplogger.experiment_manager.record.record_list.RecordList"><span class="pre">xplogger.experiment_manager.record.record_list.RecordList</span></a><a class="reference internal" href="../../_modules/xplogger/experiment_manager/record/record_list.html#RecordList.get_unique"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.record.record_list.RecordList.get_unique" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get unique records from the current record list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>key_func</strong> (<em>Callable</em><em>[</em><em>[</em><em>base_record.Record</em><em>]</em><em>, </em><em>str</em><em>]</em>) – This function
+computes the key (or hash) unsed to identify a record.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of unique records.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#xplogger.experiment_manager.record.record_list.RecordList" title="xplogger.experiment_manager.record.record_list.RecordList">RecordList</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.experiment_manager.record.record_list.RecordList.get_unique_issues">
+<code class="sig-name descname"><span class="pre">get_unique_issues</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">collections.Counter</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/record/record_list.html#RecordList.get_unique_issues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.record.record_list.RecordList.get_unique_issues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get unique issues from the record list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.experiment_manager.record.record_list.RecordList.get_viz_params">
+<code class="sig-name descname"><span class="pre">get_viz_params</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/record/record_list.html#RecordList.get_viz_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.record.record_list.RecordList.get_viz_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get params for vizualization.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.experiment_manager.record.record_list.RecordList.load_experiments">
+<code class="sig-name descname"><span class="pre">load_experiments</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load_experiment_from_dir</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.Experiment" title="xplogger.parser.experiment.experiment.Experiment"><span class="pre">xplogger.parser.experiment.experiment.Experiment</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.ExperimentSequence" title="xplogger.parser.experiment.experiment.ExperimentSequence"><span class="pre">xplogger.parser.experiment.experiment.ExperimentSequence</span></a><a class="reference internal" href="../../_modules/xplogger/experiment_manager/record/record_list.html#RecordList.load_experiments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.record.record_list.RecordList.load_experiments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load experiments.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.experiment_manager.record.record_list.RecordList.make_experiment_sequence_dict_groups_and_hyperparams">
+<code class="sig-name descname"><span class="pre">make_experiment_sequence_dict_groups_and_hyperparams</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">viz_params</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_experiment_from_dir</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">LoadExperientFromDirType</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ExperimentSequenceDict</span><span class="p"><span class="pre">,</span> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#xplogger.experiment_manager.record.record_list.RecordList" title="xplogger.experiment_manager.record.record_list.RecordList"><span class="pre">RecordList</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">ValueType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/record/record_list.html#RecordList.make_experiment_sequence_dict_groups_and_hyperparams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.record.record_list.RecordList.make_experiment_sequence_dict_groups_and_hyperparams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make experiment groups.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.experiment_manager.record.record_list.RecordList.make_oc_records">
+<code class="sig-name descname"><span class="pre">make_oc_records</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#xplogger.experiment_manager.record.record_list.RecordList" title="xplogger.experiment_manager.record.record_list.RecordList"><span class="pre">xplogger.experiment_manager.record.record_list.RecordList</span></a><a class="reference internal" href="../../_modules/xplogger/experiment_manager/record/record_list.html#RecordList.make_oc_records"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.record.record_list.RecordList.make_oc_records" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make OC records.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.experiment_manager.record.record_list.RecordList.map_to_slurm_id">
+<code class="sig-name descname"><span class="pre">map_to_slurm_id</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#xplogger.experiment_manager.record.record_list.RecordList" title="xplogger.experiment_manager.record.record_list.RecordList"><span class="pre">RecordList</span></a><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/record/record_list.html#RecordList.map_to_slurm_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.record.record_list.RecordList.map_to_slurm_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map the record list to a list of slurm ids.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>dictionary where the key is the slurm id</dt><dd><p>and value is the list of records. We return a list of records
+as sometimes the records are duplicated.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict[str, <a class="reference internal" href="#xplogger.experiment_manager.record.record_list.RecordList" title="xplogger.experiment_manager.record.record_list.RecordList">RecordList</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.experiment_manager.record.record_list.RecordList.mark_analyzed">
+<code class="sig-name descname"><span class="pre">mark_analyzed</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">collection</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pymongo.collection.Collection</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/record/record_list.html#RecordList.mark_analyzed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.record.record_list.RecordList.mark_analyzed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mark records as analyzed (in the db).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>collection</strong> (<em>pymongo.collection.Collection</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.experiment_manager.record.record_list.RecordList.ray_make_experiment_sequence_dict_groups_and_hyperparams">
+<code class="sig-name descname"><span class="pre">ray_make_experiment_sequence_dict_groups_and_hyperparams</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">viz_params</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_experiment_from_dir</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">LoadExperientFromDirType</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ExperimentSequenceDict</span><span class="p"><span class="pre">,</span> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#xplogger.experiment_manager.record.record_list.RecordList" title="xplogger.experiment_manager.record.record_list.RecordList"><span class="pre">RecordList</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">ValueType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/record/record_list.html#RecordList.ray_make_experiment_sequence_dict_groups_and_hyperparams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.record.record_list.RecordList.ray_make_experiment_sequence_dict_groups_and_hyperparams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make experiment groups.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.experiment_manager.record.record_list.RecordList.ray_make_oc_records">
+<code class="sig-name descname"><span class="pre">ray_make_oc_records</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#xplogger.experiment_manager.record.record_list.RecordList" title="xplogger.experiment_manager.record.record_list.RecordList"><span class="pre">xplogger.experiment_manager.record.record_list.RecordList</span></a><a class="reference internal" href="../../_modules/xplogger/experiment_manager/record/record_list.html#RecordList.ray_make_oc_records"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.record.record_list.RecordList.ray_make_oc_records" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make OC records using ray.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.experiment_manager.record.record_list.RecordList.update_status">
+<code class="sig-name descname"><span class="pre">update_status</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">collection</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pymongo.collection.Collection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_status</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/record/record_list.html#RecordList.update_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.record.record_list.RecordList.update_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the status of the records(in the db).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>collection</strong> (<em>pymongo.collection.Collection</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-xplogger.experiment_manager.record">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-xplogger.experiment_manager.record" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="xplogger.experiment_manager.slurm.html" class="btn btn-neutral float-right" title="xplogger.experiment_manager.slurm package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="xplogger.experiment_manager.notebook.html" class="btn btn-neutral float-left" title="xplogger.experiment_manager.notebook package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, Shagun Sodhani.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

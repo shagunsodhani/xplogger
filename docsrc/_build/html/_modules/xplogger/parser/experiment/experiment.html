@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>xplogger.parser.experiment.experiment &mdash; xplogger 0.8 documentation</title>
+  <title>xplogger.parser.experiment.experiment &mdash; xplogger 0.10.0 documentation</title>
   
 
   
@@ -162,12 +162,15 @@
   <h1>Source code for xplogger.parser.experiment.experiment</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Container for the experiment data.&quot;&quot;&quot;</span>
 
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
 <span class="kn">import</span> <span class="nn">gzip</span>
 <span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">UserList</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">UserDict</span><span class="p">,</span> <span class="n">UserList</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span>
 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="kn">from</span> <span class="nn">xplogger</span> <span class="kn">import</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">xplogger_utils</span>
@@ -179,25 +182,25 @@
 <div class="viewcode-block" id="Experiment"><a class="viewcode-back" href="../../../../pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.Experiment">[docs]</a><span class="k">class</span> <span class="nc">Experiment</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">configs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">],</span>
+        <span class="n">configs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">],</span>
         <span class="n">metrics</span><span class="p">:</span> <span class="n">experiment_utils</span><span class="o">.</span><span class="n">ExperimentMetricType</span><span class="p">,</span>
         <span class="n">info</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">experiment_utils</span><span class="o">.</span><span class="n">ExperimentInfoType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Class to hold the experiment data.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            configs (List[ConfigType]): Configs used for the experiment</span>
+<span class="sd">            configs (list[ConfigType]): Configs used for the experiment</span>
 <span class="sd">            metrics (experiment_utils.ExperimentMetricType): Dictionary mapping strings</span>
 <span class="sd">                to dataframes. Keys could be &quot;train&quot;, &quot;validation&quot;, &quot;test&quot;</span>
 <span class="sd">                and corresponding dataframes would have the data for these</span>
 <span class="sd">                modes.</span>
-<span class="sd">            info (Optional[Dict[Any, Any]], optional): A dictionary where the user can store</span>
+<span class="sd">            info (Optional[dict[Any, Any]], optional): A dictionary where the user can store</span>
 <span class="sd">                any information about the experiment (that does not fit</span>
 <span class="sd">                within config and metrics). Defaults to None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">configs</span> <span class="o">=</span> <span class="n">configs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span> <span class="o">=</span> <span class="n">metrics</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="n">info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">info</span>
 
@@ -208,7 +211,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">configs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="Experiment.serialize"><a class="viewcode-back" href="../../../../pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.Experiment.serialize">[docs]</a>    <span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dir_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Experiment.serialize"><a class="viewcode-back" href="../../../../pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.Experiment.serialize">[docs]</a>    <span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dir_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Serialize the experiment data and store at `dir_path`.</span>
 
 <span class="sd">        * configs are stored as jsonl (since there are only a few configs per experiment) in a file called `config.jsonl`.</span>
@@ -221,7 +224,7 @@
             <span class="k">for</span> <span class="n">config</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">configs</span><span class="p">:</span>
                 <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="n">metric_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dir_path</span><span class="si">}</span><span class="s2">/metric&quot;</span>
+        <span class="n">metric_dir</span> <span class="o">=</span> <span class="n">dir_path</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;metric&quot;</span><span class="p">)</span>
         <span class="n">xplogger_utils</span><span class="o">.</span><span class="n">make_dir</span><span class="p">(</span><span class="n">metric_dir</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">:</span>
             <span class="n">path_to_save</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">metric_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -231,8 +234,8 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">to_feather</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path_to_save</span><span class="p">)</span>
 
         <span class="n">path_to_save</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dir_path</span><span class="si">}</span><span class="s2">/info.gzip&quot;</span>
-        <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path_to_save</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>  <span class="c1"># type: ignore[assignment]</span>
-            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>  <span class="c1"># type: ignore[arg-type]</span></div>
+        <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path_to_save</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span></div>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Compare two `Experiment` objects.&quot;&quot;&quot;</span>
@@ -246,7 +249,56 @@
             <span class="p">)</span>
             <span class="ow">and</span> <span class="n">xplogger_utils</span><span class="o">.</span><span class="n">compare_keys_in_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
             <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="Experiment.process_metrics"><a class="viewcode-back" href="../../../../pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.Experiment.process_metrics">[docs]</a>    <span class="k">def</span> <span class="nf">process_metrics</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">metric_names</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">x_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">x_min</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">x_max</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">drop_duplicates</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">dropna</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Given a list of metric names, process the metrics for a given experiment.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            metric_names (list[str]): Names of metrics to process.</span>
+<span class="sd">            x_name (str): The column/meric with respect to which other metrics</span>
+<span class="sd">                are tracked. For example `steps` or `epochs`.</span>
+<span class="sd">            x_min (int): Filter the experiment where the max value of `x_name`</span>
+<span class="sd">                is less than or equal to `x_min`.</span>
+<span class="sd">            x_max (int): Filter the metric values where value of `x_name`</span>
+<span class="sd">                (corresponding to metric values) is greater than `x_max`</span>
+<span class="sd">            mode (str): Mode when selecting metrics. Recall that `experiment.metrics`</span>
+<span class="sd">                is a dictionary mapping `modes` to dataframes.</span>
+<span class="sd">            drop_duplicates (bool): Should drop duplicate values in the `x_name` column</span>
+<span class="sd">            verbose (bool): Should print additional information</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict[str, np.ndarray]: dictionary mapping metric name to 1-dimensional</span>
+<span class="sd">                numpy array of metric values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="n">mode</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">metric_names</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">{}</span>
+        <span class="n">filters</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">x_name</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">x_max</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">filters</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">drop_duplicates</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="n">x_name</span><span class="p">],</span> <span class="n">keep</span><span class="o">=</span><span class="s2">&quot;first&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="ow">and</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;df contains NaNs&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dropna</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="n">metric_names</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="n">x_name</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">x_min</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">name</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">metric_names</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">metric_names</span><span class="p">}</span>
+        <span class="k">return</span> <span class="p">{}</span></div></div>
 
 
 <div class="viewcode-block" id="deserialize"><a class="viewcode-back" href="../../../../pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.deserialize">[docs]</a><span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span><span class="n">dir_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Experiment</span><span class="p">:</span>
@@ -267,30 +319,30 @@
         <span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
 
     <span class="n">path_to_load_from</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dir_path</span><span class="si">}</span><span class="s2">/info.gzip&quot;</span>
-    <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path_to_load_from</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>  <span class="c1"># type: ignore[assignment]</span>
-        <span class="n">info</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>  <span class="c1"># type: ignore[attr-defined]</span>
+    <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path_to_load_from</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">Experiment</span><span class="p">(</span><span class="n">configs</span><span class="o">=</span><span class="n">configs</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="n">info</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ExperimentSequence"><a class="viewcode-back" href="../../../../pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.ExperimentSequence">[docs]</a><span class="k">class</span> <span class="nc">ExperimentSequence</span><span class="p">(</span><span class="n">UserList</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">experiments</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Experiment</span><span class="p">]):</span>
-        <span class="sd">&quot;&quot;&quot;List-like interface to a collection of Experiments.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">experiments</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Experiment</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;list-like interface to a collection of Experiments.&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">experiments</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ExperimentSequence.groupby"><a class="viewcode-back" href="../../../../pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.ExperimentSequence.groupby">[docs]</a>    <span class="k">def</span> <span class="nf">groupby</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">group_fn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Experiment</span><span class="p">],</span> <span class="nb">str</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">&quot;ExperimentSequence&quot;</span><span class="p">]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">&quot;ExperimentSequence&quot;</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Group experiments in the sequence.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            group_fn: Function to assign a string group id to the experiment</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Dict[str, ExperimentSequence]: A dictionary mapping the sring</span>
+<span class="sd">            dict[str, ExperimentSequence]: A dictionary mapping the sring</span>
 <span class="sd">            group id to a sequence of experiments</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">grouped_experiments</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Experiment</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">grouped_experiments</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Experiment</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">experiment</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
             <span class="n">key</span> <span class="o">=</span> <span class="n">group_fn</span><span class="p">(</span><span class="n">experiment</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">grouped_experiments</span><span class="p">:</span>
@@ -318,25 +370,25 @@
 <div class="viewcode-block" id="ExperimentSequence.aggregate"><a class="viewcode-back" href="../../../../pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.ExperimentSequence.aggregate">[docs]</a>    <span class="k">def</span> <span class="nf">aggregate</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">aggregate_configs</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span>
-            <span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">]]],</span> <span class="n">List</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">]</span>
+            <span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">]]],</span> <span class="nb">list</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">]</span>
         <span class="p">]</span> <span class="o">=</span> <span class="n">experiment_utils</span><span class="o">.</span><span class="n">return_first_config</span><span class="p">,</span>
         <span class="n">aggregate_metrics</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span>
-            <span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">experiment_utils</span><span class="o">.</span><span class="n">ExperimentMetricType</span><span class="p">]],</span>
+            <span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">experiment_utils</span><span class="o">.</span><span class="n">ExperimentMetricType</span><span class="p">]],</span>
             <span class="n">experiment_utils</span><span class="o">.</span><span class="n">ExperimentMetricType</span><span class="p">,</span>
         <span class="p">]</span> <span class="o">=</span> <span class="n">experiment_utils</span><span class="o">.</span><span class="n">concat_metrics</span><span class="p">,</span>
         <span class="n">aggregate_infos</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span>
-            <span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">experiment_utils</span><span class="o">.</span><span class="n">ExperimentInfoType</span><span class="p">]],</span>
+            <span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">experiment_utils</span><span class="o">.</span><span class="n">ExperimentInfoType</span><span class="p">]],</span>
             <span class="n">experiment_utils</span><span class="o">.</span><span class="n">ExperimentInfoType</span><span class="p">,</span>
         <span class="p">]</span> <span class="o">=</span> <span class="n">experiment_utils</span><span class="o">.</span><span class="n">return_first_infos</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Experiment</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Aggregate a sequence of experiments into a single experiment.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            aggregate_configs (Callable[ [List[List[ConfigType]]], List[ConfigType] ], optional):</span>
+<span class="sd">            aggregate_configs (Callable[ [list[list[ConfigType]]], list[ConfigType] ], optional):</span>
 <span class="sd">                Function to aggregate the configs. Defaults to experiment_utils.return_first_config.</span>
-<span class="sd">            aggregate_metrics (Callable[ [List[experiment_utils.ExperimentMetricType]], ExperimentMetricType ], optional):</span>
+<span class="sd">            aggregate_metrics (Callable[ [list[experiment_utils.ExperimentMetricType]], ExperimentMetricType ], optional):</span>
 <span class="sd">                Function to aggregate the metrics. Defaults to experiment_utils.concat_metrics.</span>
-<span class="sd">            aggregate_infos (Callable[ [List[experiment_utils.ExperimentInfoType]], ExperimentInfoType ], optional):</span>
+<span class="sd">            aggregate_infos (Callable[ [list[experiment_utils.ExperimentInfoType]], ExperimentInfoType ], optional):</span>
 <span class="sd">                Function to aggregate the information. Defaults to experiment_utils.return_first_infos.</span>
 
 <span class="sd">        Returns:</span>
@@ -350,7 +402,7 @@
 
 <div class="viewcode-block" id="ExperimentSequence.get_param_groups"><a class="viewcode-back" href="../../../../pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.ExperimentSequence.get_param_groups">[docs]</a>    <span class="k">def</span> <span class="nf">get_param_groups</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">params_to_exclude</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Set</span><span class="p">[</span><span class="n">Any</span><span class="p">]]]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="n">Any</span><span class="p">]]]:</span>
         <span class="sd">&quot;&quot;&quot;Return two groups of params, one which is fixed across the experiments and one which varies.</span>
 
 <span class="sd">        This function is useful when understanding the effect of different parameters on the model&#39;s</span>
@@ -364,7 +416,7 @@
 <span class="sd">                all such parameters will likely be returned with the group of varying parameters.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Tuple[ConfigType, Dict[str, Set[Any]]]: The first group/config contains the params which are fixed across the experiments.</span>
+<span class="sd">            tuple[ConfigType, dict[str, set[Any]]]: The first group/config contains the params which are fixed across the experiments.</span>
 <span class="sd">                It maps these params to their `default` values, hence it should be a subset of any config.</span>
 <span class="sd">                The second group/config contains the params which vary across the experiments.</span>
 <span class="sd">                It maps these params to the set of values they take.</span>
@@ -372,10 +424,184 @@
         <span class="k">return</span> <span class="n">parser_utils</span><span class="o">.</span><span class="n">get_param_groups</span><span class="p">(</span>
             <span class="n">configs</span><span class="o">=</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">config</span> <span class="k">for</span> <span class="n">experiment</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">),</span>
             <span class="n">params_to_exclude</span><span class="o">=</span><span class="n">params_to_exclude</span><span class="p">,</span>
-        <span class="p">)</span></div></div>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExperimentSequence.aggregate_metrics"><a class="viewcode-back" href="../../../../pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.ExperimentSequence.aggregate_metrics">[docs]</a>    <span class="k">def</span> <span class="nf">aggregate_metrics</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Aggregate metrics across experiment sequences.</span>
+
+<span class="sd">        Given a list of metric names, aggreate the metrics across different</span>
+<span class="sd">        experiments in an experiment sequence.</span>
+
+
+<span class="sd">        Args:</span>
+<span class="sd">            metric_names (list[str]): Names of metrics to aggregate.</span>
+<span class="sd">            x_name (str): The column/meric with respect to which other metrics</span>
+<span class="sd">                are tracked. For example `steps` or `epochs`. This aggregated values</span>
+<span class="sd">                for this metric are also returned.</span>
+<span class="sd">            x_min (int): Only those experiments are considered (during aggregation)</span>
+<span class="sd">                where the max value of `x_name` is greater than or equal to `x_min`.</span>
+<span class="sd">            x_max (int): When aggregating experiments, consider metric values such</span>
+<span class="sd">                that the max value of `x_name` corresponding to metric values</span>
+<span class="sd">                is less than or equal to `x_max`</span>
+<span class="sd">            mode (str): Mode when selecting metrics. Recall that `experiment.metrics`</span>
+<span class="sd">                is a dictionary mapping `modes` to dataframes.</span>
+<span class="sd">            drop_duplicates (bool): Should drop duplicate values in the `x_name` column</span>
+<span class="sd">            verbose (bool): Should print additional information</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict[str, np.ndarray]: dictionary mapping metric name to 2-dimensional</span>
+<span class="sd">                numpy array of metric values. The first dimension corresponds to the</span>
+<span class="sd">                experiments and the second corresponds to metrics per experiment.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="s2">&quot;metric_names&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;x_name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;x_min&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;x_max&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;mode&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;drop_duplicates&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;dropna&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;verbose&quot;</span><span class="p">,</span>
+        <span class="p">]:</span>
+            <span class="k">assert</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">kwargs</span>
+
+        <span class="n">verbose</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;verbose&quot;</span><span class="p">]</span>
+        <span class="n">metric_names</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;metric_names&quot;</span><span class="p">]</span>
+
+        <span class="n">metric_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">name</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">metric_names</span>
+        <span class="p">}</span>
+        <span class="n">min_len</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+        <span class="n">num_skipped_experiments</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+            <span class="n">exp_metric_dict</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">process_metrics</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">exp_metric_dict</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">metric_names</span><span class="p">:</span>
+                    <span class="n">metric_dict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">exp_metric_dict</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+                <span class="n">min_len</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">min_len</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">metric_dict</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">num_skipped_experiments</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="n">num_skipped_experiments</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Skipped </span><span class="si">{</span><span class="n">num_skipped_experiments</span><span class="si">}</span><span class="s2"> experiments while parsing </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2"> experiments.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">num_skipped_experiments</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">{}</span>
+            <span class="c1"># return metric_dict</span>
+        <span class="n">min_len</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">min_len</span><span class="p">)</span>
+        <span class="n">metric_dict_to_return</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">name</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">x</span><span class="p">[:</span><span class="n">min_len</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">metric_list</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">metric_list</span> <span class="ow">in</span> <span class="n">metric_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">metric_dict_to_return</span></div></div>
 
 
 <span class="n">ExperimentList</span> <span class="o">=</span> <span class="n">ExperimentSequence</span>
+
+
+<div class="viewcode-block" id="ExperimentSequenceDict"><a class="viewcode-back" href="../../../../pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.ExperimentSequenceDict">[docs]</a><span class="k">class</span> <span class="nc">ExperimentSequenceDict</span><span class="p">(</span><span class="n">UserDict</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">experiment_sequence_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">ExperimentSequence</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;dict-like interface to a collection of experiment sequences.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">experiment_sequence_dict</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ExperimentSequenceDict.filter"><a class="viewcode-back" href="../../../../pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.ExperimentSequenceDict.filter">[docs]</a>    <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">filter_fn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Experiment</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;ExperimentSequenceDict&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Filter experiment sequences in the dict.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filter_fn: Function to filter an experiment sequence</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ExperimentSequenceDict: A dict of sequence of experiments for which the</span>
+<span class="sd">            filter condition is true</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ExperimentSequenceDict</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="n">key</span><span class="p">:</span> <span class="n">experiment_sequence</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">experiment_sequence</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">filter_fn</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">experiment_sequence</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExperimentSequenceDict.aggregate_metrics"><a class="viewcode-back" href="../../../../pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.ExperimentSequenceDict.aggregate_metrics">[docs]</a>    <span class="k">def</span> <span class="nf">aggregate_metrics</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">return_all_metrics_with_same_length</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Aggreate metrics across experiment sequences.</span>
+
+<span class="sd">        Given a list of metric names, aggreate the metrics across different</span>
+<span class="sd">        experiment sequences in a dictionary indexed by the metric name.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            get_experiment_name (Callable[[str], str]): Function to map the</span>
+<span class="sd">                given key with a name.</span>
+<span class="sd">            metric_names (list[str]): Names of metrics to aggregate.</span>
+<span class="sd">            x_name (str): The column/meric with respect to which other metrics</span>
+<span class="sd">                are tracked. For example `steps` or `epochs`. This aggregated values</span>
+<span class="sd">                for this metric are also returned.</span>
+<span class="sd">            mode (str): Mode when selecting metrics. Recall that `experiment.metrics`</span>
+<span class="sd">                is a dictionary mapping `modes` to dataframes.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict[str, np.typing.NDArray[np.float32]]: dictionary mapping metric name to 2-dimensional</span>
+<span class="sd">                numpy array of metric values. The first dimension corresponds to the</span>
+<span class="sd">                experiments and the second corresponds to metrics per experiment.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="s2">&quot;get_experiment_name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;metric_names&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;x_name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;x_min&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;x_max&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;mode&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;drop_duplicates&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;dropna&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;verbose&quot;</span><span class="p">,</span>
+        <span class="p">]:</span>
+            <span class="k">assert</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">kwargs</span>
+
+        <span class="n">get_experiment_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;get_experiment_name&quot;</span><span class="p">)</span>
+        <span class="n">metric_names</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;metric_names&quot;</span><span class="p">]</span>
+        <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;mode&quot;</span><span class="p">]</span>
+        <span class="n">x_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;x_name&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">x_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">metric_names</span><span class="p">:</span>
+            <span class="n">metric_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_name</span><span class="p">)</span>
+
+        <span class="n">metric_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">min_len</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">exp_seq</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">new_metric_names</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">metric</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">get_experiment_name</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">metric</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metric_names</span>
+            <span class="p">}</span>
+            <span class="n">current_metric_dict</span> <span class="o">=</span> <span class="n">exp_seq</span><span class="o">.</span><span class="n">aggregate_metrics</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metric_names</span><span class="p">:</span>
+                <span class="n">metric_dict</span><span class="p">[</span><span class="n">new_metric_names</span><span class="p">[</span><span class="n">metric</span><span class="p">]]</span> <span class="o">=</span> <span class="n">current_metric_dict</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span>
+            <span class="n">min_len</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">min_len</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_metric_dict</span><span class="p">[</span><span class="n">metric</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="n">min_len</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">min_len</span><span class="p">)</span>
+
+        <span class="n">metric_dict_with_array</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">metric_name</span> <span class="ow">in</span> <span class="n">metric_dict</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">return_all_metrics_with_same_length</span><span class="p">:</span>
+                <span class="n">metric_dict_with_array</span><span class="p">[</span><span class="n">metric_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">_metric</span><span class="p">[:</span><span class="n">min_len</span><span class="p">]</span> <span class="k">for</span> <span class="n">_metric</span> <span class="ow">in</span> <span class="n">metric_dict</span><span class="p">[</span><span class="n">metric_name</span><span class="p">]]</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">metric_dict_with_array</span><span class="p">[</span><span class="n">metric_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="n">metric_dict</span><span class="p">[</span><span class="n">metric_name</span><span class="p">])</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">metric_dict_with_array</span></div></div>
 </pre></div>
 
            </div>

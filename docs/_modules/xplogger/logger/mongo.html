@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>xplogger.logger.mongo &mdash; xplogger 0.8 documentation</title>
+  <title>xplogger.logger.mongo &mdash; xplogger 0.10.0 documentation</title>
   
 
   
@@ -160,13 +160,18 @@
            <div itemprop="articleBody">
             
   <h1>Source code for xplogger.logger.mongo</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Functions to interface with the mongodb.&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Functions to interface with mongodb.&quot;&quot;&quot;</span>
 
 
-<span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
 
+<span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>  <span class="c1"># type: ignore</span>
+
+<span class="c1"># Module &quot;pymongo&quot; does not explicitly export attribute &quot;MongoClient&quot;; implicit reexport disabled</span>
 <span class="kn">from</span> <span class="nn">xplogger.logger.base</span> <span class="kn">import</span> <span class="n">Logger</span> <span class="k">as</span> <span class="n">BaseLogger</span>
 <span class="kn">from</span> <span class="nn">xplogger.types</span> <span class="kn">import</span> <span class="n">ConfigType</span><span class="p">,</span> <span class="n">LogType</span>
+
+<span class="c1"># error: Module &quot;pymongo&quot; does not explicitly export attribute &quot;MongoClient&quot;; implicit reexport disabled</span>
 
 
 <div class="viewcode-block" id="Logger"><a class="viewcode-back" href="../../../pages/api/xplogger.logger.html#xplogger.logger.mongo.Logger">[docs]</a><span class="k">class</span> <span class="nc">Logger</span><span class="p">(</span><span class="n">BaseLogger</span><span class="p">):</span>
@@ -177,9 +182,10 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            config (ConfigType): config to initialise the mongodb logger.</span>
-<span class="sd">                It must have four keys: host, port, db and collection.</span>
-<span class="sd">                &quot;logger_file_path&quot; is the path to the file where the logs</span>
-<span class="sd">                will be written. &quot;logger_name&quot; is the name of the logger instance</span>
+<span class="sd">                It must have four keys: host, port, db and collection. It</span>
+<span class="sd">                can optionally have the following keys:</span>
+<span class="sd">                * `logger_types` - list/set of types that the logger</span>
+<span class="sd">                    should log.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
         <span class="n">keys_to_check</span> <span class="o">=</span> <span class="p">[</span>
@@ -193,19 +199,20 @@
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;One or more of the following keys missing in the config: </span><span class="si">{</span><span class="n">key_string</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">logger_types</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">}</span>
+        <span class="k">if</span> <span class="s2">&quot;logger_types&quot;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger_types</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;logger_types&quot;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">MongoClient</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;host&quot;</span><span class="p">],</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;port&quot;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">collection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">[</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;db&quot;</span><span class="p">]][</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;collection&quot;</span><span class="p">]]</span>
 
 <div class="viewcode-block" id="Logger.write"><a class="viewcode-back" href="../../../pages/api/xplogger.logger.html#xplogger.logger.mongo.Logger.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log</span><span class="p">:</span> <span class="n">LogType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Write the log to the filesystem.</span>
+        <span class="sd">&quot;&quot;&quot;Write the log to mongodb.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            log (LogType): Log to write</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">log</span><span class="p">[</span><span class="s2">&quot;logbook_type&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger_types</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">log</span><span class="p">)</span></div></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">log</span><span class="p">))</span></div></div>
 </pre></div>
 
            </div>

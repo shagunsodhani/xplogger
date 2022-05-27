@@ -23,7 +23,6 @@ def get_info_from_slurm(job_id: str) -> dict[str, Any]:
         dict[str, Any]: job info.
     """
     command = f"sacct --format='JobID%30,JobName%300,State,JobIDRaw' -j {job_id}"
-    print(command)
     result = (
         subprocess.check_output(command, shell=True)  # noqa: S602
         .decode("utf-8")

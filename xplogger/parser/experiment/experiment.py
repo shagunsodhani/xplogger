@@ -72,8 +72,8 @@ class Experiment:
                 self.metrics[key].to_feather(path=path_to_save)
 
         path_to_save = f"{dir_path}/info.gzip"
-        with gzip.open(path_to_save, "wb") as f:  # type: ignore[assignment]
-            f.write(json.dumps(self.info).encode("utf-8"))  # type: ignore[arg-type]
+        with gzip.open(path_to_save, "wb") as f:
+            f.write(json.dumps(self.info).encode("utf-8"))
 
     def __eq__(self, other: object) -> bool:
         """Compare two `Experiment` objects."""
@@ -157,8 +157,8 @@ def deserialize(dir_path: str) -> Experiment:
         metrics["all"] = pd.DataFrame()
 
     path_to_load_from = f"{dir_path}/info.gzip"
-    with gzip.open(path_to_load_from, "rb") as f:  # type: ignore[assignment]
-        info = json.loads(f.read().decode("utf-8"))  # type: ignore[attr-defined]
+    with gzip.open(path_to_load_from, "rb") as f:
+        info = json.loads(f.read().decode("utf-8"))
 
     return Experiment(configs=configs, metrics=metrics, info=info)
 
@@ -370,6 +370,7 @@ class ExperimentSequenceDict(UserDict):  # type: ignore
 
     def aggregate_metrics(
         self,
+        return_all_metrics_with_same_length: bool = True,
         **kwargs: Any,
     ) -> dict[str, np.typing.NDArray[np.float32]]:
         """Aggreate metrics across experiment sequences.
@@ -410,6 +411,9 @@ class ExperimentSequenceDict(UserDict):  # type: ignore
         mode: str = kwargs["mode"]
         x_name: str = kwargs["x_name"]
 
+        if x_name not in metric_names:
+            metric_names.append(x_name)
+
         metric_dict: dict[str, list[np.typing.NDArray[np.float32]]] = {}
         min_len = float("inf")
 
@@ -419,7 +423,6 @@ class ExperimentSequenceDict(UserDict):  # type: ignore
                 for metric in metric_names
             }
             current_metric_dict = exp_seq.aggregate_metrics(**kwargs)
-
             for metric in metric_names:
                 metric_dict[new_metric_names[metric]] = current_metric_dict[metric]
             min_len = min(min_len, len(current_metric_dict[metric][0]))
@@ -428,11 +431,12 @@ class ExperimentSequenceDict(UserDict):  # type: ignore
         metric_dict_with_array: dict[str, np.typing.NDArray[np.float32]] = {}
 
         for metric_name in metric_dict:
-            metric_dict_with_array[metric_name] = np.asarray(
-                [_metric[:min_len] for _metric in metric_dict[metric_name]]
-            )
-        kwargs["metric_names"] = [x_name]
-        metric_dict_with_array[x_name] = self.data[key].aggregate_metrics(**kwargs)[
-            x_name
-        ][0][:min_len]
+            if return_all_metrics_with_same_length:
+                metric_dict_with_array[metric_name] = np.asarray(
+                    [_metric[:min_len] for _metric in metric_dict[metric_name]]
+                )
+            else:
+                metric_dict_with_array[metric_name] = np.asarray(
+                    list(metric_dict[metric_name])
+                )
         return metric_dict_with_array

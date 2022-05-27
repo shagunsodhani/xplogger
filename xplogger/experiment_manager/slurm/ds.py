@@ -3,8 +3,9 @@ from __future__ import annotations
 
 from collections import UserDict, UserList
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Union
 
+from xplogger.experiment_manager.record.base import Record
 from xplogger.experiment_manager.store.mongo import MongoStore
 
 
@@ -26,7 +27,7 @@ class SlurmInfo:
     min_memory_size: str
     nodelist: str
     mongo_id: str = ""
-    collection: str = ""
+    project: str = ""
     git_issue_id: str = ""
     script_id: str = ""
 
@@ -49,21 +50,21 @@ class SlurmInfo:
             "MIN_": "min_memory_size",
             "NODELIST(REASON)": "nodelist",
         }
-        kwargs_for_slurm_info = {
+        kwargs_for_slurm_info: dict[str, Union[str, int]] = {
             kwargs_key: data[slurm_key]
             for slurm_key, kwargs_key in slurm_key_to_kwarg_key_mapping.items()
         }
         for key in ["priority", "num_nodes", "min_cpus"]:
             kwargs_for_slurm_info[key] = int(kwargs_for_slurm_info[key])
-        return cls(**kwargs_for_slurm_info)
+        return cls(**kwargs_for_slurm_info)  # type: ignore
 
 
-class SlurmInfoList(UserList):
+class SlurmInfoList(UserList):  # type: ignore
     def __init__(self, slurm_info_list: list[SlurmInfo]):
         """list-like interface to a collection of SlurmInfo."""
         super().__init__(slurm_info_list)
 
-    def to_slurminfo_dict(
+    def to_slurminfo_dict(  # type: ignore
         self, key_fn=lambda slurm_info: slurm_info.job_id
     ) -> SlurmInfoDict:
         """Map SlurmInfo instance to a dict."""
@@ -73,10 +74,17 @@ class SlurmInfoList(UserList):
 
     def populate_additional_fields(self, mongo_stores: list[MongoStore]) -> None:
         """Populate additional fields like collection, git_issue_id and script_id."""
-        records = []
+        record_list: list[Record] = []
         for current_mongo_store in mongo_stores:
-            records += current_mongo_store.get_unanalyzed_records()
-        records = {record["setup"]["slurm"]["id"]: record for record in records}
+            record_list += current_mongo_store.get_unanalyzed_records()
+        for record in record_list:
+            if "slurm" not in record["setup"]:
+                print(record["setup"])
+        records: dict[str, Record] = {
+            record["setup"]["slurm"]["id"]: record
+            for record in record_list
+            if "setup" in record and "slurm" in record["setup"]
+        }
 
         def _process_slurm_info(slurm_info: SlurmInfo) -> SlurmInfo:
             job_id = slurm_info.job_id

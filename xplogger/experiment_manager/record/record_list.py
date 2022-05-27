@@ -4,7 +4,7 @@ from __future__ import annotations
 import collections
 import shutil
 from collections import OrderedDict, UserList
-from subprocess import CalledProcessError
+from subprocess import CalledProcessError  # noqa: S404
 from typing import Any, Callable
 
 import pymongo
@@ -31,8 +31,13 @@ class RecordList(UserList):  # type: ignore
         """Dict-like interface to a collection of results."""
         super().__init__(records)
 
-    def mark_analyzed(self, collection: pymongo.collection.Collection) -> None:
-        """Mark records as analyzed (in the db).
+    def update_status(
+        self,
+        collection: pymongo.collection.Collection,  # type: ignore
+        # error: Missing type parameters for generic type "Collection"
+        new_status: str,
+    ) -> None:
+        """Update the status of the records(in the db).
 
         Args:
             collection (pymongo.collection.Collection):
@@ -56,11 +61,27 @@ class RecordList(UserList):  # type: ignore
             record = process_record(data_record)
             issue_id = record["setup"]["git"]["issue_id"]
             print(issue_id)
-            record["status"] = "ANALYZED"
-            _id = ObjectId(record.pop("id"))
+            record["status"] = new_status
+            key = "_id"
+            if key in record:
+                _id = ObjectId(record.pop("_id"))
+            else:
+                key = "id"
+                _id = ObjectId(record.pop(key))
             print(collection.replace_one({"_id": _id}, record).raw_result)
 
-    def add_slurm_field(self, collection: pymongo.collection.Collection) -> None:
+    def mark_analyzed(self, collection: pymongo.collection.Collection) -> None:  # type: ignore
+        # error: Missing type parameters for generic type "Collection"
+        """Mark records as analyzed (in the db).
+
+        Args:
+            collection (pymongo.collection.Collection):
+
+        """
+        return self.update_status(collection=collection, new_status="ANALYZED")
+
+    def add_slurm_field(self, collection: pymongo.collection.Collection) -> None:  # type: ignore
+        # error: Missing type parameters for generic type "Collection"
         """Add slurm field to records (in the db).
 
         Args:
@@ -89,16 +110,17 @@ class RecordList(UserList):  # type: ignore
                         "id": map_jobid_to_raw_job_id(record["setup"]["slurm_id"])
                     }
                 except CalledProcessError:
-                    record["setup"]["slurm"] = {"id": -1}
-                    # print(record["setup"]["slurm_id"])
-                    # continue
+                    # record["setup"]["slurm"] = {"id": -1}
+                    print(record["setup"]["slurm_id"])
+                    continue
                 print(record["setup"]["slurm"]["id"])
                 _id = ObjectId(record.pop("_id"))
                 print(collection.replace_one({"_id": _id}, record).raw_result)
 
     def delete(
         self,
-        collection: pymongo.collection.Collection,
+        collection: pymongo.collection.Collection,  # type: ignore
+        # error: Missing type parameters for generic type "Collection"
         delete_from_filesystem: bool = False,
     ) -> None:
         """Delete jobs from the db and filesystem (optionally).

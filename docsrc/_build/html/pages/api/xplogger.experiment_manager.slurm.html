@@ -1,0 +1,436 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>xplogger.experiment_manager.slurm package &mdash; xplogger 0.10.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="xplogger.experiment_manager.store package" href="xplogger.experiment_manager.store.html" />
+    <link rel="prev" title="xplogger.experiment_manager.record package" href="xplogger.experiment_manager.record.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> xplogger
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Why xplogger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#use">Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#note">Note</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#dev-setup">Dev Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#acknowledgements">Acknowledgements</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">xplogger</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="xplogger.html">xplogger package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="xplogger.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="xplogger.experiment_manager.html">xplogger.experiment_manager package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xplogger.logger.html">xplogger.logger package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xplogger.parser.html">xplogger.parser package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#module-xplogger.logbook">xplogger.logbook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#module-xplogger.metrics">xplogger.metrics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#module-xplogger.types">xplogger.types module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#module-xplogger.utils">xplogger.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#module-xplogger">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">xplogger</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">xplogger</a> &raquo;</li>
+        
+          <li><a href="xplogger.html">xplogger package</a> &raquo;</li>
+        
+          <li><a href="xplogger.experiment_manager.html">xplogger.experiment_manager package</a> &raquo;</li>
+        
+      <li>xplogger.experiment_manager.slurm package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/pages/api/xplogger.experiment_manager.slurm.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="xplogger-experiment-manager-slurm-package">
+<h1>xplogger.experiment_manager.slurm package<a class="headerlink" href="#xplogger-experiment-manager-slurm-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-xplogger.experiment_manager.slurm.ds">
+<span id="xplogger-experiment-manager-slurm-ds-module"></span><h2>xplogger.experiment_manager.slurm.ds module<a class="headerlink" href="#module-xplogger.experiment_manager.slurm.ds" title="Permalink to this headline">¶</a></h2>
+<p>Datastructures to interact with the SLURM system.</p>
+<dl class="py class">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfo">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.experiment_manager.slurm.ds.</span></code><code class="sig-name descname"><span class="pre">SlurmInfo</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">priority</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">partition</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_step_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_limit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_nodes</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tres_per_node</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_cpus</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_memory_size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodelist</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mongo_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">git_issue_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">script_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/slurm/ds.html#SlurmInfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfo.from_dict">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_dict</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#xplogger.experiment_manager.slurm.ds.SlurmInfo" title="xplogger.experiment_manager.slurm.ds.SlurmInfo"><span class="pre">SlurmInfo</span></a><a class="reference internal" href="../../_modules/xplogger/experiment_manager/slurm/ds.html#SlurmInfo.from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfo.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map a dict to SlurmInfo instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfo.git_issue_id">
+<code class="sig-name descname"><span class="pre">git_issue_id</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfo.git_issue_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfo.job_id">
+<code class="sig-name descname"><span class="pre">job_id</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfo.job_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfo.job_step_name">
+<code class="sig-name descname"><span class="pre">job_step_name</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfo.job_step_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfo.min_cpus">
+<code class="sig-name descname"><span class="pre">min_cpus</span></code><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfo.min_cpus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfo.min_memory_size">
+<code class="sig-name descname"><span class="pre">min_memory_size</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfo.min_memory_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfo.mongo_id">
+<code class="sig-name descname"><span class="pre">mongo_id</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfo.mongo_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfo.nodelist">
+<code class="sig-name descname"><span class="pre">nodelist</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfo.nodelist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfo.num_nodes">
+<code class="sig-name descname"><span class="pre">num_nodes</span></code><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfo.num_nodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfo.partition">
+<code class="sig-name descname"><span class="pre">partition</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfo.partition" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfo.priority">
+<code class="sig-name descname"><span class="pre">priority</span></code><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfo.priority" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfo.project">
+<code class="sig-name descname"><span class="pre">project</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfo.project" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfo.script_id">
+<code class="sig-name descname"><span class="pre">script_id</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfo.script_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfo.start_time">
+<code class="sig-name descname"><span class="pre">start_time</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfo.start_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfo.state">
+<code class="sig-name descname"><span class="pre">state</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfo.state" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfo.time">
+<code class="sig-name descname"><span class="pre">time</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfo.time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfo.time_limit">
+<code class="sig-name descname"><span class="pre">time_limit</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfo.time_limit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfo.tres_per_node">
+<code class="sig-name descname"><span class="pre">tres_per_node</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfo.tres_per_node" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfo.user">
+<code class="sig-name descname"><span class="pre">user</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfo.user" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfoDict">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.experiment_manager.slurm.ds.</span></code><code class="sig-name descname"><span class="pre">SlurmInfoDict</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slurminfo_sequence_dict</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#xplogger.experiment_manager.slurm.ds.SlurmInfoList" title="xplogger.experiment_manager.slurm.ds.SlurmInfoList"><span class="pre">SlurmInfoList</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/slurm/ds.html#SlurmInfoDict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfoDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.UserDict</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfoList">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.experiment_manager.slurm.ds.</span></code><code class="sig-name descname"><span class="pre">SlurmInfoList</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slurm_info_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#xplogger.experiment_manager.slurm.ds.SlurmInfo" title="xplogger.experiment_manager.slurm.ds.SlurmInfo"><span class="pre">SlurmInfo</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/slurm/ds.html#SlurmInfoList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfoList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.UserList</span></code></p>
+<dl class="py method">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfoList.populate_additional_fields">
+<code class="sig-name descname"><span class="pre">populate_additional_fields</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mongo_stores</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">MongoStore</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/slurm/ds.html#SlurmInfoList.populate_additional_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfoList.populate_additional_fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Populate additional fields like collection, git_issue_id and script_id.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.experiment_manager.slurm.ds.SlurmInfoList.to_slurminfo_dict">
+<code class="sig-name descname"><span class="pre">to_slurminfo_dict</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">key_fn=&lt;function</span> <span class="pre">SlurmInfoList.&lt;lambda&gt;&gt;</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#xplogger.experiment_manager.slurm.ds.SlurmInfoDict" title="xplogger.experiment_manager.slurm.ds.SlurmInfoDict"><span class="pre">xplogger.experiment_manager.slurm.ds.SlurmInfoDict</span></a><a class="reference internal" href="../../_modules/xplogger/experiment_manager/slurm/ds.html#SlurmInfoList.to_slurminfo_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.slurm.ds.SlurmInfoList.to_slurminfo_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map SlurmInfo instance to a dict.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-xplogger.experiment_manager.slurm.job">
+<span id="xplogger-experiment-manager-slurm-job-module"></span><h2>xplogger.experiment_manager.slurm.job module<a class="headerlink" href="#module-xplogger.experiment_manager.slurm.job" title="Permalink to this headline">¶</a></h2>
+<p>Functions to interact with the SLURM system.</p>
+<dl class="py function">
+<dt id="xplogger.experiment_manager.slurm.job.get_running_jobs_as_df">
+<code class="sig-prename descclassname"><span class="pre">xplogger.experiment_manager.slurm.job.</span></code><code class="sig-name descname"><span class="pre">get_running_jobs_as_df</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'$USER'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mongo_stores</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">MongoStore</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pd.DataFrame</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/slurm/job.html#get_running_jobs_as_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.slurm.job.get_running_jobs_as_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a dataframe of running jobs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="xplogger.experiment_manager.slurm.job.get_running_jobs_as_list">
+<code class="sig-prename descclassname"><span class="pre">xplogger.experiment_manager.slurm.job.</span></code><code class="sig-name descname"><span class="pre">get_running_jobs_as_list</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'$USER'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mongo_stores</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">MongoStore</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">SlurmInfoList</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/slurm/job.html#get_running_jobs_as_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.slurm.job.get_running_jobs_as_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of SlurmInfo objects corresponding to running jobs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>[running jobs]</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list[<a class="reference internal" href="#xplogger.experiment_manager.slurm.ds.SlurmInfo" title="xplogger.experiment_manager.slurm.ds.SlurmInfo">SlurmInfo</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-xplogger.experiment_manager.slurm.utils">
+<span id="xplogger-experiment-manager-slurm-utils-module"></span><h2>xplogger.experiment_manager.slurm.utils module<a class="headerlink" href="#module-xplogger.experiment_manager.slurm.utils" title="Permalink to this headline">¶</a></h2>
+<p>Functions to interact with the SLURM system.</p>
+<dl class="py function">
+<dt id="xplogger.experiment_manager.slurm.utils.get_info_from_slurm">
+<code class="sig-prename descclassname"><span class="pre">xplogger.experiment_manager.slurm.utils.</span></code><code class="sig-name descname"><span class="pre">get_info_from_slurm</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/slurm/utils.html#get_info_from_slurm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.slurm.utils.get_info_from_slurm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get info about a specific job from slurm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>job_id</strong> (<em>str</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>job info.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict[str, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="xplogger.experiment_manager.slurm.utils.map_jobid_to_raw_job_id">
+<code class="sig-prename descclassname"><span class="pre">xplogger.experiment_manager.slurm.utils.</span></code><code class="sig-name descname"><span class="pre">map_jobid_to_raw_job_id</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/slurm/utils.html#map_jobid_to_raw_job_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.slurm.utils.map_jobid_to_raw_job_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map job_id to raw job_id.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-xplogger.experiment_manager.slurm">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-xplogger.experiment_manager.slurm" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="xplogger.experiment_manager.store.html" class="btn btn-neutral float-right" title="xplogger.experiment_manager.store package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="xplogger.experiment_manager.record.html" class="btn btn-neutral float-left" title="xplogger.experiment_manager.record package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, Shagun Sodhani.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
