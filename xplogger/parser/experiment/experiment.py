@@ -138,6 +138,18 @@ class Experiment:
             return {name: df[name].to_numpy() for name in metric_names}
         return {}
 
+    def log_to_wandb(self, wandb_config: dict[str, Any]) -> None:
+        from xplogger.logbook import LogBook, make_config
+
+        name = "experiment_wandb_logger"
+        logbook_config = make_config(
+            id=name, name=name, write_to_console=False, wandb_config=wandb_config
+        )
+        logbook = LogBook(config=logbook_config)
+        logbook.write_config(self.config)
+        for metric in self.metrics["train_epoch"].to_dict("records"):
+            logbook.write_metric(metric)
+
 
 def deserialize(dir_path: str) -> Experiment:
     """Deserialize the experiment data stored at `dir_path` and return an Experiment object."""

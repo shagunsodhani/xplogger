@@ -207,7 +207,10 @@ class RecordList(UserList):  # type: ignore
             for param_name, value in params.items():
                 if param_name not in hyperparams:
                     hyperparams[param_name] = set()
-                hyperparams[param_name].add(value)
+                if isinstance(value, list):
+                    hyperparams[param_name].add(tuple(value))
+                else:
+                    hyperparams[param_name].add(value)
             key = OmegaConf.create(params)
             if key not in groups:
                 groups[key] = RecordList([])
