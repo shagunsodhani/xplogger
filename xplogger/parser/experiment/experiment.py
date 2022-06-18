@@ -138,6 +138,31 @@ class Experiment:
             return {name: df[name].to_numpy() for name in metric_names}
         return {}
 
+    def log_to_wandb(self, wandb_config: dict[str, Any]) -> "LogBook":  # type: ignore # noqa: F821
+        """Log the experiment to wandb."""
+        from xplogger.logbook import LogBook, make_config
+
+        name = "experiment_wandb_logger"
+
+        key = "project"
+        assert self.config is not None
+        if key not in wandb_config:
+            wandb_config[key] = self.config["logbook"]["mongo_config"]["collection"]
+
+        for key in ["name"]:
+            if key not in wandb_config:
+                wandb_config[key] = self.config["setup"]["id"]
+
+        logbook_config = make_config(
+            id=name, name=name, write_to_console=False, wandb_config=wandb_config
+        )
+        logbook = LogBook(config=logbook_config)
+        logbook.write_config(self.config)
+        for metric in self.metrics["train_epoch"].to_dict("records"):
+            logbook.write_metric(metric)
+
+        return logbook
+
 
 def deserialize(dir_path: str) -> Experiment:
     """Deserialize the experiment data stored at `dir_path` and return an Experiment object."""

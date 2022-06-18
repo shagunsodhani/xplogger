@@ -9,6 +9,7 @@ Subpackages
 
    xplogger.experiment_manager.notebook
    xplogger.experiment_manager.record
+   xplogger.experiment_manager.result
    xplogger.experiment_manager.slurm
    xplogger.experiment_manager.store
    xplogger.experiment_manager.utils

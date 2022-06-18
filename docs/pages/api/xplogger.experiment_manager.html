@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>xplogger.experiment_manager package &mdash; xplogger 0.10.0 documentation</title>
+  <title>xplogger.experiment_manager package &mdash; xplogger 0.11.0 documentation</title>
   
 
   
@@ -205,6 +205,14 @@
 <li class="toctree-l2"><a class="reference internal" href="xplogger.experiment_manager.record.html#module-xplogger.experiment_manager.record">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="xplogger.experiment_manager.result.html">xplogger.experiment_manager.result package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="xplogger.experiment_manager.result.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xplogger.experiment_manager.result.html#module-xplogger.experiment_manager.result.db">xplogger.experiment_manager.result.db module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xplogger.experiment_manager.result.html#module-xplogger.experiment_manager.result.result">xplogger.experiment_manager.result.result module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xplogger.experiment_manager.result.html#module-xplogger.experiment_manager.result.utils">xplogger.experiment_manager.result.utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xplogger.experiment_manager.result.html#module-xplogger.experiment_manager.result">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="xplogger.experiment_manager.slurm.html">xplogger.experiment_manager.slurm package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="xplogger.experiment_manager.slurm.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="xplogger.experiment_manager.slurm.html#module-xplogger.experiment_manager.slurm.ds">xplogger.experiment_manager.slurm.ds module</a></li>
@@ -241,83 +249,6 @@
 </div>
 <div class="section" id="module-xplogger.experiment_manager.result">
 <span id="xplogger-experiment-manager-result-module"></span><h2>xplogger.experiment_manager.result module<a class="headerlink" href="#module-xplogger.experiment_manager.result" title="Permalink to this headline">¶</a></h2>
-<p>Result class to interface with experiment results.</p>
-<dl class="py class">
-<dt id="xplogger.experiment_manager.result.Result">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.experiment_manager.result.</span></code><code class="sig-name descname"><span class="pre">Result</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_ids</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list[str]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mongo_ids</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list[str]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment_sequence</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">ExperimentSequence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict[str,</span> <span class="pre">pd.DataFrame]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict[str,</span> <span class="pre">Any]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/result.html#Result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.result.Result" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py attribute">
-<dt id="xplogger.experiment_manager.result.Result.config_ids">
-<code class="sig-name descname"><span class="pre">config_ids</span></code><em class="property"><span class="pre">:</span> <span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#xplogger.experiment_manager.result.Result.config_ids" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="xplogger.experiment_manager.result.Result.experiment_sequence">
-<code class="sig-name descname"><span class="pre">experiment_sequence</span></code><em class="property"><span class="pre">:</span> <span class="pre">ExperimentSequence</span></em><a class="headerlink" href="#xplogger.experiment_manager.result.Result.experiment_sequence" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="xplogger.experiment_manager.result.Result.id">
-<code class="sig-name descname"><span class="pre">id</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#xplogger.experiment_manager.result.Result.id" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="xplogger.experiment_manager.result.Result.info">
-<code class="sig-name descname"><span class="pre">info</span></code><em class="property"><span class="pre">:</span> <span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#xplogger.experiment_manager.result.Result.info" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="xplogger.experiment_manager.result.Result.label">
-<code class="sig-name descname"><span class="pre">label</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#xplogger.experiment_manager.result.Result.label" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="xplogger.experiment_manager.result.Result.metrics">
-<code class="sig-name descname"><span class="pre">metrics</span></code><em class="property"><span class="pre">:</span> <span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pd.DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#xplogger.experiment_manager.result.Result.metrics" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="xplogger.experiment_manager.result.Result.mongo_ids">
-<code class="sig-name descname"><span class="pre">mongo_ids</span></code><em class="property"><span class="pre">:</span> <span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#xplogger.experiment_manager.result.Result.mongo_ids" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="xplogger.experiment_manager.result.Result.name">
-<code class="sig-name descname"><span class="pre">name</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#xplogger.experiment_manager.result.Result.name" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="xplogger.experiment_manager.result.Result.serialize">
-<code class="sig-name descname"><span class="pre">serialize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pathlib.Path</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pathlib.Path</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/result.html#Result.serialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.result.Result.serialize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save the result to the filesystem.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="xplogger.experiment_manager.result.ResultDB">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.experiment_manager.result.</span></code><code class="sig-name descname"><span class="pre">ResultDB</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#xplogger.experiment_manager.result.Result" title="xplogger.experiment_manager.result.Result"><span class="pre">Result</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/result.html#ResultDB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.result.ResultDB" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.UserDict</span></code></p>
-<dl class="py method">
-<dt id="xplogger.experiment_manager.result.ResultDB.load_from_filesystem">
-<code class="sig-name descname"><span class="pre">load_from_filesystem</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/result.html#ResultDB.load_from_filesystem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.result.ResultDB.load_from_filesystem" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load the result db from the filesystem.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="xplogger.experiment_manager.result.ResultDB.save_to_filesystem">
-<code class="sig-name descname"><span class="pre">save_to_filesystem</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/result.html#ResultDB.save_to_filesystem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.result.ResultDB.save_to_filesystem" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save the result db to the filesystem.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt id="xplogger.experiment_manager.result.deserialize">
-<code class="sig-prename descclassname"><span class="pre">xplogger.experiment_manager.result.</span></code><code class="sig-name descname"><span class="pre">deserialize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pathlib.Path</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#xplogger.experiment_manager.result.Result" title="xplogger.experiment_manager.result.Result"><span class="pre">xplogger.experiment_manager.result.Result</span></a><a class="reference internal" href="../../_modules/xplogger/experiment_manager/result.html#deserialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.result.deserialize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load the result from the filesystem.</p>
-</dd></dl>
-
 </div>
 <div class="section" id="module-xplogger.experiment_manager">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-xplogger.experiment_manager" title="Permalink to this headline">¶</a></h2>

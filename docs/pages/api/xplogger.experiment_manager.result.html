@@ -1,0 +1,341 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>xplogger.experiment_manager.result package &mdash; xplogger 0.11.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="xplogger.experiment_manager.slurm package" href="xplogger.experiment_manager.slurm.html" />
+    <link rel="prev" title="xplogger.experiment_manager.record package" href="xplogger.experiment_manager.record.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> xplogger
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Why xplogger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#use">Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#note">Note</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#dev-setup">Dev Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#acknowledgements">Acknowledgements</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">xplogger</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="xplogger.html">xplogger package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="xplogger.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="xplogger.experiment_manager.html">xplogger.experiment_manager package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xplogger.logger.html">xplogger.logger package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xplogger.parser.html">xplogger.parser package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#module-xplogger.logbook">xplogger.logbook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#module-xplogger.metrics">xplogger.metrics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#module-xplogger.types">xplogger.types module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#module-xplogger.utils">xplogger.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xplogger.html#module-xplogger">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">xplogger</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">xplogger</a> &raquo;</li>
+        
+          <li><a href="xplogger.html">xplogger package</a> &raquo;</li>
+        
+          <li><a href="xplogger.experiment_manager.html">xplogger.experiment_manager package</a> &raquo;</li>
+        
+      <li>xplogger.experiment_manager.result package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/pages/api/xplogger.experiment_manager.result.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="xplogger-experiment-manager-result-package">
+<h1>xplogger.experiment_manager.result package<a class="headerlink" href="#xplogger-experiment-manager-result-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-xplogger.experiment_manager.result.db">
+<span id="xplogger-experiment-manager-result-db-module"></span><h2>xplogger.experiment_manager.result.db module<a class="headerlink" href="#module-xplogger.experiment_manager.result.db" title="Permalink to this headline">¶</a></h2>
+<p>Class to manage a collection of results.</p>
+<dl class="py class">
+<dt id="xplogger.experiment_manager.result.db.ResultDB">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.experiment_manager.result.db.</span></code><code class="sig-name descname"><span class="pre">ResultDB</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pathlib.Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#xplogger.experiment_manager.result.result.Result" title="xplogger.experiment_manager.result.result.Result"><span class="pre">xplogger.experiment_manager.result.result.Result</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/result/db.html#ResultDB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.result.db.ResultDB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.UserDict</span></code></p>
+<dl class="py method">
+<dt id="xplogger.experiment_manager.result.db.ResultDB.load_from_filesystem">
+<code class="sig-name descname"><span class="pre">load_from_filesystem</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/result/db.html#ResultDB.load_from_filesystem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.result.db.ResultDB.load_from_filesystem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load results from the filesystem.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.experiment_manager.result.db.ResultDB.save_to_filesystem">
+<code class="sig-name descname"><span class="pre">save_to_filesystem</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/result/db.html#ResultDB.save_to_filesystem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.result.db.ResultDB.save_to_filesystem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save results to the filesystem.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-xplogger.experiment_manager.result.result">
+<span id="xplogger-experiment-manager-result-result-module"></span><h2>xplogger.experiment_manager.result.result module<a class="headerlink" href="#module-xplogger.experiment_manager.result.result" title="Permalink to this headline">¶</a></h2>
+<p>Class to manage a result.</p>
+<dl class="py class">
+<dt id="xplogger.experiment_manager.result.result.Result">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">xplogger.experiment_manager.result.result.</span></code><code class="sig-name descname"><span class="pre">Result</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_ids</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mongo_ids</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment_sequence</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.ExperimentSequence" title="xplogger.parser.experiment.experiment.ExperimentSequence"><span class="pre">xplogger.parser.experiment.experiment.ExperimentSequence</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/result/result.html#Result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.result.result.Result" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.result.result.Result.config_ids">
+<code class="sig-name descname"><span class="pre">config_ids</span></code><em class="property"><span class="pre">:</span> <span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#xplogger.experiment_manager.result.result.Result.config_ids" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.result.result.Result.experiment_sequence">
+<code class="sig-name descname"><span class="pre">experiment_sequence</span></code><em class="property"><span class="pre">:</span> <a class="reference internal" href="xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.ExperimentSequence" title="xplogger.parser.experiment.experiment.ExperimentSequence"><span class="pre">xplogger.parser.experiment.experiment.ExperimentSequence</span></a></em><a class="headerlink" href="#xplogger.experiment_manager.result.result.Result.experiment_sequence" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.result.result.Result.id">
+<code class="sig-name descname"><span class="pre">id</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#xplogger.experiment_manager.result.result.Result.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.result.result.Result.info">
+<code class="sig-name descname"><span class="pre">info</span></code><em class="property"><span class="pre">:</span> <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#xplogger.experiment_manager.result.result.Result.info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.result.result.Result.label">
+<code class="sig-name descname"><span class="pre">label</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#xplogger.experiment_manager.result.result.Result.label" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.result.result.Result.metrics">
+<code class="sig-name descname"><span class="pre">metrics</span></code><em class="property"><span class="pre">:</span> <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#xplogger.experiment_manager.result.result.Result.metrics" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.result.result.Result.mongo_ids">
+<code class="sig-name descname"><span class="pre">mongo_ids</span></code><em class="property"><span class="pre">:</span> <span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#xplogger.experiment_manager.result.result.Result.mongo_ids" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="xplogger.experiment_manager.result.result.Result.name">
+<code class="sig-name descname"><span class="pre">name</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#xplogger.experiment_manager.result.result.Result.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="xplogger.experiment_manager.result.result.Result.serialize">
+<code class="sig-name descname"><span class="pre">serialize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pathlib.Path</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pathlib.Path</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/result/result.html#Result.serialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.result.result.Result.serialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serialize the result object and save at a given path.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="xplogger.experiment_manager.result.result.deserialize">
+<code class="sig-prename descclassname"><span class="pre">xplogger.experiment_manager.result.result.</span></code><code class="sig-name descname"><span class="pre">deserialize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pathlib.Path</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#xplogger.experiment_manager.result.result.Result" title="xplogger.experiment_manager.result.result.Result"><span class="pre">xplogger.experiment_manager.result.result.Result</span></a><a class="reference internal" href="../../_modules/xplogger/experiment_manager/result/result.html#deserialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.result.result.deserialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deserialize the result object, given a path.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-xplogger.experiment_manager.result.utils">
+<span id="xplogger-experiment-manager-result-utils-module"></span><h2>xplogger.experiment_manager.result.utils module<a class="headerlink" href="#module-xplogger.experiment_manager.result.utils" title="Permalink to this headline">¶</a></h2>
+<p>Utilities function.</p>
+<dl class="py function">
+<dt id="xplogger.experiment_manager.result.utils.plot_result">
+<code class="sig-prename descclassname"><span class="pre">xplogger.experiment_manager.result.utils.</span></code><code class="sig-name descname"><span class="pre">plot_result</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/xplogger/experiment_manager/result/utils.html#plot_result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xplogger.experiment_manager.result.utils.plot_result" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the results.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-xplogger.experiment_manager.result">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-xplogger.experiment_manager.result" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="xplogger.experiment_manager.slurm.html" class="btn btn-neutral float-right" title="xplogger.experiment_manager.slurm package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="xplogger.experiment_manager.record.html" class="btn btn-neutral float-left" title="xplogger.experiment_manager.record package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, Shagun Sodhani.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

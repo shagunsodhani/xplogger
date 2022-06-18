@@ -1,0 +1,37 @@
+xplogger.experiment\_manager.result package
+===========================================
+
+Submodules
+----------
+
+xplogger.experiment\_manager.result.db module
+---------------------------------------------
+
+.. automodule:: xplogger.experiment_manager.result.db
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+xplogger.experiment\_manager.result.result module
+-------------------------------------------------
+
+.. automodule:: xplogger.experiment_manager.result.result
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+xplogger.experiment\_manager.result.utils module
+------------------------------------------------
+
+.. automodule:: xplogger.experiment_manager.result.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: xplogger.experiment_manager.result
+   :members:
+   :undoc-members:
+   :show-inheritance:

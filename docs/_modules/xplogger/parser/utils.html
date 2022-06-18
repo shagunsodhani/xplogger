@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>xplogger.parser.utils &mdash; xplogger 0.10.0 documentation</title>
+  <title>xplogger.parser.utils &mdash; xplogger 0.11.0 documentation</title>
   
 
   
@@ -240,42 +240,6 @@
         <span class="n">keys_with_missing_value_in_first_log</span><span class="p">,</span>
         <span class="n">keys_with_missing_value_in_second_log</span><span class="p">,</span>
     <span class="p">)</span></div>
-
-
-<span class="c1"># try:</span>
-<span class="c1">#     import cysimdjson</span>
-
-<span class="c1">#     parser = cysimdjson.JSONParser()</span>
-
-<span class="c1">#     def parse_json(line: str) -&gt; Optional[LogType]:</span>
-<span class="c1">#         &quot;&quot;&quot;Parse a line as JSON string.&quot;&quot;&quot;</span>
-<span class="c1">#         if &quot;{&quot; not in line:</span>
-<span class="c1">#             return None</span>
-<span class="c1">#         line = &quot;{&quot; + line.strip().split(&quot;{&quot;, 1)[1]</span>
-<span class="c1">#         if not (line.startswith(&quot;{&quot;) and line.endswith(&quot;}&quot;)):</span>
-<span class="c1">#             return None</span>
-<span class="c1">#         log: Optional[LogType]</span>
-<span class="c1">#         try:</span>
-<span class="c1">#             log = parser.parse_string(line).export()</span>
-<span class="c1">#         except Exception as e:</span>
-<span class="c1">#             print(e)</span>
-<span class="c1">#             log = None</span>
-<span class="c1">#         return log</span>
-
-
-<span class="c1"># except ModuleNotFoundError:</span>
-
-<span class="c1">#     def parse_json(line: str) -&gt; Optional[LogType]:</span>
-<span class="c1">#         &quot;&quot;&quot;Parse a line as JSON string.&quot;&quot;&quot;</span>
-<span class="c1">#         line = line.strip()</span>
-<span class="c1">#         if not (line.startswith(&quot;{&quot;) and line.endswith(&quot;}&quot;)):</span>
-<span class="c1">#             return None</span>
-<span class="c1">#         log: Optional[LogType]</span>
-<span class="c1">#         try:</span>
-<span class="c1">#             log = json.loads(line)</span>
-<span class="c1">#         except json.JSONDecodeError:</span>
-<span class="c1">#             log = None</span>
-<span class="c1">#         return log</span>
 
 
 <div class="viewcode-block" id="parse_json"><a class="viewcode-back" href="../../../pages/api/xplogger.parser.html#xplogger.parser.utils.parse_json">[docs]</a><span class="k">def</span> <span class="nf">parse_json</span><span class="p">(</span><span class="n">line</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LogType</span><span class="p">]:</span>
