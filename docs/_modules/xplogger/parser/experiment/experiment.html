@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>xplogger.parser.experiment.experiment &mdash; xplogger 0.10.0 documentation</title>
+  <title>xplogger.parser.experiment.experiment &mdash; xplogger 0.11.0 documentation</title>
   
 
   
@@ -298,7 +298,32 @@
             <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">name</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">metric_names</span>
         <span class="p">):</span>
             <span class="k">return</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">metric_names</span><span class="p">}</span>
-        <span class="k">return</span> <span class="p">{}</span></div></div>
+        <span class="k">return</span> <span class="p">{}</span></div>
+
+<div class="viewcode-block" id="Experiment.log_to_wandb"><a class="viewcode-back" href="../../../../pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.Experiment.log_to_wandb">[docs]</a>    <span class="k">def</span> <span class="nf">log_to_wandb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wandb_config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;LogBook&quot;</span><span class="p">:</span>  <span class="c1"># type: ignore # noqa: F821</span>
+        <span class="sd">&quot;&quot;&quot;Log the experiment to wandb.&quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">xplogger.logbook</span> <span class="kn">import</span> <span class="n">LogBook</span><span class="p">,</span> <span class="n">make_config</span>
+
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;experiment_wandb_logger&quot;</span>
+
+        <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;project&quot;</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">wandb_config</span><span class="p">:</span>
+            <span class="n">wandb_config</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;logbook&quot;</span><span class="p">][</span><span class="s2">&quot;mongo_config&quot;</span><span class="p">][</span><span class="s2">&quot;collection&quot;</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">wandb_config</span><span class="p">:</span>
+                <span class="n">wandb_config</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;setup&quot;</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+
+        <span class="n">logbook_config</span> <span class="o">=</span> <span class="n">make_config</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">write_to_console</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">wandb_config</span><span class="o">=</span><span class="n">wandb_config</span>
+        <span class="p">)</span>
+        <span class="n">logbook</span> <span class="o">=</span> <span class="n">LogBook</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">logbook_config</span><span class="p">)</span>
+        <span class="n">logbook</span><span class="o">.</span><span class="n">write_config</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;train_epoch&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="s2">&quot;records&quot;</span><span class="p">):</span>
+            <span class="n">logbook</span><span class="o">.</span><span class="n">write_metric</span><span class="p">(</span><span class="n">metric</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">logbook</span></div></div>
 
 
 <div class="viewcode-block" id="deserialize"><a class="viewcode-back" href="../../../../pages/api/xplogger.parser.experiment.html#xplogger.parser.experiment.experiment.deserialize">[docs]</a><span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span><span class="n">dir_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Experiment</span><span class="p">:</span>

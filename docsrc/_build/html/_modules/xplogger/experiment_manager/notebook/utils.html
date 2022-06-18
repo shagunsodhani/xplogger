@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>xplogger.experiment_manager.notebook.utils &mdash; xplogger 0.10.0 documentation</title>
+  <title>xplogger.experiment_manager.notebook.utils &mdash; xplogger 0.11.0 documentation</title>
   
 
   
@@ -264,12 +264,10 @@
 
     <span class="n">valid_params</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">params</span>
-        <span class="k">for</span> <span class="n">params</span> <span class="ow">in</span> <span class="nb">map</span><span class="p">(</span>
-            <span class="k">lambda</span> <span class="n">_product</span><span class="p">:</span> <span class="n">OmegaConf</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-                <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">hyperparams</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">_product</span><span class="p">)}</span>
-            <span class="p">),</span>
-            <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">hyperparams</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
-        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">params</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="n">OmegaConf</span><span class="o">.</span><span class="n">create</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">hyperparams</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">_product</span><span class="p">)})</span>
+            <span class="k">for</span> <span class="n">_product</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">hyperparams</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="p">]</span>
         <span class="k">if</span> <span class="n">params</span> <span class="ow">in</span> <span class="n">groups</span>
     <span class="p">]</span>
 
