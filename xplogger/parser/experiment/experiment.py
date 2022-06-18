@@ -145,6 +145,7 @@ class Experiment:
         name = "experiment_wandb_logger"
 
         key = "project"
+        assert self.config is not None
         if key not in wandb_config:
             wandb_config[key] = self.config["logbook"]["mongo_config"]["collection"]
 
