@@ -138,7 +138,7 @@ class Experiment:
             return {name: df[name].to_numpy() for name in metric_names}
         return {}
 
-    def log_to_wandb(self, wandb_config: dict[str, Any]) -> "LogBook":
+    def log_to_wandb(self, wandb_config: dict[str, Any]) -> "LogBook":  # type: ignore # noqa: F821
         """Log the experiment to wandb."""
         from xplogger.logbook import LogBook, make_config
 
