@@ -139,9 +139,19 @@ class Experiment:
         return {}
 
     def log_to_wandb(self, wandb_config: dict[str, Any]) -> None:
+        """Log the experiment to wandb."""
         from xplogger.logbook import LogBook, make_config
 
         name = "experiment_wandb_logger"
+
+        key = "project"
+        if key not in wandb_config:
+            wandb_config[key] = self.config["logbook"]["mongo_config"]["collection"]
+
+        for key in ["name", "id"]:
+            if key not in wandb_config:
+                wandb_config[key] = self.config["setup"]["id"]
+
         logbook_config = make_config(
             id=name, name=name, write_to_console=False, wandb_config=wandb_config
         )
