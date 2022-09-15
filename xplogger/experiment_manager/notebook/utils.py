@@ -56,7 +56,7 @@ def get_mean_and_std_err(
         mode=metadata.mode,
         drop_duplicates=True,
         verbose=True,
-        dropna=True,
+        dropna=False,
     )
     metrics = aggregated_metrics[metadata.metric_name]
 
