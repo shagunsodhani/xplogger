@@ -3,7 +3,7 @@
 
 from copy import deepcopy
 
-from pymongo import MongoClient  # type: ignore
+from pymongo import MongoClient
 
 # Module "pymongo" does not explicitly export attribute "MongoClient"; implicit reexport disabled
 from xplogger.logger.base import Logger as BaseLogger
@@ -40,7 +40,7 @@ class Logger(BaseLogger):
         self.logger_types = {"config", "message", "metadata"}
         if "logger_types" in config:
             self.logger_types = set(config["logger_types"])
-        self.client = MongoClient(config["host"], config["port"])
+        self.client: MongoClient = MongoClient(config["host"], config["port"])  # type: ignore
         self.collection = self.client[config["db"]][config["collection"]]
 
     def write(self, log: LogType) -> None:

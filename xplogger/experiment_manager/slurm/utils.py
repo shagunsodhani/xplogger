@@ -31,3 +31,15 @@ def get_info_from_slurm(job_id: str) -> dict[str, Any]:
     keys = ["job_id", "job_name", "state", "raw_job_id"]
     info = {key: value for (key, value) in zip(keys, result.split("\n")[2].split())}
     return info
+
+
+def cancel_job(job_id: str) -> str:
+    """Cancel the job corresponding to the job id."""
+    job_id = get_info_from_slurm(job_id)["job_id"]
+    command = f"scancel {job_id}"
+    result = (
+        subprocess.check_output(command, shell=True)  # noqa: S602
+        .decode("utf-8")
+        .rstrip()
+    )
+    return result

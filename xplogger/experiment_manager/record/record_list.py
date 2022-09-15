@@ -34,7 +34,6 @@ class RecordList(UserList):  # type: ignore
     def update_status(
         self,
         collection: pymongo.collection.Collection,  # type: ignore
-        # error: Missing type parameters for generic type "Collection"
         new_status: str,
     ) -> None:
         """Update the status of the records(in the db).
@@ -81,7 +80,6 @@ class RecordList(UserList):  # type: ignore
         return self.update_status(collection=collection, new_status="ANALYZED")
 
     def add_slurm_field(self, collection: pymongo.collection.Collection) -> None:  # type: ignore
-        # error: Missing type parameters for generic type "Collection"
         """Add slurm field to records (in the db).
 
         Args:
