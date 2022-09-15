@@ -22,18 +22,18 @@ def get_nested_item(data: Record, keys: list[Any]) -> Any:
         Any:
     """
 
-    def _selection_op(seq, key):
+    def _selection_op(seq: Any, key: Any) -> Any:
         if seq:
             if key in seq:
                 return seq[key]
             try:
                 int_key = int(key)
                 return seq[int_key]
-            except:
+            except Exception:  # noqa: S110
                 pass
         return None
 
-    return reduce(_selection_op, keys, data)  # type: ignore
+    return reduce(_selection_op, keys, data)
 
 
 class Record(UserDict):  # type: ignore

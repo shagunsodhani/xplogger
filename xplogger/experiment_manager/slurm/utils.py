@@ -34,6 +34,7 @@ def get_info_from_slurm(job_id: str) -> dict[str, Any]:
 
 
 def cancel_job(job_id: str) -> str:
+    """Cancel the job corresponding to the job id."""
     job_id = get_info_from_slurm(job_id)["job_id"]
     command = f"scancel {job_id}"
     result = (

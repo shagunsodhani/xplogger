@@ -5,7 +5,7 @@ from pathlib import Path
 
 import ray
 from bson.objectid import ObjectId
-from pymongo import MongoClient  # type: ignore
+from pymongo import MongoClient
 
 from xplogger.experiment_manager.record import mongo as mongo_record_utils
 from xplogger.experiment_manager.record.record_list import RecordList
