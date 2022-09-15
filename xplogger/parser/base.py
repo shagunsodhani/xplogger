@@ -10,7 +10,7 @@ from xplogger.parser.utils import parse_json
 from xplogger.types import LogType, ParseLineFunctionType
 
 
-class Parser(ABC):
+class Parser(ABC):  # noqa: B024
     """Base class that all parsers extend."""
 
     def __init__(self, parse_line: ParseLineFunctionType = parse_json):

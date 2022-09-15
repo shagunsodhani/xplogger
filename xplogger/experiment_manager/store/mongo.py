@@ -27,7 +27,9 @@ class MongoStore:
         Args:
             config (ConfigType): Config to connect with the mongo store.
         """
-        self._client = MongoClient(host=config["host"], port=config["port"])
+        self._client: MongoClient = MongoClient(  # type: ignore
+            host=config["host"], port=config["port"]
+        )
         db = config["db"]
         collection_name = config["collection_name"]
         self.collection = self._client[db][collection_name]
