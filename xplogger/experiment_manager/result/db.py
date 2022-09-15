@@ -17,9 +17,8 @@ class ResultDB(UserDict):  # type: ignore
     def load_from_filesystem(self) -> None:
         """Load results from the filesystem."""
         for result_path in self.path.iterdir():
-            if result_path.exists():
-                result = deserialize(dir_path=result_path)
-                self.data[result.name] = result
+            result = deserialize(dir_path=result_path)
+            self.data[result.name] = result
 
     def save_to_filesystem(self) -> None:
         """Save results to the filesystem."""
