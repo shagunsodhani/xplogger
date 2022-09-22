@@ -46,6 +46,9 @@ class Logger(BaseLogger):
         self.collection = self.client[config["db"]][config["collection"]]
 
     def is_connection_working(self) -> bool:
+        """Check if the connection to the mongo server is working, by issuing
+        a dummy read query.
+        """
         try:
             self.collection.find_one({})
             return True
