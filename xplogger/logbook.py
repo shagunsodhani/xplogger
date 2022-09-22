@@ -45,7 +45,11 @@ class LogBook:
             logger_module = importlib.import_module(f"xplogger.logger.{logger_name}")
             logger_cls = getattr(logger_module, "Logger")
             logger = logger_cls(config=logger_config)
-            self.loggers.append(logger)
+            should_use_logger = True
+            if logger_name == "mongo":
+                should_use_logger = logger.is_connection_working()
+            if should_use_logger:
+                self.loggers.append(logger)
 
     def _process_log(self, log: LogType, log_type: str) -> LogType:
         """Process the log before writing.
