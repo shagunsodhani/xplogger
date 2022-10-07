@@ -105,11 +105,11 @@ class RecordList(UserList):  # type: ignore
             if "slurm" not in record["setup"]:
                 try:
                     record["setup"]["slurm"] = {
-                        "id": map_jobid_to_raw_job_id(record["setup"]["slurm_id"])
+                        "id": map_jobid_to_raw_job_id(record["setup"]["slurm"]["id"])
                     }
                 except CalledProcessError:
                     # record["setup"]["slurm"] = {"id": -1}
-                    print(record["setup"]["slurm_id"])
+                    print(record["setup"]["slurm"]["id"])
                     continue
                 print(record["setup"]["slurm"]["id"])
                 _id = ObjectId(record.pop("_id"))
@@ -188,7 +188,7 @@ class RecordList(UserList):  # type: ignore
             _make_empty_record_list
         )
         for record in self.data:
-            key = str(record["setup"]["slurm_id"].replace("_", "-"))
+            key = str(record["setup"]["slurm"]["id"].replace("_", "-"))
             mapping[key].append(record)
         return mapping
 
