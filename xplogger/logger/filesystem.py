@@ -103,7 +103,6 @@ class Logger(BaseLogger):
         )
 
         if config["create_multiple_log_files"]:
-
             self.loggers = {
                 _type: _set_logger(
                     logger_file_path=_get_logger_file_path(
